@@ -1,0 +1,807 @@
+// #target Illustrator 
+/************************************************
+ * ** README https://github.com/Artchibald/WTW_107405_product_logo_template_script
+ 
+ THIS IS THE ONE LINE SCRIPT
+
+Script to automate creating variations and exporting files for WTW icons
+Starting with an open AI file with a single icon on a single 256 x 256 artboard
+– Creates a new artboard at 16x16
+- Creates a new artboard at 24x24
+- Creates a new artboard at 1400x128
+(if these artboards already exist, optionally clears and rebuilds these artboards instead)
+- Adds resized copies of the icon to the artboards
+- Asks for the name of the icon and adds text to the lockup icon
+- Asks for purple banner text
+- Creates a purple banner 1024 x 512 with text, the icon and logo
+- Creates a purple banner 800 x 400 with icon and logo, no text
+- Creates exports of the icon:
+- RGB EPS
+- RGB inverse EPS
+- RGB inactive EPS
+- PNGs at 1024, 256, 128, 64, 48, 32
+- RGB lockup
+- CMYK EPS 
+- CMYK inverse EPS
+- Purple banner with text exports
+- Purple banner no text exports
+- Opens created folder root
+- Add instructions in the alert below and in the readme and in the instructions.txt before packaging up with the files in /test/ so the end user can try everything in Illustrator with one zip.
+************************************************/
+
+alert(" \n\nThis is the one line script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/2022_icon_rebrand_scripts   \n\nVideo set up tutorial available here: https://youtu.be/yxtrt7nkOjA. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease try to use underscore instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
+
+/********************************* 
+VARIABLES YOU MIGHT NEED TO CHANGE 
+**********************************/
+let sourceDoc = app.activeDocument;
+let RGBColorElements = [
+ [127, 53, 178], //ultraviolet purple
+ [191, 191, 191], //Gray matter light grey
+ [201, 0, 172], // Fireworks magenta
+ [50, 127, 239], //Stratosphere blue
+ [58, 220, 201], // Inifinity turquoise
+ [255, 255, 255], // white
+ [128, 128, 128], // Dark grey (unused)
+];
+// New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
+// Intent is different colors in print for optimum pop of colors
+let CMYKColorElements = [
+ [65, 91, 0, 0], //ultraviolet purple
+ [0, 0, 0, 25], //Gray matter light grey
+ [16, 96, 0, 0], // Fireworks magenta
+ [78, 47, 0, 0], //Stratosphere blue
+ [53, 0, 34, 0], // Inifinity turquoise  
+ [0, 0, 0, 0], // white
+ [0, 0, 0, 50], // Dark grey (unused)
+];
+// Make sure you have the font below installed, ask for font from client
+let desiredFont = "Graphik-Regular";
+let exportSizes = [1024, 512, 256, 128, 64, 48, 32, 24, 16]; //sizes to export
+let violetIndex = 0; //these are for converting to inverse and inactive versions
+let grayIndex = 1;
+let whiteIndex = 5;
+//loop default 
+let i;
+// folder and naming creations
+
+// New
+let wtwName = "wtw";
+
+//New asset types names
+let primaryName = "pri";
+let alternateName = "alt";
+let iconName = "icn";
+let expressiveIconName = "exp_icn";
+let expressiveArtworkName = "art_icn";
+
+// New color names
+let fullColorName = "fc";
+let oneColorName = "1c";
+
+// New style names
+let standardName = "std";
+let inactiveName = "inact";
+
+// New artwork color names
+let positiveColorName = "pos";
+let inverseColorName = "inv";
+let blackColorName = "blk";
+let whiteColorName = "wht";
+
+// New bg color names
+let transparentBgColorName = "t";
+let whiteBgColorName = "w";
+let blackBgColorName = "k";
+
+// New color mode names
+let fourColorProcessName = "4cp";
+let pantoneColorName = "pms";
+let rgbColorName = "rgb";
+
+// New size names
+let croppedToArtworkName = "crp";
+//End new
+
+
+let coreName = "Core";
+let expressiveName = "Expressive";
+let inverseName = "Inverse";
+let sourceDocName = sourceDoc.name.slice(0, -3);
+// Lockups
+let lockupName = "Lockup";
+let lockup1 = "Lockup1";
+let lockup2 = "Lockup2";
+let eightByFour = "800x400";
+let tenByFive = "1024x512";
+
+// Colors
+let rgbName = "RGB";
+let cmykName = "CMYK";
+let onWhiteName = "onFFF";
+// type
+let croppedName = "Cropped"
+//Folder creations
+let pngName = "png";
+let jpgName = "jpg";
+let svgName = "svg";
+let epsName = "eps";
+let iconFilename = sourceDoc.name.split(".")[0];
+let rebuild = true;
+// let gutter = 32;
+// hide guides
+let guideLayer = sourceDoc.layers["Guidelines"];
+let name = sourceDoc.name.split(".")[0];
+let destFolder = Folder(sourceDoc.path + "/" + name);
+
+// 800x500 names
+let sixteenTenName = "1610";
+let smallName = "small";
+let largeName = "large";
+
+
+/**********************************
+Module for image manipulation tasks 
+***********************************/
+
+// this is a typescript feature to help debugging 
+interface Task {
+ getArtboardCorner(artboard: any);
+ getOffset(itemPos: any, referencePos: any);
+ translateObjectTo(object: any, destination: any);
+ clearArtboard(doc: any, index: any);
+ selectContentsOnArtboard(doc: any, i: any);
+ createGroup(doc: any, collection: any);
+ ungroupOnce(group: any);
+ newDocument(sourceDoc: any, colorSpace: any);
+ duplicateArtboardInNewDoc(sourceDoc: any,
+  artboardIndex: number,
+  colorspace: any);
+ scaleAndExportPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+ scaleAndExportNonTransparentPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+ scaleAndExportSVG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+ scaleAndExportJPEG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+ newRect(x: any, y: any, width: any, height: any);
+ setFont(textRef: any, desiredFont: any);
+ createTextFrame(doc: any, message: any, pos: any, size: any);
+ initializeColors(RGBArray: any, CMYKArray: any);
+ matchRGB(color: any, matchArray: any);
+ matchColorsRGB(color1: any, color2: any);
+ convertColorCMYK(pathItems: any, startColor: any, endColor: any)
+ matchRGB(color: any, matchArray: any);
+ matchColorsRGB(color1: any, color2: any);
+ convertColorCMYK(pathItems: any, startColor: any, endColor: any)
+ matchColorsCMYK(color1: any, color2: any): any;
+ convertColorRGB(pathItems: any, startColor: any, endColor: any);
+ convertAll(pathItems: any, endColor: any, opcty: any);
+ indexRGBColors(pathItems: any, matchArray: any);
+ convertToCMYK(doc: any, pathItems: any, colorArray: any, colorIndex: any);
+ unique(a: any): any;
+}
+
+
+// All reusable functions are in CSTasks below
+let CSTasks = (function () {
+ let tasks: Task = {} as Task;
+
+ /********************
+    POSITION AND MOVEMENT
+    ********************/
+
+ //takes an artboard
+ //returns its left top corner as an array [x,y]
+ tasks.getArtboardCorner = function (artboard) {
+  let corner = [artboard.artboardRect[0], artboard.artboardRect[1]];
+  return corner;
+ };
+
+ //takes an array [x,y] for an item's position and an array [x,y] for the position of a reference point
+ //returns an array [x,y] for the offset between the two points
+ tasks.getOffset = function (itemPos, referencePos) {
+  let offset = [itemPos[0] - referencePos[0], itemPos[1] - referencePos[1]];
+  return offset;
+ };
+
+ //takes an object (e.g. group) and a destination array [x,y]
+ //moves the group to the specified destination
+ tasks.translateObjectTo = function (object, destination) {
+  let offset = tasks.getOffset(object.position, destination);
+  object.translate(-offset[0], -offset[1]);
+ };
+
+ //takes a document and index of an artboard
+ //deletes everything on that artboard
+ tasks.clearArtboard = function (doc, index) {
+  //clears an artboard at the given index
+  doc.selection = null;
+  doc.artboards.setActiveArtboardIndex(index);
+  doc.selectObjectsOnActiveArtboard();
+  let sel = doc.selection; // get selection
+  for (i = 0; i < sel.length; i++) {
+   sel[i].remove();
+  }
+ };
+
+ /*********************************
+    SELECTING, GROUPING AND UNGROUPING
+    **********************************/
+
+ //takes a document and the index of an artboard in that document's artboards array
+ //returns a selection of all the objects on that artboard
+ tasks.selectContentsOnArtboard = function (doc, i) {
+  doc.selection = null;
+  doc.artboards.setActiveArtboardIndex(i);
+  doc.selectObjectsOnActiveArtboard();
+  return doc.selection;
+ };
+
+ //takes a document and a collection of objects (e.g. selection)
+ //returns a group made from that collection
+ tasks.createGroup = function (doc, collection) {
+  let newGroup = doc.groupItems.add();
+  for (i = 0; i < collection.length; i++) {
+   collection[i].moveToBeginning(newGroup);
+  }
+  return newGroup;
+ };
+
+ //takes a group
+ //ungroups that group at the top layer (no recursion for nested groups)
+ tasks.ungroupOnce = function (group) {
+  for (i = group.pageItems.length - 1; i >= 0; i--) {
+   group.pageItems[i].move(
+    group.pageItems[i].layer,
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATEND
+   );
+  }
+ };
+
+ /****************************
+    CREATING AND SAVING DOCUMENTS
+    *****************************/
+
+ //take a source document and a colorspace (e.g. DocumentColorSpace.RGB)
+ //opens and returns a new document with the source document's units and the specified colorspace
+ tasks.newDocument = function (sourceDoc, colorSpace) {
+  let preset = new DocumentPreset();
+  /*@ts-ignore*/
+  preset.colorMode = colorSpace;
+  /*@ts-ignore*/
+  preset.units = sourceDoc.rulerUnits;
+  /*@ts-ignore*/
+  let newDoc = app.documents.addDocument(colorSpace, preset);
+  newDoc.pageOrigin = sourceDoc.pageOrigin;
+  newDoc.rulerOrigin = sourceDoc.rulerOrigin;
+  return newDoc;
+ };
+
+ //take a source document, artboard index, and a colorspace (e.g. DocumentColorSpace.RGB)
+ //opens and returns a new document with the source document's units and specified artboard, the specified colorspace
+ tasks.duplicateArtboardInNewDoc = function (
+  sourceDoc,
+  artboardIndex,
+  colorspace
+ ) {
+  let rectToCopy = sourceDoc.artboards[artboardIndex].artboardRect;
+  let newDoc = tasks.newDocument(sourceDoc, colorspace);
+  newDoc.artboards.add(rectToCopy);
+  newDoc.artboards.remove(0);
+  return newDoc;
+ };
+
+ //takes a document, destination file, starting width and desired width
+ //scales the document proportionally to the desired width and exports as a PNG
+ tasks.scaleAndExportPNG = function (doc, destFile, startWidth, desiredWidth) {
+  let scaling = (100.0 * desiredWidth) / startWidth;
+  let options = new ExportOptionsPNG24();
+  /*@ts-ignore*/
+  options.antiAliasing = true;
+  /*@ts-ignore*/
+  options.transparency = true;
+  /*@ts-ignore*/
+  options.artBoardClipping = true;
+  /*@ts-ignore*/
+  options.horizontalScale = scaling;
+  /*@ts-ignore*/
+  options.verticalScale = scaling;
+  doc.exportFile(destFile, ExportType.PNG24, options);
+ };
+ //takes a document, destination file, starting width and desired width
+ //scales the document proportionally to the desired width and exports as a NON TRANSPARENT PNG
+ tasks.scaleAndExportNonTransparentPNG = function (doc, destFile, startWidth, desiredWidth) {
+  let scaling = (100.0 * desiredWidth) / startWidth;
+  let options = new ExportOptionsPNG24();
+  /*@ts-ignore*/
+  options.antiAliasing = true;
+  /*@ts-ignore*/
+  options.transparency = false;
+  /*@ts-ignore*/
+  options.artBoardClipping = true;
+  /*@ts-ignore*/
+  options.horizontalScale = scaling;
+  /*@ts-ignore*/
+  options.verticalScale = scaling;
+  doc.exportFile(destFile, ExportType.PNG24, options);
+ };
+
+ //takes a document, destination file, starting width and desired width
+ //scales the document proportionally to the desired width and exports as a SVG
+ tasks.scaleAndExportSVG = function (doc, destFile, startWidth, desiredWidth) {
+  let scaling = (100.0 * desiredWidth) / startWidth;
+  let options = new ExportOptionsSVG();
+  /*@ts-ignore*/
+  options.horizontalScale = scaling;
+  /*@ts-ignore*/
+  options.verticalScale = scaling;
+  // /*@ts-ignore*/
+  // options.transparency = true;
+  /*@ts-ignore*/
+  // options.compressed = false; 
+  // /*@ts-ignore*/
+  // options.saveMultipleArtboards = true;
+  // /*@ts-ignore*/
+  // options.artboardRange = ""
+  // options.cssProperties.STYLEATTRIBUTES = false;
+  // /*@ts-ignore*/
+  // options.cssProperties.PRESENTATIONATTRIBUTES = false;
+  // /*@ts-ignore*/
+  // options.cssProperties.STYLEELEMENTS = false;
+  // /*@ts-ignore*/
+  // options.artBoardClipping = true;
+  doc.exportFile(destFile, ExportType.SVG, options);
+ };
+
+ //takes a document, destination file, starting width and desired width
+ //scales the document proportionally to the desired width and exports as a JPG
+ tasks.scaleAndExportJPEG = function (doc, destFile, startWidth, desiredWidth) {
+  let scaling = (100.0 * desiredWidth) / startWidth;
+  let options = new ExportOptionsJPEG();
+  /*@ts-ignore*/
+  options.antiAliasing = true;
+  /*@ts-ignore*/
+  options.artBoardClipping = true;
+  /*@ts-ignore*/
+  options.horizontalScale = scaling;
+  /*@ts-ignore*/
+  options.verticalScale = scaling;
+  /*@ts-ignore*/
+  options.qualitySetting = 100;
+  doc.exportFile(destFile, ExportType.JPEG, options);
+ };
+
+ //takes left x, top y, width, and height
+ //returns a Rect that can be used to create an artboard
+ tasks.newRect = function (x, y, width, height) {
+  let rect = [];
+  rect[0] = x;
+  rect[1] = -y;
+  rect[2] = width + x;
+  rect[3] = -(height + y);
+  return rect;
+ };
+
+ /***
+ TEXT
+ ****/
+
+ //takes a text frame and a string with the desired font name
+ //sets the text frame to the desired font or alerts if not found
+ tasks.setFont = function (textRef, desiredFont) {
+  let foundFont = false;
+  /*@ts-ignore*/
+  for (let i = 0; i < textFonts.length; i++) {
+   /*@ts-ignore*/
+   if (textFonts[i].name == desiredFont) {
+    /*@ts-ignore*/
+    textRef.textRange.characterAttributes.textFont = textFonts[i];
+    foundFont = true;
+    break;
+   }
+  }
+  if (!foundFont)
+   alert(
+    "Didn't find the font. Please check if the font is installed or check the script to make sure the font name is right."
+   );
+ };
+
+ //takes a document, message string, position array and font size
+ //creates a text frame with the message
+ tasks.createTextFrame = function (doc, message, pos, size) {
+  let textRef = doc.textFrames.add();
+  textRef.contents = message;
+  textRef.left = pos[0];
+  textRef.top = pos[1];
+  textRef.textRange.characterAttributes.size = size;
+ };
+
+ /***************
+    COLOR CONVERSION
+    ****************/
+
+ //takes two equal-length arrays of corresponding colors [[R,G,B], [R2,G2,B2],...] and [[C,M,Y,K],[C2,M2,Y2,K2],...] (fairly human readable)
+ //returns an array of ColorElements [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...] (usable by the script for fill colors etc.)
+ tasks.initializeColors = function (RGBArray, CMYKArray) {
+  let colors = new Array(RGBArray.length);
+
+  for (let i = 0; i < RGBArray.length; i++) {
+   let rgb = new RGBColor();
+   rgb.red = RGBArray[i][0];
+   rgb.green = RGBArray[i][1];
+   rgb.blue = RGBArray[i][2];
+
+   let cmyk = new CMYKColor();
+   cmyk.cyan = CMYKArray[i][0];
+   cmyk.magenta = CMYKArray[i][1];
+   cmyk.yellow = CMYKArray[i][2];
+   cmyk.black = CMYKArray[i][3];
+
+   colors[i] = [rgb, cmyk];
+  }
+  return colors;
+ };
+
+ //take a single RGBColor and an array of corresponding RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
+ //returns the index in the array if it finds a match, otherwise returns -1
+ tasks.matchRGB = function (color, matchArray) {
+  //compares a single color RGB color against RGB colors in [[RGB],[CMYK]] array
+  for (let i = 0; i < matchArray.length; i++) {
+   if (
+    Math.abs(color.red - matchArray[i][0].red) < 1 &&
+    Math.abs(color.green - matchArray[i][0].green) < 1 &&
+    Math.abs(color.blue - matchArray[i][0].blue) < 1
+   ) {
+    //can't do equality because it adds very small decimals
+    return i;
+   }
+  }
+  return -1;
+ };
+
+ //take a single RGBColor and an array of corresponding RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
+ //returns the index in the array if it finds a match, otherwise returns -1
+ tasks.matchColorsRGB = function (color1, color2) {
+  //compares two colors to see if they match
+  if (
+   Math.abs(color1.red - color2.red) < 1 &&
+   Math.abs(color1.green - color2.green) < 1 &&
+   Math.abs(color1.blue - color2.blue) < 1
+  ) {
+   //can't do equality because it adds very small decimals
+   return true;
+  }
+  return false;
+ };
+
+ //takes a pathItems array, startColor and endColor and converts all pathItems with startColor into endColor
+ tasks.convertColorCMYK = function (pathItems, startColor, endColor) {
+  for (i = 0; i < pathItems.length; i++) {
+   if (tasks.matchColorsCMYK(pathItems[i].fillColor, startColor))
+    pathItems[i].fillColor = endColor;
+  }
+ };
+
+ //take a single CMYKColor and an array of corresponding RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
+ //returns the index in the array if it finds a match, otherwise returns -1
+ tasks.matchColorsCMYK = function (color1, color2) {
+  //compares two colors to see if they match
+  if (
+   Math.abs(color1.cyan - color2.cyan) < 1 &&
+   Math.abs(color1.magenta - color2.magenta) < 1 &&
+   Math.abs(color1.yellow - color2.yellow) < 1 &&
+   Math.abs(color1.black - color2.black) < 1
+  ) {
+   //can't do equality because it adds very small decimals
+   return true;
+  }
+  return false;
+ };
+
+ //takes a pathItems array, startColor and endColor and converts all pathItems with startColor into endColor
+ tasks.convertColorRGB = function (pathItems, startColor, endColor) {
+  for (i = 0; i < pathItems.length; i++) {
+   if (tasks.matchColorsRGB(pathItems[i].fillColor, startColor))
+    pathItems[i].fillColor = endColor;
+  }
+ };
+
+ //takes a pathItems array, endColor and opacity and converts all pathItems into endColor at the specified opacity
+ tasks.convertAll = function (pathItems, endColor, opcty) {
+  for (i = 0; i < pathItems.length; i++) {
+   pathItems[i].fillColor = endColor;
+   pathItems[i].opacity = opcty;
+  }
+ };
+
+ //takes a collection of pathItems and an array of specified RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
+ //returns an array with an index to the RGB color if it is in the array
+ tasks.indexRGBColors = function (pathItems, matchArray) {
+  let colorIndex = new Array(pathItems.length);
+  for (i = 0; i < pathItems.length; i++) {
+   let itemColor = pathItems[i].fillColor;
+   colorIndex[i] = tasks.matchRGB(itemColor, matchArray);
+  }
+  return colorIndex;
+ };
+
+ //takes a doc, collection of pathItems, an array of specified colors and an array of colorIndices
+ //converts the fill colors to the indexed CMYK colors and adds a text box with the unmatched colors
+ //Note that this only makes sense if you've previously indexed the same path items and haven't shifted their positions in the pathItems array
+ tasks.convertToCMYK = function (doc, pathItems, colorArray, colorIndex) {
+  let unmatchedColors = [];
+  for (i = 0; i < pathItems.length; i++) {
+   if (colorIndex[i] >= 0 && colorIndex[i] < colorArray.length)
+    pathItems[i].fillColor = colorArray[colorIndex[i]][1];
+   else {
+    let unmatchedColor =
+     "(" +
+     pathItems[i].fillColor.red +
+     ", " +
+     pathItems[i].fillColor.green +
+     ", " +
+     pathItems[i].fillColor.blue +
+     ")";
+    unmatchedColors.push(unmatchedColor);
+   }
+  }
+  if (unmatchedColors.length > 0) {
+   // NOTE: Don't perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
+   return;
+   alert(
+    "One or more colors don't match the brand palette and weren't converted."
+   );
+   unmatchedColors = tasks.unique(unmatchedColors);
+   let unmatchedString = "Unconverted colors:";
+   for (let i = 0; i < unmatchedColors.length; i++) {
+    unmatchedString = unmatchedString + "\n" + unmatchedColors[i];
+   }
+   let errorMsgPos = [Infinity, Infinity]; //gets the bottom left of all the artboards
+   for (let i = 0; i < doc.artboards.length; i++) {
+    let rect = doc.artboards[i].artboardRect;
+    if (rect[0] < errorMsgPos[0]) errorMsgPos[0] = rect[0];
+    if (rect[3] < errorMsgPos[1]) errorMsgPos[1] = rect[3];
+   }
+   errorMsgPos[1] = errorMsgPos[1] - 20;
+
+   tasks.createTextFrame(doc, unmatchedString, errorMsgPos, 18);
+  }
+ };
+
+ //takes an array
+ //returns a sorted array with only unique elements
+ tasks.unique = function (a) {
+  let sorted;
+  let uniq;
+  if (a.length > 0) {
+   sorted = a.sort();
+   uniq = [sorted[0]];
+   for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i] != sorted[i - 1]) uniq.push(sorted[i]);
+   }
+   return uniq;
+  }
+  return [];
+ };
+ return tasks;
+
+})();
+
+/**********************************
+** HIDE / SHOW SOME LAYERS NEEDED
+***********************************/
+try {
+ guideLayer.visible = false;
+} catch (e) {
+ alert(
+  "Issue with layer hiding the Guidelines layer (do not change name from exactly Guidelines).",
+  e.message
+ );
+}
+/*****************************
+create export folder if needed
+******************************/
+try {
+ new Folder(`${sourceDoc.path}/${sourceDocName}`).create();
+ // Core folder
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${coreName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${coreName}/${epsName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${coreName}/${jpgName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${coreName}/${pngName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${coreName}/${svgName}`).create();
+ // Expressive folder 
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${epsName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${jpgName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${pngName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${svgName}`).create();
+} catch (e) {
+ alert(
+  "Issues with creating setup folders. Check your file permission properties.",
+  e.message
+ );
+}
+/*****************************
+Moving both prompts to the top of the file for efficiency purposes
+******************************/
+
+//request a name for the icon, and place that as text on the lockup artboard
+let appNameCore = prompt("What name do you want to put in the first Core lockup?");
+
+//request a name for the icon, and place that as text on the lockup artboard
+let appNameExpressive = prompt("What name do you want to put in the second Expressive lockup?");
+
+function mainCore() {
+
+ /******************
+ set up artboards
+ ******************/
+
+ //if there are two artboards at 256x256, create the new third lockup artboard
+ if (
+  sourceDoc.artboards.length == 2 &&
+  sourceDoc.artboards[0].artboardRect[2] -
+  sourceDoc.artboards[0].artboardRect[0] ==
+  256 &&
+  sourceDoc.artboards[0].artboardRect[1] -
+  sourceDoc.artboards[0].artboardRect[3] ==
+  256
+ ) {
+  // alert("More than 2 artboards detected!");
+  let firstRect = sourceDoc.artboards[0].artboardRect;
+  sourceDoc.artboards.add(
+   // CSTasks.newRect(firstRect[1] * 2.5 + gutter, firstRect[2], 2400, 256)
+   // CSTasks.newRect(firstRect[1] * 0.5, firstRect[2], 2400, 256)
+
+   CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2400, 256)
+  );
+ }
+
+ //if the lockup artboard is present, check if rebuilding or just exporting
+ else if (
+  sourceDoc.artboards.length == 3 &&
+  sourceDoc.artboards[1].artboardRect[1] -
+  sourceDoc.artboards[1].artboardRect[3] ==
+  256
+ ) {
+  rebuild = confirm(
+   "It looks like your artwork already exists. This script will rebuild the lockup and export various EPS and PNG versions. Do you want to proceed?"
+  );
+  if (rebuild) CSTasks.clearArtboard(sourceDoc, 1);
+  else return;
+ }
+
+ //otherwise abort
+ else {
+  alert("Please try again with 2 artboards that are 256x256px.");
+  return;
+ }
+ //select the contents on artboard 0
+ let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
+
+ // make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
+ app.executeMenuCommand('Colors9');
+
+ if (sel.length == 0) {
+  //if nothing is in the artboard
+  alert("Please try again with artwork on the main 256x256 artboard.");
+  return;
+ }
+
+ let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
+ let iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
+ let iconOffset = CSTasks.getOffset(
+  iconGroup.position,
+  CSTasks.getArtboardCorner(sourceDoc.artboards[0])
+ );
+
+ /********************************
+ Create new artboard with lockup
+ *********************************/
+
+ //place icon on lockup
+ /*@ts-ignore*/
+ let mast = iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
+ let mastPos = [
+  sourceDoc.artboards[2].artboardRect[0] + iconOffset[0],
+  sourceDoc.artboards[2].artboardRect[1] + iconOffset[1],
+ ];
+ CSTasks.translateObjectTo(mast, mastPos);
+
+
+
+ let textRef = sourceDoc.textFrames.add();
+ textRef.contents = appNameCore;
+ textRef.textRange.characterAttributes.size = 178;
+ CSTasks.setFont(textRef, desiredFont);
+
+ //vertically align the baseline to be 64 px above the botom of the artboard
+ let bottomEdge =
+  sourceDoc.artboards[2].artboardRect[3] +
+  0.25 * sourceDoc.artboards[0].artboardRect[2] -
+  sourceDoc.artboards[0].artboardRect[0]; //64px (0.25*256px) above the bottom edge of the artboard
+ let vOffset = CSTasks.getOffset(textRef.anchor, [0, bottomEdge]);
+ textRef.translate(0, -vOffset[1]);
+
+ //create an outline of the text
+ let textGroup = textRef.createOutline();
+
+ //horizontally align the left edge of the text to be 96px to the right of the edge
+ let rightEdge =
+  mast.position[0] +
+  mast.width +
+  0.375 * sourceDoc.artboards[0].artboardRect[2] -
+  sourceDoc.artboards[0].artboardRect[0]; //96px (0.375*256px) right of the icon
+ let hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
+ textGroup.translate(-hOffset[0], 0);
+
+ //resize the artboard to be only a little wider than the text
+ let leftMargin = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
+ let newWidth =
+  textGroup.position[0] +
+  textGroup.width -
+  sourceDoc.artboards[2].artboardRect[0] +
+  leftMargin;
+ let resizedRect = CSTasks.newRect(
+  sourceDoc.artboards[2].artboardRect[0],
+  -sourceDoc.artboards[2].artboardRect[1],
+  newWidth,
+  256
+ );
+ sourceDoc.artboards[2].artboardRect = resizedRect;
+
+ //get the text offset for exporting
+ let mastTextOffset = CSTasks.getOffset(
+  textGroup.position,
+  CSTasks.getArtboardCorner(sourceDoc.artboards[2])
+ );
+
+
+ /*********************************************************************
+ RGB export (EPS, PNGs at multiple sizes, inactive EPS and inverse EPS)
+ **********************************************************************/
+ let rgbDoc = CSTasks.duplicateArtboardInNewDoc(
+  sourceDoc,
+  0,
+  DocumentColorSpace.RGB
+ );
+
+ rgbDoc.swatches.removeAll();
+
+ let rgbGroup = iconGroup.duplicate(
+  rgbDoc.layers[0],
+  /*@ts-ignore*/
+  ElementPlacement.PLACEATEND
+ );
+ let rgbLoc = [
+  rgbDoc.artboards[0].artboardRect[0] + iconOffset[0],
+  rgbDoc.artboards[0].artboardRect[1] + iconOffset[1],
+ ];
+ CSTasks.translateObjectTo(rgbGroup, rgbLoc);
+
+ CSTasks.ungroupOnce(rgbGroup);
+
+ //save a master PNG
+ let masterStartWidth =
+  rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[0]}.png`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}`) + filename);
+  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[0]);
+ }
+
+
+ //close and clean up
+ rgbDoc.close(SaveOptions.DONOTSAVECHANGES);
+ rgbDoc = null;
+
+
+ /************ 
+ Final cleanup
+ ************/
+ CSTasks.ungroupOnce(iconGroup);
+ CSTasks.ungroupOnce(mast);
+ sourceDoc.selection = null;
+
+}
+
+mainCore();
