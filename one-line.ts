@@ -42,7 +42,7 @@ let RGBColorElements = [
  [50, 127, 239], //Stratosphere blue
  [58, 220, 201], // Inifinity turquoise
  [255, 255, 255], // white
- [128, 128, 128], // Dark grey (unused)
+ [0, 0, 0], // Black
 ];
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
 // Intent is different colors in print for optimum pop of colors
@@ -53,7 +53,7 @@ let CMYKColorElements = [
  [78, 47, 0, 0], //Stratosphere blue
  [53, 0, 34, 0], // Inifinity turquoise  
  [0, 0, 0, 0], // white
- [0, 0, 0, 50], // Dark grey (unused)
+ [0, 0, 0, 100], // Black
 ];
 // Make sure you have the font below installed, ask for font from client
 let desiredFont = "Graphik-Regular";
@@ -61,6 +61,7 @@ let exportSizes = [1024, 512, 256, 128, 64, 48, 32, 24, 16]; //sizes to export
 let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
 let whiteIndex = 5;
+let blackIndex = 6;
 //loop default 
 let i;
 // folder and naming creations
@@ -657,7 +658,7 @@ let appNameCore = prompt("What name do you want to put in the first Core lockup?
 //request a name for the icon, and place that as text on the lockup artboard
 let appNameExpressive = prompt("What name do you want to put in the second Expressive lockup?");
 
-function mainCore() {
+function primaryLockup() {
 
  /******************
  set up artboards
@@ -807,7 +808,7 @@ function mainCore() {
 
  CSTasks.ungroupOnce(rgbGroup);
 
- //save a master PNG
+ //save a  PNG
  let masterStartWidth =
   rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
  for (let i = 0; i < exportSizes.length; i++) {
@@ -816,11 +817,197 @@ function mainCore() {
   CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
  }
 
+ //save a master SVG 
+ let svgMasterCoreStartWidth =
+  rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.svg`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+  CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+ }
 
+
+ // //save all sizes of PNG into the export folder
+ // let startWidth =
+ //  rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
+ // for (let i = 0; i < exportSizes.length; i++) {
+ //  let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[i]}.png`;
+ //  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveFolderName}`) + filename);
+ //  CSTasks.scaleAndExportPNG(rgbDoc, destFile, startWidth, exportSizes[i]);
+ // }
+
+ //save EPS into the export folder
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.eps`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + filename);
+  let rgbSaveOpts = new EPSSaveOptions();
+  /*@ts-ignore*/
+  rgbSaveOpts.cmykPostScript = false;
+  rgbDoc.saveAs(destFile, rgbSaveOpts);
+ }
+ //index the RGB colors for conversion to CMYK. An inelegant location.
+ let colorIndex = CSTasks.indexRGBColors(rgbDoc.pathItems, colors);
+ //convert violet to white and save as EPS
+ CSTasks.convertColorRGB(rgbDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]
+ );
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.png`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
+ }
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.svg`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+  CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+ }
+
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let inverseFilename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.eps`;
+  let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + inverseFilename);
+  let rgbSaveOpts = new EPSSaveOptions();
+  rgbDoc.saveAs(inverseFile, rgbSaveOpts);
+ }
+
+ //convert to inactive color (WTW Icon grey at 100% opacity) and save 
+ CSTasks.convertAll(rgbDoc.pathItems, colors[grayIndex][0], 100);
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.png`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
+ }
+
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.svg`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+  CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+ }
+
+
+ //convert to white color (WTW Icon white at 100% opacity) and save 
+ CSTasks.convertAll(rgbDoc.pathItems, colors[whiteIndex][0], 100);
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${standardName}_${whiteColorName}_${rgbColorName}.png`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
+ }
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${standardName}_${whiteColorName}_${rgbColorName}.svg`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+  CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+ }
+
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let inverseFilename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${standardName}_${whiteColorName}_${rgbColorName}.eps`;
+  let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + inverseFilename);
+  let rgbSaveOpts = new EPSSaveOptions();
+  rgbDoc.saveAs(inverseFile, rgbSaveOpts);
+ }
+
+ //convert to black color (WTW Icon black at 100% opacity) and save 
+ CSTasks.convertAll(rgbDoc.pathItems, colors[blackIndex][0], 100);
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${standardName}_${blackColorName}_${rgbColorName}.png`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
+ }
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${standardName}_${blackColorName}_${rgbColorName}.svg`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+  CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+ }
+
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let inverseFilename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${standardName}_${blackColorName}_${rgbColorName}.eps`;
+  let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + inverseFilename);
+  let rgbSaveOpts = new EPSSaveOptions();
+  rgbDoc.saveAs(inverseFile, rgbSaveOpts);
+ }
  //close and clean up
  rgbDoc.close(SaveOptions.DONOTSAVECHANGES);
  rgbDoc = null;
 
+
+ /****************
+ CMYK exports x4 (EPS)
+ ****************/
+
+ //open a new document with CMYK colorspace, and duplicate the icon to the new document
+ let cmykDoc = CSTasks.duplicateArtboardInNewDoc(
+  sourceDoc,
+  0,
+  DocumentColorSpace.CMYK
+ );
+ cmykDoc.swatches.removeAll();
+
+ //need to reverse the order of copying the group to get the right color ordering
+ let cmykGroup = iconGroup.duplicate(
+  cmykDoc.layers[0],
+  /*@ts-ignore*/
+  ElementPlacement.PLACEATBEGINNING
+ );
+ let cmykLoc = [
+  cmykDoc.artboards[0].artboardRect[0] + iconOffset[0],
+  cmykDoc.artboards[0].artboardRect[1] + iconOffset[1],
+ ];
+ CSTasks.translateObjectTo(cmykGroup, cmykLoc);
+ CSTasks.ungroupOnce(cmykGroup);
+
+ CSTasks.convertToCMYK(cmykDoc, cmykDoc.pathItems, colors, colorIndex);
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let cmykFilename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
+  let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+  let cmykSaveOpts = new EPSSaveOptions();
+  cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+ }
+ // inverse color cmyk doc
+ CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]
+ );
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let cmykFilename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+  let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+  let cmykSaveOpts = new EPSSaveOptions();
+  cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+ }
+
+ //convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
+ CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
+
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let cmykFilename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.eps`;
+  let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+  let cmykSaveOpts = new EPSSaveOptions();
+  cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+ }
+
+ //convert to black color cmyk doc (WTW Icon white at 100% opacity) and save 
+ CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
+
+
+ for (let i = 0; i < exportSizes.length; i++) {
+  let cmykFilename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.eps`;
+  let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+  let cmykSaveOpts = new EPSSaveOptions();
+  cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+ }
+
+ //close and clean up
+ cmykDoc.close(SaveOptions.DONOTSAVECHANGES);
+ cmykDoc = null;
 
  /************ 
  Final cleanup
@@ -831,4 +1018,4 @@ function mainCore() {
 
 }
 
-mainCore();
+primaryLockup();
