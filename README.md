@@ -64,7 +64,11 @@ https://youtu.be/yxtrt7nkOjA
 
 # Run watch task to compile ts to js
 
-tsc -p /NAVIGATE_TO_CODEBASE_FOLDER/tsconfig.json --watch 
+run "npm i" to get node_modules
+
+"npm i types-for-adobe" make sure we have this node module.
+
+tsc -p /NAVIGATE_TO_CODEBASE_FOLDER/tsconfig.json --watch  
  
 Or VS code main top nav menu > Terminal > Run Build Task > Watch
 
