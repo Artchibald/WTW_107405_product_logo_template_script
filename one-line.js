@@ -28,7 +28,7 @@ Starting with an open AI file with a single icon on a single 256 x 256 artboard
 - Opens created folder root
 - Add instructions in the alert below and in the readme and in the instructions.txt before packaging up with the files in /test/ so the end user can try everything in Illustrator with one zip.
 ************************************************/
-alert(" \n\nThis is the one line script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/2022_icon_rebrand_scripts   \n\nVideo set up tutorial available here: https://youtu.be/yxtrt7nkOjA. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease try to use underscore instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
+alert(" \n\nThis is the one line script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\nVideo set up tutorial available here: https://youtu.be/XXXXXXXXXX. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
 /*********************************
 VARIABLES YOU MIGHT NEED TO CHANGE
 **********************************/
@@ -62,6 +62,10 @@ var whiteIndex = 5;
 //loop default 
 var i;
 // folder and naming creations
+var sourceDocName = sourceDoc.name.slice(0, -3);
+var iconFilename = sourceDoc.name.split(".")[0];
+var name = sourceDoc.name.split(".")[0];
+var destFolder = Folder(sourceDoc.path + "/" + name);
 // New
 var wtwName = "wtw";
 //New asset types names
@@ -102,10 +106,6 @@ var iconFolderName = "Icon";
 var iconInLayoutFolderName = "Icon_in_layout";
 var expressiveFolderName = "Expressive";
 //End new
-var coreName = "Core";
-var expressiveName = "Expressive";
-var inverseName = "Inverse";
-var sourceDocName = sourceDoc.name.slice(0, -3);
 // Lockups
 var lockupName = "Lockup";
 var lockup1 = "Lockup1";
@@ -115,26 +115,16 @@ var tenByFive = "1024x512";
 // Colors
 var rgbName = "RGB";
 var cmykName = "CMYK";
-var onWhiteName = "onFFF";
-// type
-var croppedName = "Cropped";
 //Folder creations
 var pngName = "png";
 var jpgName = "jpg";
 var svgName = "svg";
 var svgCroppedName = "svg_cropped";
 var epsName = "eps";
-var iconFilename = sourceDoc.name.split(".")[0];
 var rebuild = true;
 // let gutter = 32;
 // hide guides
 var guideLayer = sourceDoc.layers["Guidelines"];
-var name = sourceDoc.name.split(".")[0];
-var destFolder = Folder(sourceDoc.path + "/" + name);
-// 800x500 names
-var sixteenTenName = "1610";
-var smallName = "small";
-var largeName = "large";
 // All reusable functions are in CSTasks below
 var CSTasks = (function () {
     var tasks = {};
@@ -533,17 +523,17 @@ try {
     new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inverseTransparentFolderName)).create();
     new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inverseWhiteBgFolderName)).create();
     // Expressive lockup folders
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(epsName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgCroppedName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(pngName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(jpgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(svgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(pngName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(svgCroppedName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(pngName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName, "/").concat(jpgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName, "/").concat(pngName)).create();
 }
 catch (e) {
     alert("Issues with creating setup folders. Check your file permission properties.", e.message);
