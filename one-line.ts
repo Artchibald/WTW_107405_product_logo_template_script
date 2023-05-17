@@ -825,9 +825,9 @@ function mainCore() {
  let masterStartWidth =
   rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
  for (let i = 0; i < exportSizes.length; i++) {
-  let filename = `/${wtwName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[0]}.png`;
-  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}`) + filename);
-  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[0]);
+  let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
+  let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+  CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
  }
 
 
