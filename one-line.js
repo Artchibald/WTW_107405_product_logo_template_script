@@ -76,6 +76,10 @@ var oneColorName = "1c";
 // New style names
 var standardName = "std";
 var inactiveName = "inact";
+var inactiveFolderName = "inactive";
+var positiveFolderName = "positive";
+var inverseTransparentFolderName = "inverse_transparent_bg";
+var inverseWhiteBgFolderName = "inverse_white_bg";
 // New artwork color names
 var positiveColorName = "pos";
 var inverseColorName = "inv";
@@ -91,6 +95,12 @@ var pantoneColorName = "pms";
 var rgbColorName = "rgb";
 // New size names
 var croppedToArtworkName = "crp";
+// New folder names
+var primaryLockupFolderName = "Primary_lockup";
+var alternativeLockupFolderName = "Alternate_lockup";
+var iconFolderName = "Icon";
+var iconInLayoutFolderName = "Icon_in_layout";
+var expressiveFolderName = "Expressive";
 //End new
 var coreName = "Core";
 var expressiveName = "Expressive";
@@ -112,6 +122,7 @@ var croppedName = "Cropped";
 var pngName = "png";
 var jpgName = "jpg";
 var svgName = "svg";
+var svgCroppedName = "svg_cropped";
 var epsName = "eps";
 var iconFilename = sourceDoc.name.split(".")[0];
 var rebuild = true;
@@ -494,18 +505,45 @@ create export folder if needed
 ******************************/
 try {
     new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName)).create();
-    // Core folder
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(coreName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(coreName, "/").concat(epsName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(coreName, "/").concat(jpgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(coreName, "/").concat(pngName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(coreName, "/").concat(svgName)).create();
-    // Expressive folder 
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(epsName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(jpgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(pngName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(svgName)).create();
+    // New folders
+    // Primary lockup folders
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName, "/").concat(cmykName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName, "/").concat(rgbName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(pngName)).create();
+    // Alternate lockup folders
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(epsName, "/").concat(cmykName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(epsName, "/").concat(rgbName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(pngName)).create();
+    // Icon lockup folders
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(cmykName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(rgbName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(svgCroppedName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inactiveFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(positiveFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inverseTransparentFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inverseWhiteBgFolderName)).create();
+    // Expressive lockup folders
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgCroppedName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(pngName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(jpgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(pngName)).create();
 }
 catch (e) {
     alert("Issues with creating setup folders. Check your file permission properties.", e.message);
