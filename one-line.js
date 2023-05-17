@@ -533,17 +533,17 @@ try {
     new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inverseTransparentFolderName)).create();
     new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inverseWhiteBgFolderName)).create();
     // Expressive lockup folders
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(epsName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgCroppedName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(pngName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(jpgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(svgName)).create();
-    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(pngName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(svgCroppedName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconFolderName, "/").concat(pngName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(jpgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(svgName)).create();
+    new Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveName, "/").concat(iconInLayoutFolderName, "/").concat(pngName)).create();
 }
 catch (e) {
     alert("Issues with creating setup folders. Check your file permission properties.", e.message);

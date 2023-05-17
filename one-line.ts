@@ -643,17 +643,17 @@ try {
  new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inverseTransparentFolderName}`).create();
  new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inverseWhiteBgFolderName}`).create();
  // Expressive lockup folders
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconFolderName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconFolderName}/${epsName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconFolderName}/${svgName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconFolderName}/${svgCroppedName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconFolderName}/${pngName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconInLayoutFolderName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconInLayoutFolderName}/${epsName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconInLayoutFolderName}/${jpgName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconInLayoutFolderName}/${svgName}`).create();
- new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${expressiveName}/${iconInLayoutFolderName}/${pngName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconFolderName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconFolderName}/${epsName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconFolderName}/${svgName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconFolderName}/${svgCroppedName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconFolderName}/${pngName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconInLayoutFolderName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconInLayoutFolderName}/${epsName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconInLayoutFolderName}/${jpgName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconInLayoutFolderName}/${svgName}`).create();
+ new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${iconInLayoutFolderName}/${pngName}`).create();
 
 } catch (e) {
  alert(
