@@ -724,11 +724,13 @@ function iconGen() {
     }
     //convert to black color (WTW Icon black at 100% opacity) and save 
     CSTasks.convertAll(rgbDoc.pathItems, colors[blackIndex][0], 100);
+    // save a black svg in icon folder
     for (var i_17 = 0; i_17 < exportSizes.length; i_17++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(blackColorName, "_").concat(rgbColorName, ".svg");
         var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(svgName)) + filename);
         CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
     }
+    // save a black eps in icon folder
     for (var i_18 = 0; i_18 < exportSizes.length; i_18++) {
         var inverseFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(blackColorName, "_").concat(rgbColorName, ".eps");
         var inverseFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(rgbName)) + inverseFilename);
@@ -756,32 +758,32 @@ function iconGen() {
     CSTasks.ungroupOnce(cmykGroup);
     CSTasks.convertToCMYK(cmykDoc, cmykDoc.pathItems, colors, colorIndex);
     for (var i_19 = 0; i_19 < exportSizes.length; i_19++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(primaryName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
+        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(fullColorName, "_").concat(positiveColorName, "_").concat(fourColorProcessName, ".eps");
+        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
         var cmykSaveOpts = new EPSSaveOptions();
         cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
     }
     // inverse color cmyk doc
     CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
     for (var i_20 = 0; i_20 < exportSizes.length; i_20++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(primaryName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
+        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(fullColorName, "_").concat(inverseColorName, "_").concat(fourColorProcessName, ".eps");
+        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
         var cmykSaveOpts = new EPSSaveOptions();
         cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
     }
     //convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
     CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
     for (var i_21 = 0; i_21 < exportSizes.length; i_21++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(primaryName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(whiteColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
+        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(whiteColorName, "_").concat(fourColorProcessName, ".eps");
+        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
         var cmykSaveOpts = new EPSSaveOptions();
         cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
     }
     //convert to black color cmyk doc (WTW Icon black at 100% opacity) and save EPS
     CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
     for (var i_22 = 0; i_22 < exportSizes.length; i_22++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(primaryName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(blackColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(primaryLockupFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
+        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(blackColorName, "_").concat(fourColorProcessName, ".eps");
+        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
         var cmykSaveOpts = new EPSSaveOptions();
         cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
     }
