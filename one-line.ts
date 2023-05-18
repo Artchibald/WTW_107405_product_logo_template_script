@@ -812,14 +812,14 @@ function iconGen() {
 	let masterStartWidth =
 		rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[i]}.png`;
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${positiveColorName}_${rgbColorName}_${exportSizes[i]}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveFolderName}`) + filename);
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[i]);
 	}
 
 	//save a classic EPS into the icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.eps`;
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${positiveColorName}_${rgbColorName}.eps`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${rgbName}`) + filename);
 		let rgbSaveOpts = new EPSSaveOptions();
 		/*@ts-ignore*/
@@ -831,7 +831,7 @@ function iconGen() {
 	let svgMasterCoreStartWidth =
 		rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.svg`;
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${positiveColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
@@ -844,14 +844,14 @@ function iconGen() {
 
 	//save set of inverted pngs in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}__${exportSizes[i]}.png`;
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inverseColorName}_${rgbColorName}_${exportSizes[i]}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inverseTransparentFolderName}`) + filename);
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[i]);
 	}
 
 	// save an inverted eps in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
-		let inverseFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.eps`;
+		let inverseFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inverseColorName}_${rgbColorName}.eps`;
 		let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${rgbName}`) + inverseFilename);
 		let rgbSaveOpts = new EPSSaveOptions();
 		rgbDoc.saveAs(inverseFile, rgbSaveOpts);
@@ -859,7 +859,7 @@ function iconGen() {
 
 	// save inverted svg in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.svg`;
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
@@ -972,7 +972,6 @@ function iconGen() {
 	//convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
 	CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
 
-
 	for (let i = 0; i < exportSizes.length; i++) {
 		let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${whiteColorName}_${fourColorProcessName}.eps`;
 		let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
@@ -982,7 +981,6 @@ function iconGen() {
 
 	//convert to black color cmyk doc (WTW Icon black at 100% opacity) and save EPS
 	CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
-
 
 	for (let i = 0; i < exportSizes.length; i++) {
 		let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${blackColorName}_${fourColorProcessName}.eps`;
@@ -994,7 +992,6 @@ function iconGen() {
 	//close and clean up
 	cmykDoc.close(SaveOptions.DONOTSAVECHANGES);
 	cmykDoc = null;
-
 
 	/*********************************************************************
 	RGB cropped export (JPG, PNGs at 16 and 24 sizes), squares, cropped to artwork
@@ -1056,8 +1053,6 @@ function iconGen() {
 	//convert color to white
 	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[whiteIndex][0], 100);
 
-
-
 	// Save a white cropped SVG 
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${whiteColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
@@ -1088,8 +1083,6 @@ function iconGen() {
 	//close and clean up
 	rgbDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
 	rgbDocCroppedVersion = null;
-
-
 
 	/************ 
 	Final cleanup
