@@ -809,7 +809,7 @@ it has to remain here or the inverse function doesn't work correctly up to line 
     cmykDoc.close(SaveOptions.DONOTSAVECHANGES);
     cmykDoc = null;
     /*********************************************************************
-    RGB cropped export (JPG, PNGs at 16 and 24 sizes), squares, cropped to artwork
+    RGB cropped export (SVG only), squares, cropped to artwork
     **********************************************************************/
     var rgbDocCroppedVersion = CSTasks.duplicateArtboardInNewDoc(sourceDoc, 0, DocumentColorSpace.RGB);
     rgbDocCroppedVersion.swatches.removeAll();
@@ -959,10 +959,16 @@ it has to remain here or the inverse function doesn't work correctly up to line 
         rgbExpDocCroppedVersion.artboards[0].artboardRect[1] + iconOffsetExp2[1],
     ];
     CSTasks.translateObjectTo(rgbExpGroup2, rgbExpLoc2);
+    // remove padding here befor exporting
+    function placeIconLockup1Correctly2(rgbExpGroup2, maxSize) {
+        var W = rgbExpGroup2.width, H = rgbExpGroup2.height, MW = maxSize.W, MH = maxSize.H, factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+        rgbExpGroup2.resize(factor, factor);
+    }
+    placeIconLockup1Correctly2(rgbExpGroup2, { W: 256, H: 256 });
     CSTasks.ungroupOnce(rgbExpGroup2);
     var svgdExpMasterCoreStartWidthCroppedSvg = rgbExpDocCroppedVersion.artboards[0].artboardRect[2] - rgbExpDocCroppedVersion.artboards[0].artboardRect[0];
     for (var i_8 = 0; i_8 < exportSizes.length; i_8++) {
-        var filenameCroppedSvg = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(rgbColorName, "_").concat(croppedToArtworkName, ".svg");
+        var filenameCroppedSvg = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(rgbColorName, "_").concat(croppedToArtworkName, ".svg");
         var destFileCroppedSvg = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(svgCroppedName)) + filenameCroppedSvg);
         CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFileCroppedSvg, svgdExpMasterCoreStartWidthCroppedSvg, exportSizes[0]);
     }

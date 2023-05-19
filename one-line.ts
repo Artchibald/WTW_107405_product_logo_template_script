@@ -1009,7 +1009,7 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 	cmykDoc = null;
 
 	/*********************************************************************
-	RGB cropped export (JPG, PNGs at 16 and 24 sizes), squares, cropped to artwork
+	RGB cropped export (SVG only), squares, cropped to artwork
 	**********************************************************************/
 	let rgbDocCroppedVersion = CSTasks.duplicateArtboardInNewDoc(
 		sourceDoc,
@@ -1229,13 +1229,24 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 		rgbExpDocCroppedVersion.artboards[0].artboardRect[1] + iconOffsetExp2[1],
 	];
 	CSTasks.translateObjectTo(rgbExpGroup2, rgbExpLoc2);
+	// remove padding here befor exporting
+	function placeIconLockup1Correctly2(rgbExpGroup2, maxSize) {
+
+		let W = rgbExpGroup2.width,
+			H = rgbExpGroup2.height,
+			MW = maxSize.W,
+			MH = maxSize.H,
+			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+		rgbExpGroup2.resize(factor, factor);
+	}
+	placeIconLockup1Correctly2(rgbExpGroup2, { W: 256, H: 256 });
 
 	CSTasks.ungroupOnce(rgbExpGroup2);
 
 	let svgdExpMasterCoreStartWidthCroppedSvg =
 		rgbExpDocCroppedVersion.artboards[0].artboardRect[2] - rgbExpDocCroppedVersion.artboards[0].artboardRect[0];
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
 		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
 		CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFileCroppedSvg, svgdExpMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
