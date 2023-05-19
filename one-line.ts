@@ -766,7 +766,7 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 		textGroup.position[0] +
 		textGroup.width -
 		sourceDoc.artboards[2].artboardRect[0] +
-		leftMargin;
+		leftMargin - 16;
 	let resizedRect = CSTasks.newRect(
 		sourceDoc.artboards[2].artboardRect[0],
 		-sourceDoc.artboards[2].artboardRect[1],
@@ -785,14 +785,14 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 	CSTasks.translateObjectTo(mast, mastPos);
 
 	//make icon fill whole area
-
+	let getArtLayer = sourceDoc.layers.getByName('Art');
+	let landingZoneSquare = getArtLayer.pathItems.rectangle(
+		-384,
+		0,
+		256,
+		256);
 	function placeIconLockup1Correctly0(mast, maxSize) {
-		let getArtLayer = sourceDoc.layers.getByName('Art');
-		let landingZoneSquare = getArtLayer.pathItems.rectangle(
-			-384,
-			0,
-			256,
-			256);
+
 		let setLandingZoneSquareColor = new RGBColor();
 		setLandingZoneSquareColor.red = 12;
 		setLandingZoneSquareColor.green = 28;
@@ -829,9 +829,10 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 			MH = maxSize.H,
 			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
 		mast.resize(factor, factor);
+
 	}
 	placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
-
+	landingZoneSquare.remove();
 	// mast.left = 0;
 	// mast.top = -384;
 
