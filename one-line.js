@@ -636,8 +636,44 @@ it has to remain here or the inverse function doesn't work correctly up to line 
     ];
     CSTasks.translateObjectTo(mast, mastPos);
     //make icon fill whole area
-    mast.width = 256;
-    mast.height = 256;
+    function placeIconLockup1Correctly0(mast, maxSize) {
+        var getArtLayer = sourceDoc.layers.getByName('Art');
+        var landingZoneSquare = getArtLayer.pathItems.rectangle(-384, 0, 256, 256);
+        var setLandingZoneSquareColor = new RGBColor();
+        setLandingZoneSquareColor.red = 12;
+        setLandingZoneSquareColor.green = 28;
+        setLandingZoneSquareColor.blue = 151;
+        landingZoneSquare.fillColor = setLandingZoneSquareColor;
+        landingZoneSquare.name = "LandingZone";
+        landingZoneSquare.filled = false;
+        /*@ts-ignore*/
+        landingZoneSquare.move(getArtLayer, ElementPlacement.PLACEATEND);
+        // start moving expressive icon into our new square landing zone
+        var placedmastBannerIconOnText = mast;
+        var landingZone = sourceDoc.pathItems.getByName("LandingZone");
+        var preferredWidth = (256);
+        var preferredHeight = (256);
+        // do the width
+        var widthRatio = (preferredWidth / placedmastBannerIconOnText.width) * 100;
+        if (placedmastBannerIconOnText.width != preferredWidth) {
+            placedmastBannerIconOnText.resize(widthRatio, widthRatio);
+        }
+        // now do the height
+        var heightRatio = (preferredHeight / placedmastBannerIconOnText.height) * 100;
+        if (placedmastBannerIconOnText.height != preferredHeight) {
+            placedmastBannerIconOnText.resize(heightRatio, heightRatio);
+        }
+        // now let's center the art on the landing zone
+        var centerArt = [placedmastBannerIconOnText.left + (placedmastBannerIconOnText.width / 2), placedmastBannerIconOnText.top + (placedmastBannerIconOnText.height / 2)];
+        var centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
+        placedmastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
+        //do it again to be sure
+        var W = mast.width, H = mast.height, MW = maxSize.W, MH = maxSize.H, factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+        mast.resize(factor, factor);
+    }
+    placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
+    // mast.left = 0;
+    // mast.top = -384;
     /*********************************************************************
     All exports from artboard 0
     **********************************************************************/
@@ -966,12 +1002,13 @@ it has to remain here or the inverse function doesn't work correctly up to line 
     }
     placeIconLockup1Correctly2(rgbExpGroup2, { W: 256, H: 256 });
     CSTasks.ungroupOnce(rgbExpGroup2);
-    var svgdExpMasterCoreStartWidthCroppedSvg = rgbExpDocCroppedVersion.artboards[0].artboardRect[2] - rgbExpDocCroppedVersion.artboards[0].artboardRect[0];
-    for (var i_8 = 0; i_8 < exportSizes.length; i_8++) {
-        var filenameCroppedSvg = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(rgbColorName, "_").concat(croppedToArtworkName, ".svg");
-        var destFileCroppedSvg = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(svgCroppedName)) + filenameCroppedSvg);
-        CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFileCroppedSvg, svgdExpMasterCoreStartWidthCroppedSvg, exportSizes[0]);
-    }
+    // let svgdExpMasterCoreStartWidthCroppedSvg =
+    // 	rgbExpDocCroppedVersion.artboards[0].artboardRect[2] - rgbExpDocCroppedVersion.artboards[0].artboardRect[0];
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+    // 	let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
+    // 	CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFileCroppedSvg, svgdExpMasterCoreStartWidthCroppedSvg, exportSizes[0]);
+    // }
     //close and clean up
     rgbExpDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
     rgbExpDocCroppedVersion = null;
@@ -998,12 +1035,12 @@ it has to remain here or the inverse function doesn't work correctly up to line 
     CSTasks.translateObjectTo(cmykGroupExp, cmykLocExp);
     CSTasks.ungroupOnce(cmykGroupExp);
     CSTasks.convertToCMYK(cmykDocExp, cmykDocExp.pathItems, colors, colorIndex);
-    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(epsName)) + cmykFilename);
-        var cmykSaveOpts = new EPSSaveOptions();
-        cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
-    }
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
     //close and clean up
     cmykDocExp.close(SaveOptions.DONOTSAVECHANGES);
     cmykDocExp = null;
