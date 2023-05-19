@@ -812,8 +812,8 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 	CSTasks.ungroupOnce(rgbGroup);
 
 	//save the classic PNGs in icon folder
-	// let masterStartWidth =
-	// 	rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
+	let masterStartWidth =
+		rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[i]}.png`;
 	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveFolderName}`) + filename);
@@ -1099,17 +1099,6 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 	rgbDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
 	rgbDocCroppedVersion = null;
 
-	/************ 
-cleanup
-************/
-	CSTasks.ungroupOnce(iconGroup);
-	sourceDoc.selection = null;
-
-
-
-
-
-
 
 	/***************** 
 	Expressive icon exports
@@ -1117,7 +1106,6 @@ cleanup
 
 	//select the contents on artboard 0
 	let selExp = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
-	let colorsExp = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	let iconGroupExp = CSTasks.createGroup(sourceDoc, selExp); //group the selection (easier to work with)
 	let iconOffsetExp = CSTasks.getOffset(
 		iconGroupExp.position,
@@ -1148,11 +1136,11 @@ cleanup
 
 	CSTasks.ungroupOnce(rgbExpGroup);
 
-	// for (let i = 0; i < exportSizes.length; i++) {
-	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
-	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${pngName}`) + filename);
-	// 	CSTasks.scaleAndExportPNG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
-	// }
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
+	}
 
 	//save a expressive EPS into the expressive icon folder
 	// for (let i = 0; i < exportSizes.length; i++) {
@@ -1169,8 +1157,6 @@ cleanup
 	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgName}`) + filename);
 	// 	CSTasks.scaleAndExportSVG(rgbExpDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	// }
-
-
 
 
 
@@ -1209,46 +1195,42 @@ cleanup
 	// 	CSTasks.scaleAndExportSVG(rgbExpDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	// }
 	//close and clean up
+	rgbExpDoc.close(SaveOptions.DONOTSAVECHANGES);
+	rgbExpDoc = null;
+
 
 	// exp svg crop
+	//select the contents on artboard 0
+	let selExp2 = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
+	let iconGroupExp2 = CSTasks.createGroup(sourceDoc, selExp2); //group the selection (easier to work with)
+	let iconOffsetExp2 = CSTasks.getOffset(
+		iconGroupExp2.position,
+		CSTasks.getArtboardCorner(sourceDoc.artboards[1])
+	);
 
 	/*********************************************************************
-	RGB cropped export (JPG, PNGs at 16 and 24 sizes), squares, cropped to artwork
+	All exports from new file with expressive icon copied across
 	**********************************************************************/
 	let rgbExpDocCroppedVersion = CSTasks.duplicateArtboardInNewDoc(
 		sourceDoc,
-		1,
+		0,
 		DocumentColorSpace.RGB
 	);
 
 	rgbExpDocCroppedVersion.swatches.removeAll();
 
-	let rgbExpGroupCropped = iconGroup.duplicate(
+	let rgbExpGroup2 = iconGroupExp2.duplicate(
 		rgbExpDocCroppedVersion.layers[0],
 		/*@ts-ignore*/
 		ElementPlacement.PLACEATEND
 	);
-	let rgbExpLocCropped = [
-		rgbExpDocCroppedVersion.artboards[0].artboardRect[0] + iconOffset[0],
-		rgbExpDocCroppedVersion.artboards[0].artboardRect[1] + iconOffset[1],
+	let rgbExpLoc2 = [
+		rgbExpDocCroppedVersion.artboards[0].artboardRect[0] + iconOffsetExp2[0],
+		rgbExpDocCroppedVersion.artboards[0].artboardRect[1] + iconOffsetExp2[1],
 	];
-	CSTasks.translateObjectTo(rgbExpGroupCropped, rgbExpLocCropped);
+	CSTasks.translateObjectTo(rgbExpGroup2, rgbExpLoc2);
 
-	// remove padding here befor exporting
-	function placeIconLockup2Correctly(rgbExpGroupCropped, maxSize) {
-
-		let W = rgbExpGroupCropped.width,
-			H = rgbExpGroupCropped.height,
-			MW = maxSize.W,
-			MH = maxSize.H,
-			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
-		rgbExpGroupCropped.resize(factor, factor);
-	}
-	placeIconLockup2Correctly(rgbExpGroupCropped, { W: 256, H: 256 });
-
-	CSTasks.ungroupOnce(rgbExpGroupCropped);
-	// below we export croped only versions
-	// Save a cropped SVG 
+	CSTasks.ungroupOnce(rgbExpGroup2);
 
 	let svgdExpMasterCoreStartWidthCroppedSvg =
 		rgbExpDocCroppedVersion.artboards[0].artboardRect[2] - rgbExpDocCroppedVersion.artboards[0].artboardRect[0];
@@ -1263,7 +1245,6 @@ cleanup
 	rgbExpDocCroppedVersion = null;
 
 
-
 	// eps cmyk
 
 	/************ 
@@ -1272,8 +1253,7 @@ cleanup
 	CSTasks.ungroupOnce(iconGroup);
 	sourceDoc.selection = null;
 
-	rgbExpDoc.close(SaveOptions.DONOTSAVECHANGES);
-	rgbExpDoc = null;
+
 
 
 
