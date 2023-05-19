@@ -942,7 +942,7 @@ it has to remain here or the inverse function doesn't work correctly up to line 
     rgbExpDoc.close(SaveOptions.DONOTSAVECHANGES);
     rgbExpDoc = null;
     // exp svg crop
-    //select the contents on artboard 0
+    //select the contents on artboard 1
     var selExp2 = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
     var iconGroupExp2 = CSTasks.createGroup(sourceDoc, selExp2); //group the selection (easier to work with)
     var iconOffsetExp2 = CSTasks.getOffset(iconGroupExp2.position, CSTasks.getArtboardCorner(sourceDoc.artboards[1]));
@@ -976,6 +976,37 @@ it has to remain here or the inverse function doesn't work correctly up to line 
     rgbExpDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
     rgbExpDocCroppedVersion = null;
     // eps cmyk
+    // exp svg crop
+    //select the contents on artboard 1
+    var selExp3 = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
+    var iconGroupExp3 = CSTasks.createGroup(sourceDoc, selExp3); //group the selection (easier to work with)
+    var iconOffsetExp3 = CSTasks.getOffset(iconGroupExp3.position, CSTasks.getArtboardCorner(sourceDoc.artboards[1]));
+    /****************
+    CMYK exports x4 (EPS only)
+    ****************/
+    //open a new document with CMYK colorspace, and duplicate the icon to the new document
+    var cmykDocExp = CSTasks.duplicateArtboardInNewDoc(sourceDoc, 0, DocumentColorSpace.CMYK);
+    cmykDocExp.swatches.removeAll();
+    //need to reverse the order of copying the group to get the right color ordering
+    var cmykGroupExp = iconGroupExp3.duplicate(cmykDocExp.layers[0], 
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATBEGINNING);
+    var cmykLocExp = [
+        cmykDocExp.artboards[0].artboardRect[0] + iconOffsetExp3[0],
+        cmykDocExp.artboards[0].artboardRect[1] + iconOffsetExp3[1],
+    ];
+    CSTasks.translateObjectTo(cmykGroupExp, cmykLocExp);
+    CSTasks.ungroupOnce(cmykGroupExp);
+    CSTasks.convertToCMYK(cmykDocExp, cmykDocExp.pathItems, colors, colorIndex);
+    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
+        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(fourColorProcessName, ".eps");
+        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(epsName)) + cmykFilename);
+        var cmykSaveOpts = new EPSSaveOptions();
+        cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
+    }
+    //close and clean up
+    cmykDocExp.close(SaveOptions.DONOTSAVECHANGES);
+    cmykDocExp = null;
     /************
 cleanup
 ************/

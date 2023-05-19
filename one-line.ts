@@ -1200,7 +1200,7 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 
 
 	// exp svg crop
-	//select the contents on artboard 0
+	//select the contents on artboard 1
 	let selExp2 = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
 	let iconGroupExp2 = CSTasks.createGroup(sourceDoc, selExp2); //group the selection (easier to work with)
 	let iconOffsetExp2 = CSTasks.getOffset(
@@ -1257,6 +1257,51 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 
 
 	// eps cmyk
+	// exp svg crop
+	//select the contents on artboard 1
+	let selExp3 = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
+	let iconGroupExp3 = CSTasks.createGroup(sourceDoc, selExp3); //group the selection (easier to work with)
+	let iconOffsetExp3 = CSTasks.getOffset(
+		iconGroupExp3.position,
+		CSTasks.getArtboardCorner(sourceDoc.artboards[1])
+	);
+	/****************
+	CMYK exports x4 (EPS only)
+	****************/
+
+	//open a new document with CMYK colorspace, and duplicate the icon to the new document
+	let cmykDocExp = CSTasks.duplicateArtboardInNewDoc(
+		sourceDoc,
+		0,
+		DocumentColorSpace.CMYK
+	);
+	cmykDocExp.swatches.removeAll();
+
+	//need to reverse the order of copying the group to get the right color ordering
+	let cmykGroupExp = iconGroupExp3.duplicate(
+		cmykDocExp.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATBEGINNING
+	);
+	let cmykLocExp = [
+		cmykDocExp.artboards[0].artboardRect[0] + iconOffsetExp3[0],
+		cmykDocExp.artboards[0].artboardRect[1] + iconOffsetExp3[1],
+	];
+	CSTasks.translateObjectTo(cmykGroupExp, cmykLocExp);
+	CSTasks.ungroupOnce(cmykGroupExp);
+
+	CSTasks.convertToCMYK(cmykDocExp, cmykDocExp.pathItems, colors, colorIndex);
+
+	for (let i = 0; i < exportSizes.length; i++) {
+		let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
+		let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + cmykFilename);
+		let cmykSaveOpts = new EPSSaveOptions();
+		cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
+	}
+
+	//close and clean up
+	cmykDocExp.close(SaveOptions.DONOTSAVECHANGES);
+	cmykDocExp = null;
 
 	/************ 
 cleanup
