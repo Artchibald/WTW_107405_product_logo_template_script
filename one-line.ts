@@ -666,7 +666,7 @@ function iconGen() {
 
 	/*****************************
 This block creates the 3rd artboard, 
-it has to remain here or the inverse function doesn't work correctly up to line 784
+it has to remain here or the inverse function doesn't work correctly 
 ******************************/
 	//select the contents on artboard 0
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
@@ -676,165 +676,186 @@ it has to remain here or the inverse function doesn't work correctly up to line 
 		iconGroup.position,
 		CSTasks.getArtboardCorner(sourceDoc.artboards[0])
 	);
-	/********************************
+
+	//place icon and text in the first generated lockup artboard 
+	try {
+		/********************************
 	Create new artboard with text lockup
 	*********************************/
-	//if there are two artboards at 256x256, create the new third lockup artboard
-	if (
-		sourceDoc.artboards.length == 2 &&
-		sourceDoc.artboards[0].artboardRect[2] -
-		sourceDoc.artboards[0].artboardRect[0] ==
-		256 &&
-		sourceDoc.artboards[0].artboardRect[1] -
-		sourceDoc.artboards[0].artboardRect[3] ==
-		256
-	) {
-		// alert("More than 2 artboards detected!");
-		let firstRect = sourceDoc.artboards[0].artboardRect;
-		sourceDoc.artboards.add(
-			CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2400, 256)
+		//if there are two artboards at 256x256, create the new third lockup artboard
+		if (
+			sourceDoc.artboards.length == 2 &&
+			sourceDoc.artboards[0].artboardRect[2] -
+			sourceDoc.artboards[0].artboardRect[0] ==
+			256 &&
+			sourceDoc.artboards[0].artboardRect[1] -
+			sourceDoc.artboards[0].artboardRect[3] ==
+			256
+		) {
+			// alert("More than 2 artboards detected!");
+			let firstRect = sourceDoc.artboards[0].artboardRect;
+			sourceDoc.artboards.add(
+				CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2400, 256)
+			);
+		}
+
+		//if the lockup artboard is present, check if rebuilding or just exporting
+		else if (
+			sourceDoc.artboards.length == 3 &&
+			sourceDoc.artboards[1].artboardRect[1] -
+			sourceDoc.artboards[1].artboardRect[3] ==
+			256
+		) {
+			rebuild = confirm(
+				"It looks like your artwork already exists. This script will rebuild the lockup and export various EPS and PNG versions. Do you want to proceed?"
+			);
+			if (rebuild) CSTasks.clearArtboard(sourceDoc, 1);
+			else return;
+		}
+
+		//otherwise abort
+		else {
+			alert("Please try again with 2 artboards that are 256x256px.");
+			return;
+		}
+
+
+		// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
+		app.executeMenuCommand('Colors9');
+
+		if (sel.length == 0) {
+			//if nothing is in the artboard
+			alert("Please try again with artwork on the main 256x256 artboard.");
+			return;
+		}
+
+
+		let mast =
+			/*@ts-ignore*/
+			iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
+		let mastPos = [
+			sourceDoc.artboards[2].artboardRect[0] + iconOffset[0],
+			sourceDoc.artboards[2].artboardRect[1] + iconOffset[1],
+		];
+		CSTasks.translateObjectTo(mast, mastPos);
+
+		let textRef = sourceDoc.textFrames.add();
+		textRef.contents = appNameCore;
+		textRef.textRange.characterAttributes.size = 179;
+		CSTasks.setFont(textRef, desiredFont);
+
+		//vertically align the baseline to be 64 px above the botom of the artboard
+		let bottomEdge =
+			sourceDoc.artboards[2].artboardRect[3] +
+			0.25 * sourceDoc.artboards[0].artboardRect[2] -
+			sourceDoc.artboards[0].artboardRect[0]; //64px (0.25*256px) above the bottom edge of the artboard
+		let vOffset = CSTasks.getOffset(textRef.anchor, [0, bottomEdge]);
+		textRef.translate(0, -vOffset[1]);
+
+		//create an outline of the text
+		let textGroup = textRef.createOutline();
+
+		//horizontally align the left edge of the text to be 96px to the right of the edge
+		let rightEdge =
+			mast.position[0] +
+			mast.width +
+			0.375 * sourceDoc.artboards[0].artboardRect[2] -
+			sourceDoc.artboards[0].artboardRect[0]; //96px (0.375*256px) right of the icon 
+		let hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
+		textGroup.translate(-hOffset[0], 0);
+
+		//resize the artboard to be only a little wider than the text
+		let leftMargin = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
+		let newWidth =
+			textGroup.position[0] +
+			textGroup.width -
+			sourceDoc.artboards[2].artboardRect[0] +
+			leftMargin - 16;
+		let resizedRect = CSTasks.newRect(
+			sourceDoc.artboards[2].artboardRect[0],
+			-sourceDoc.artboards[2].artboardRect[1],
+			newWidth,
+			256
+		);
+		sourceDoc.artboards[2].artboardRect = resizedRect;
+
+		// new position of icon in text banner 1 without padding
+		mastPos = [
+			sourceDoc.artboards[2].artboardRect[0],
+			sourceDoc.artboards[2].artboardRect[1],
+		];
+		CSTasks.translateObjectTo(mast, mastPos);
+
+		//make icon fill whole area
+		let getArtLayer = sourceDoc.layers.getByName('Art');
+		let landingZoneSquare = getArtLayer.pathItems.rectangle(
+			-384,
+			0,
+			256,
+			256);
+		function placeIconLockup1Correctly0(mast, maxSize) {
+			let setLandingZoneSquareColor = new RGBColor();
+			setLandingZoneSquareColor.red = 12;
+			setLandingZoneSquareColor.green = 28;
+			setLandingZoneSquareColor.blue = 151;
+
+			landingZoneSquare.fillColor = setLandingZoneSquareColor;
+			landingZoneSquare.name = "LandingZone";
+			landingZoneSquare.filled = false;
+			/*@ts-ignore*/
+			landingZoneSquare.move(getArtLayer, ElementPlacement.PLACEATEND);
+
+			let placedMastBannerIconOnText = mast;
+			let landingZone = sourceDoc.pathItems.getByName("LandingZone");
+			let preferredWidth = 256;
+			let preferredHeight = 256;
+
+			// Resize the mast icon to the preferred width if necessary
+			let widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
+			if (placedMastBannerIconOnText.width != preferredWidth) {
+				placedMastBannerIconOnText.resize(widthRatio, widthRatio);
+			}
+
+			// Resize the mast icon to the preferred height if necessary
+			let heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
+			if (placedMastBannerIconOnText.height != preferredHeight) {
+				placedMastBannerIconOnText.resize(heightRatio, heightRatio);
+			}
+
+			// Center the mast icon on the landing zone
+			let centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
+			let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
+			placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
+
+			// Resize the mast icon again to ensure it fits within the maximum size
+			let W = mast.width,
+				H = mast.height,
+				MW = maxSize.W,
+				MH = maxSize.H,
+				factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+			mast.resize(factor, factor);
+		}
+
+		placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
+		landingZoneSquare.remove();
+		// mast.left = 0;
+		// mast.top = -384;
+
+	} catch (e) {
+		alert(
+			"Issue placing the core icon or text in the first generated banner.",
+			e.message
 		);
 	}
 
-	//if the lockup artboard is present, check if rebuilding or just exporting
-	else if (
-		sourceDoc.artboards.length == 3 &&
-		sourceDoc.artboards[1].artboardRect[1] -
-		sourceDoc.artboards[1].artboardRect[3] ==
-		256
-	) {
-		rebuild = confirm(
-			"It looks like your artwork already exists. This script will rebuild the lockup and export various EPS and PNG versions. Do you want to proceed?"
+	try {
+
+	} catch (e) {
+		alert(
+			"Issue placing the core icon or text or wtw logo in the second purple generated banner.",
+			e.message
 		);
-		if (rebuild) CSTasks.clearArtboard(sourceDoc, 1);
-		else return;
 	}
-
-	//otherwise abort
-	else {
-		alert("Please try again with 2 artboards that are 256x256px.");
-		return;
-	}
-
-
-	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
-	app.executeMenuCommand('Colors9');
-
-	if (sel.length == 0) {
-		//if nothing is in the artboard
-		alert("Please try again with artwork on the main 256x256 artboard.");
-		return;
-	}
-
-	//place icon on lockup
-	/*@ts-ignore*/
-	let mast = iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
-	let mastPos = [
-		sourceDoc.artboards[2].artboardRect[0] + iconOffset[0],
-		sourceDoc.artboards[2].artboardRect[1] + iconOffset[1],
-	];
-	CSTasks.translateObjectTo(mast, mastPos);
-
-	let textRef = sourceDoc.textFrames.add();
-	textRef.contents = appNameCore;
-	textRef.textRange.characterAttributes.size = 179;
-	CSTasks.setFont(textRef, desiredFont);
-
-	//vertically align the baseline to be 64 px above the botom of the artboard
-	let bottomEdge =
-		sourceDoc.artboards[2].artboardRect[3] +
-		0.25 * sourceDoc.artboards[0].artboardRect[2] -
-		sourceDoc.artboards[0].artboardRect[0]; //64px (0.25*256px) above the bottom edge of the artboard
-	let vOffset = CSTasks.getOffset(textRef.anchor, [0, bottomEdge]);
-	textRef.translate(0, -vOffset[1]);
-
-	//create an outline of the text
-	let textGroup = textRef.createOutline();
-
-	//horizontally align the left edge of the text to be 96px to the right of the edge
-	let rightEdge =
-		mast.position[0] +
-		mast.width +
-		0.375 * sourceDoc.artboards[0].artboardRect[2] -
-		sourceDoc.artboards[0].artboardRect[0]; //96px (0.375*256px) right of the icon 
-	let hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
-	textGroup.translate(-hOffset[0], 0);
-
-	//resize the artboard to be only a little wider than the text
-	let leftMargin = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
-	let newWidth =
-		textGroup.position[0] +
-		textGroup.width -
-		sourceDoc.artboards[2].artboardRect[0] +
-		leftMargin - 16;
-	let resizedRect = CSTasks.newRect(
-		sourceDoc.artboards[2].artboardRect[0],
-		-sourceDoc.artboards[2].artboardRect[1],
-		newWidth,
-		256
-	);
-	sourceDoc.artboards[2].artboardRect = resizedRect;
-
-
-
-	// new position of icon in text banner 1 without padding
-	mastPos = [
-		sourceDoc.artboards[2].artboardRect[0],
-		sourceDoc.artboards[2].artboardRect[1],
-	];
-	CSTasks.translateObjectTo(mast, mastPos);
-
-	//make icon fill whole area
-	let getArtLayer = sourceDoc.layers.getByName('Art');
-	let landingZoneSquare = getArtLayer.pathItems.rectangle(
-		-384,
-		0,
-		256,
-		256);
-	function placeIconLockup1Correctly0(mast, maxSize) {
-
-		let setLandingZoneSquareColor = new RGBColor();
-		setLandingZoneSquareColor.red = 12;
-		setLandingZoneSquareColor.green = 28;
-		setLandingZoneSquareColor.blue = 151;
-		landingZoneSquare.fillColor = setLandingZoneSquareColor;
-		landingZoneSquare.name = "LandingZone"
-		landingZoneSquare.filled = false;
-		/*@ts-ignore*/
-		landingZoneSquare.move(getArtLayer, ElementPlacement.PLACEATEND);
-		// start moving expressive icon into our new square landing zone
-		let placedmastBannerIconOnText = mast;
-		let landingZone = sourceDoc.pathItems.getByName("LandingZone");
-		let preferredWidth = (256);
-		let preferredHeight = (256);
-		// do the width
-		let widthRatio = (preferredWidth / placedmastBannerIconOnText.width) * 100;
-		if (placedmastBannerIconOnText.width != preferredWidth) {
-			placedmastBannerIconOnText.resize(widthRatio, widthRatio);
-		}
-		// now do the height
-		let heightRatio = (preferredHeight / placedmastBannerIconOnText.height) * 100;
-		if (placedmastBannerIconOnText.height != preferredHeight) {
-			placedmastBannerIconOnText.resize(heightRatio, heightRatio);
-		}
-		// now let's center the art on the landing zone
-		let centerArt = [placedmastBannerIconOnText.left + (placedmastBannerIconOnText.width / 2), placedmastBannerIconOnText.top + (placedmastBannerIconOnText.height / 2)];
-		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
-		placedmastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
-
-		//do it again to be sure
-		let W = mast.width,
-			H = mast.height,
-			MW = maxSize.W,
-			MH = maxSize.H,
-			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
-		mast.resize(factor, factor);
-
-	}
-	placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
-	landingZoneSquare.remove();
-	// mast.left = 0;
-	// mast.top = -384;
 
 	/*********************************************************************
 	All exports from artboard 0
@@ -1357,14 +1378,6 @@ cleanup
 ************/
 	CSTasks.ungroupOnce(iconGroup);
 	sourceDoc.selection = null;
-
-
-
-
-
-
-
-
 	/************ 
 	Final cleanup
 	************/
@@ -1375,3 +1388,223 @@ cleanup
 iconGen();
 
 
+function createArtboard3() {
+	/******************
+	Set up purple artboard 3
+	******************/
+	//if there are three artboards, create the new fourth(3rd in array) lockup artboard
+	if (
+		sourceDoc.artboards.length == 3 &&
+		sourceDoc.artboards[1].artboardRect[2] -
+		sourceDoc.artboards[1].artboardRect[0] ==
+		256 &&
+		sourceDoc.artboards[1].artboardRect[1] -
+		sourceDoc.artboards[1].artboardRect[3] ==
+		256
+	) {
+		// If there are already  3 artboards. Add a 4th one.
+		let firstRect = sourceDoc.artboards[1].artboardRect;
+		sourceDoc.artboards.add(
+			// this fires but then gets replaced further down
+			CSTasks.newRect(firstRect[1], firstRect[2] + 128, 1024, 512)
+		);
+	}
+	//if the lockup artboard is present, check if rebuilding or just exporting
+	else if (
+		sourceDoc.artboards.length == 3 &&
+		sourceDoc.artboards[1].artboardRect[1] -
+		sourceDoc.artboards[1].artboardRect[3] ==
+		512
+	) {
+		rebuild = confirm(
+			"It looks like your artwork already exists. This script will rebuild the lockup and export various EPS and PNG versions. Do you want to proceed?"
+		);
+		if (rebuild) CSTasks.clearArtboard(sourceDoc, 3);
+		else return;
+	}
+	//otherwise abort
+	else {
+		alert("Please try again with 2 artboards that are 256x256px. Had trouble building artboard 3 (artb. 2 in js)");
+		return;
+	}
+
+	//select the contents on artboard 1
+	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
+
+	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
+	app.executeMenuCommand('Colors9');
+
+	if (sel.length == 0) {
+		//if nothing is in the artboard
+		alert("Please try again with artwork on the main second 256x256 artboard.");
+		return;
+	}
+
+	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
+	let iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
+	let iconOffset = CSTasks.getOffset(
+		iconGroup.position,
+		CSTasks.getArtboardCorner(sourceDoc.artboards[1])
+	);
+
+	/********************************
+	Create new expressive artboard with lockup and text
+	*********************************/
+
+	/*@ts-ignore*/
+	let mastBannerIconOnText = iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
+
+	let mastBannerIconOnTextPos = [
+		sourceDoc.artboards[3].artboardRect[0],
+		sourceDoc.artboards[3].artboardRect[1],
+	];
+	CSTasks.translateObjectTo(mastBannerIconOnText, mastBannerIconOnTextPos);
+
+	/********************************
+	Custom function to create a landing square to place the icon correctly
+	Some icons have width or height less than 256 so it needed special centering geometrically
+	you can see the landing zone square by changing fill to true and uncommenting color
+	*********************************/
+
+	// create a landing zone square to place icon inside
+	//moved it outside the function itself so we can delete it after so it doesn't get exported
+	let getArtLayer = sourceDoc.layers.getByName('Art');
+	let landingZoneSquare = getArtLayer.pathItems.rectangle(
+		-844,
+		572,
+		460,
+		460);
+
+	function placeIconLockup1Correctly(mastBannerIconOnText, maxSize) {
+		let setLandingZoneSquareColor = new RGBColor();
+		setLandingZoneSquareColor.red = 12;
+		setLandingZoneSquareColor.green = 28;
+		setLandingZoneSquareColor.blue = 151;
+		landingZoneSquare.fillColor = setLandingZoneSquareColor;
+		landingZoneSquare.name = "LandingZone"
+		landingZoneSquare.filled = false;
+		/*@ts-ignore*/
+		landingZoneSquare.move(getArtLayer, ElementPlacement.PLACEATEND);
+
+		// start moving expressive icon into our new square landing zone
+		let placedmastBannerIconOnText = mastBannerIconOnText;
+		let landingZone = sourceDoc.pathItems.getByName("LandingZone");
+		let preferredWidth = (460);
+		let preferredHeight = (460);
+		// do the width
+		let widthRatio = (preferredWidth / placedmastBannerIconOnText.width) * 100;
+		if (placedmastBannerIconOnText.width != preferredWidth) {
+			placedmastBannerIconOnText.resize(widthRatio, widthRatio);
+		}
+		// now do the height
+		let heightRatio = (preferredHeight / placedmastBannerIconOnText.height) * 100;
+		if (placedmastBannerIconOnText.height != preferredHeight) {
+			placedmastBannerIconOnText.resize(heightRatio, heightRatio);
+		}
+		// now let's center the art on the landing zone
+		let centerArt = [placedmastBannerIconOnText.left + (placedmastBannerIconOnText.width / 2), placedmastBannerIconOnText.top + (placedmastBannerIconOnText.height / 2)];
+		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
+		placedmastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
+
+		// need another centered proportioning to fix it exactly in correct position
+		let W = mastBannerIconOnText.width,
+			H = mastBannerIconOnText.height,
+			MW = maxSize.W,
+			MH = maxSize.H,
+			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+		mastBannerIconOnText.resize(factor, factor);
+	}
+	placeIconLockup1Correctly(mastBannerIconOnText, { W: 460, H: 460 });
+
+	// delete the landing zone
+	landingZoneSquare.remove();
+
+	// mastBannerIconOnText.width = 460;
+	// mastBannerIconOnText.height = 460;
+
+	// new purple bg
+	// Add new layer above Guidelines and fill white
+	let myMainArtworkLayer = sourceDoc.layers.getByName('Art');
+	let myMainPurpleBgLayer = sourceDoc.layers.add();
+	myMainPurpleBgLayer.name = "Main_Purple_BG_layer";
+	let GetMyMainPurpleBgLayer = sourceDoc.layers.getByName('Main_Purple_BG_layer');
+	// mastDoc.activeLayer = GetMyMainPurpleBgLayer;
+	// mastDoc.activeLayer.hasSelectedArtwork = true;
+	let mainRect = GetMyMainPurpleBgLayer.pathItems.rectangle(
+		-784,
+		0,
+		1024,
+		512);
+	let setMainVioletBgColor = new RGBColor();
+	setMainVioletBgColor.red = 72;
+	setMainVioletBgColor.green = 8;
+	setMainVioletBgColor.blue = 111;
+	mainRect.filled = true;
+	mainRect.fillColor = setMainVioletBgColor;
+	/*@ts-ignore*/
+	GetMyMainPurpleBgLayer.move(myMainArtworkLayer, ElementPlacement.PLACEATEND);
+
+	// let rectRef = sourceDoc.pathItems.rectangle(-850, -800, 400, 300);
+	// let setTextBoxBgColor = new RGBColor();
+	// setTextBoxBgColor.red = 141;
+	// setTextBoxBgColor.green = 141;
+	// setTextBoxBgColor.blue = 141;
+	// rectRef.filled = true;
+	// rectRef.fillColor = setTextBoxBgColor;
+
+	// svg wtw logo for new purple lockup
+
+	let imagePlacedItem = myMainArtworkLayer.placedItems.add();
+	let svgFile = File(`${sourceDoc.path}/../images/wtw_logo.ai`);
+	imagePlacedItem.file = svgFile;
+	imagePlacedItem.top = -1188;
+	imagePlacedItem.left = 62;
+	/*@ts-ignore*/
+	// svgFile.embed();  
+
+
+
+	let textRef = sourceDoc.textFrames.add();
+
+	//use the areaText method to create the text frame
+	var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
+	/*@ts-ignore*/
+	textRef = sourceDoc.textFrames.areaText(pathRef);
+
+	textRef.contents = appNameExpressive;
+	textRef.textRange.characterAttributes.size = 62;
+
+	textRef.textRange.paragraphAttributes.hyphenation = false;
+	// textRef.textRange.characterAttributes.horizontalScale = 2299;
+	textRef.textRange.characterAttributes.fillColor = colors[whiteIndex][0];
+	CSTasks.setFont(textRef, desiredFont);
+
+	//create an outline of the text
+	let textGroup = textRef.createOutline();
+
+	//horizontally align the left edge of the text to be 96px to the right of the edge
+	let rightEdge = 64;
+	let hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
+	textGroup.translate(-hOffset[0], 0);
+
+	/*@ts-ignore*/
+	let mast = iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
+
+	//resize the artboard to be only a little wider than the text
+	let leftMargin = mast.position[0] - sourceDoc.artboards[3].artboardRect[0];
+	let newWidth =
+		textGroup.position[0] +
+		textGroup.width -
+		sourceDoc.artboards[3].artboardRect[0] +
+		leftMargin;
+	let resizedRect = CSTasks.newRect(
+		sourceDoc.artboards[3].artboardRect[0],
+		-sourceDoc.artboards[3].artboardRect[1],
+		1024,
+		512
+	);
+	sourceDoc.artboards[3].artboardRect = resizedRect;
+
+}
+
+createArtboard3();
