@@ -865,8 +865,7 @@ it has to remain here or the inverse function doesn't work correctly
 	// 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
 	// }
 	// inverse color cmyk doc
-	CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]
-	);
+	CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
 
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
@@ -1749,47 +1748,82 @@ function createAndExportArtboard3() {
 	// clip!
 	app.executeMenuCommand('makeMask');
 
-	//save a banner JPG
-	let jpegStartWidth =
-		mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
-	// for (let i = 0; i < exportSizes.length; i++) {
-	// 	let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[i]}.jpg`;
-	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${jpgName}`) + filename);
-	// 	CSTasks.scaleAndExportJPEG(mastDoc, destFile, jpegStartWidth, exportSizes[0]);
-	// }
-
-
 	//save a banner PNG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${jpgName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDoc, destFile, jpegStartWidth, 1024);
-	}
-	//save a banner SVG 
 	// for (let i = 0; i < exportSizes.length; i++) {
-	// 			let filename = `/${iconFilename}_${expressiveName}_${rgbName}_${tenByFive}.svg`;
-	// 			let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${svgName}`) + filename);
-	// 			CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${pngName}`) + filename);
+	// 	CSTasks.scaleAndExportPNG(mastDoc, destFile, 512, 1024);
+	// }
+	//save a banner SVG
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.svg`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${svgName}`) + filename);
+	// 	CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
 	// }
 
-	//save RGB EPS into the export folder
-	// let mastFilename = `/${iconFilename}_${expressiveName}_${rgbName}_${tenByFive}.eps`;
-	// let mastDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveName}/${epsName}`) + mastFilename);
-	// let mastSaveOpts = new EPSSaveOptions();
-	/*@ts-ignore*/
-	//	mastSaveOpts.cmykPostScript = false;
-	/*@ts-ignore*/
-	// mastSaveOpts.embedLinkedFiles = true;
-	// mastDoc.saveAs(mastDestFile, mastSaveOpts);
-	return;
+	// save banner JPG
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.jpg`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${jpgName}`) + filename);
+	// 	CSTasks.scaleAndExportJPEG(mastDoc, destFile, 512, 1024);
+	// }
+
+	// save banner EPS
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.eps`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
+	// 	let rgbSaveOpts = new EPSSaveOptions();
+	// 	mastDoc.saveAs(destFile, rgbSaveOpts);
+	// }
+
+	//Invert
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+
+	//save a inverted banner PNG
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.png`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${pngName}`) + filename);
+	// 	CSTasks.scaleAndExportPNG(mastDoc, destFile, 512, 1024);
+	// }
+
+	//save a inverted banner SVG
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.svg`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${svgName}`) + filename);
+	// 	CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+	// }
+
+	//save a inverted banner JPG
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.jpg`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${jpgName}`) + filename);
+	// 	CSTasks.scaleAndExportJPEG(mastDoc, destFile, 512, 1024);
+	// }
+
+	//save a inverted banner EPS
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.eps`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
+	// 	let rgbSaveOpts = new EPSSaveOptions();
+	// 	mastDoc.saveAs(destFile, rgbSaveOpts);
+	// }
+
+	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
+	//index the RGB colors for conversion to CMYK. An inelegant location.
+	CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
+	//save a inverted CMYK banner EPS
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
+	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
+	// 	let rgbSaveOpts = new EPSSaveOptions();
+	// 	mastDoc.saveAs(destFile, rgbSaveOpts);
+	// }
+
 	//close and clean up
 	mastDoc.close(SaveOptions.DONOTSAVECHANGES);
 	mastDoc = null;
+
+
+
 }
 createAndExportArtboard3();
-
-function exportArtboard3() {
-
-
-}
-exportArtboard3();
