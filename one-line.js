@@ -946,9 +946,6 @@ iconGen();
 function createAndExportArtboard2() {
     //#region ARTBOARD2 CREATION
     //select the contents on artboard 0
-    var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
-    var iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
-    var iconOffset = CSTasks.getOffset(iconGroup.position, CSTasks.getArtboardCorner(sourceDoc.artboards[0]));
     //place icon and text in the first generated lockup artboard 
     /********************************
 Create new artboard with text lockup
@@ -983,11 +980,15 @@ Create new artboard with text lockup
     }
     // make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
     app.executeMenuCommand('Colors9');
+    var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
     if (sel.length == 0) {
         //if nothing is in the artboard
         alert("Please try again with artwork on the main 256x256 artboard.");
         return;
     }
+    var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
+    var iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
+    var iconOffset = CSTasks.getOffset(iconGroup.position, CSTasks.getArtboardCorner(sourceDoc.artboards[0]));
     var mast = 
     /*@ts-ignore*/
     iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
@@ -1066,10 +1067,9 @@ Create new artboard with text lockup
     }
     placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
     landingZoneSquare.remove();
-    // mast.left = 0;
-    // mast.top = -384;
     //#endregion
     //#region ARTBOARD2 EXPORTS
+    //select the contents on artboard 0
     /********************
     Lockup export core RGB (EPS)
     ********************/
@@ -1095,12 +1095,48 @@ Create new artboard with text lockup
         mastDoc.artboards[0].artboardRect[1] + mastTextOffset[1],
     ];
     CSTasks.translateObjectTo(mastText, mastTextLoc);
-    return;
-    var masterStartWidth = mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
+    // save a text and lockup PNG
+    // let masterStartWidth =
+    //  mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
+    // 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
+    // 	CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, exportSizes[0]);
+    // }
+    //save a text and lockup SVG
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.svg`;
+    // 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
+    // 	CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+    // }
+    //save a text and lockup EPS
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.eps`;
+    // 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${epsName}/${rgbName}`) + filename);
+    // 	let rgbSaveOpts = new EPSSaveOptions();
+    // 	mastDoc.saveAs(destFile, rgbSaveOpts);
+    // }
+    mastDoc.selectObjectsOnActiveArtboard();
+    CSTasks.convertAll(mastDoc.pathItems, colors[grayIndex][0], 100);
+    // save a text and lockup PNG
+    var masterStartWidthPng = mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
     for (var i_7 = 0; i_7 < exportSizes.length; i_7++) {
-        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(rgbColorName, "222.png");
-        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(pngName)) + filename);
-        CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, exportSizes[0]);
+        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(alternateName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
+        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(pngName)) + filename);
+        CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidthPng, exportSizes[0]);
+    }
+    //save a text and lockup SVG
+    for (var i_8 = 0; i_8 < exportSizes.length; i_8++) {
+        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(alternateName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".svg");
+        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(svgName)) + filename);
+        CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+    }
+    //save a text and lockup EPS
+    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
+        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(alternateName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".eps");
+        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(epsName, "/").concat(rgbName)) + filename);
+        var rgbSaveOpts = new EPSSaveOptions();
+        mastDoc.saveAs(destFile, rgbSaveOpts);
     }
     //close and clean up
     mastDoc.close(SaveOptions.DONOTSAVECHANGES);
