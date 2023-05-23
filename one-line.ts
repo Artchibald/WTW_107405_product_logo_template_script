@@ -1484,6 +1484,9 @@ Create new artboard with text lockup
 		mastDoc.saveAs(destFile, rgbSaveOpts);
 	}
 
+	// let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
+	// CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
+	// return;
 	//INVERSE NOT WORKING HERE!
 	// CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 	CSTasks.convertAll(mastDoc.pathItems, colors[blackIndex][0], 100);
@@ -1538,6 +1541,136 @@ Create new artboard with text lockup
 	//close and clean up
 	mastDoc.close(SaveOptions.DONOTSAVECHANGES);
 	mastDoc = null;
+	//#endregion
+	//#region ARTBOARD CMYK EXPORTS
+	//select the contents on artboard 0
+
+	/********************
+	Lockup export core RGB (EPS)
+	********************/
+
+	//open a new doc and copy and position the icon and the lockup text
+	let mastDocCMYK = CSTasks.duplicateArtboardInNewDoc(
+		sourceDoc,
+		2,
+		DocumentColorSpace.CMYK
+	);
+	mastDocCMYK.swatches.removeAll();
+	let mastGroupCMYK = iconGroup.duplicate(
+		mastDocCMYK.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATEND
+	);
+	let mastLocCMYK = [
+		mastDocCMYK.artboards[0].artboardRect[0] + iconOffset[0],
+		mastDocCMYK.artboards[0].artboardRect[1] + iconOffset[1],
+	];
+	CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+	CSTasks.ungroupOnce(mastGroupCMYK);
+
+	//get the text offset for exporting
+	let mastTextOffsetCMYK = CSTasks.getOffset(
+		textGroup.position,
+		CSTasks.getArtboardCorner(sourceDoc.artboards[0])
+	);
+	let mastTextCMYK = textGroup.duplicate(
+		mastDocCMYK.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATEND
+	);
+	let mastTextLocCMYK = [
+		mastDocCMYK.artboards[0].artboardRect[0] + mastTextOffsetCMYK[0],
+		mastDocCMYK.artboards[0].artboardRect[1] + mastTextOffsetCMYK[1],
+	];
+
+
+	CSTasks.translateObjectTo(mastTextCMYK, mastTextLocCMYK);
+
+	mastDocCMYK.selectObjectsOnActiveArtboard();
+
+
+	let colorIndex = CSTasks.indexRGBColors(mastDocCMYK.pathItems, colors);
+	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
+
+	// save a text and lockup PNG
+	let masterStartWidthCMYK =
+		mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthCMYK, exportSizes[0]);
+	}
+
+	//save a text and lockup SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
+	}
+	//save a text and lockup EPS
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${epsName}/${cmykName}`) + filename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
+	}
+
+	// return;
+	//INVERSE NOT WORKING HERE!
+	// CSTasks.convertColorRGB(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+
+	CSTasks.convertAll(mastDocCMYK.pathItems, colors[blackIndex][0], 100);
+
+	// save a text and lockup PNG
+	let masterStartWidthPngCMYK =
+		mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthPngCMYK, exportSizes[0]);
+	}
+
+	//save a text and lockup SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
+	}
+	//save a text and lockup EPS
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.eps`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${epsName}/${cmykName}`) + filename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
+	}
+
+
+	CSTasks.convertAll(mastDocCMYK.pathItems, colors[whiteIndex][0], 100);
+
+	// save a text and lockup PNG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthPng, exportSizes[0]);
+	}
+
+	//save a text and lockup SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
+	}
+	//save a text and lockup EPS
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.eps`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${epsName}/${cmykName}`) + filename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
+	}
+
+	//close and clean up
+	mastDocCMYK.close(SaveOptions.DONOTSAVECHANGES);
+	mastDocCMYK = null;
 	//#endregion
 }
 createAndExportArtboard2();
