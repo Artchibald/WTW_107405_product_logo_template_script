@@ -130,6 +130,38 @@ var rebuild = true;
 // let gutter = 32;
 // hide guides
 var guideLayer = sourceDoc.layers["Guidelines"];
+// interface Task {
+// 	getArtboardCorner(artboard: any);
+// 	getOffset(itemPos: any, referencePos: any);
+// 	translateObjectTo(object: any, destination: any);
+// 	clearArtboard(doc: any, index: any);
+// 	selectContentsOnArtboard(doc: any, i: any);
+// 	createGroup(doc: any, collection: any);
+// 	ungroupOnce(group: any);
+// 	newDocument(sourceDoc: any, colorSpace: any);
+// 	duplicateArtboardInNewDoc(sourceDoc: any,
+// 		artboardIndex: number,
+// 		colorspace: any);
+// 	scaleAndExportPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	scaleAndExportNonTransparentPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	scaleAndExportSVG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	scaleAndExportJPEG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	newRect(x: any, y: any, width: any, height: any);
+// 	setFont(textRef: any, desiredFont: any);
+// 	createTextFrame(doc: any, message: any, pos: any, size: any);
+// 	initializeColors(RGBArray: any, CMYKArray: any);
+// 	matchRGB(color: any, matchArray: any);
+// 	matchColorsRGB(color1: any, color2: any);
+// 	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
+// 	matchRGB(color: any, matchArray: any);
+// 	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
+// 	matchColorsCMYK(color1: any, color2: any): any;
+// 	convertColorRGB(pathItems: any, startColor: any, endColor: any);
+// 	convertAll(pathItems: any, endColor: any, opcty: any);
+// 	indexRGBColors(pathItems: PathItems, matchArray: any);
+// 	convertToCMYK(doc: any, pathItems: any, colorArray: any, colorIndex: any);
+// 	unique(a: any): any;
+// }
 // All reusable functions are in CSTasks below
 var CSTasks = (function () {
     var tasks = {};
@@ -181,8 +213,10 @@ var CSTasks = (function () {
     //returns a group made from that collection
     tasks.createGroup = function (doc, collection) {
         var newGroup = doc.groupItems.add();
-        for (i = 0; i < collection.length; i++) {
-            collection[i].moveToBeginning(newGroup);
+        for (var i_1 = collection.length - 1; i_1 >= 0; i_1--) {
+            collection[i_1].move(newGroup, 
+            /*@ts-ignore*/
+            ElementPlacement.PLACEATBEGINNING);
         }
         return newGroup;
     };
@@ -301,11 +335,7 @@ var CSTasks = (function () {
     //takes left x, top y, width, and height
     //returns a Rect that can be used to create an artboard
     tasks.newRect = function (x, y, width, height) {
-        var rect = [];
-        rect[0] = x;
-        rect[1] = -y;
-        rect[2] = width + x;
-        rect[3] = -(height + y);
+        var rect = [x, -y, width + x, -(height + y)];
         return rect;
     };
     /***
@@ -316,11 +346,11 @@ var CSTasks = (function () {
     tasks.setFont = function (textRef, desiredFont) {
         var foundFont = false;
         /*@ts-ignore*/
-        for (var i_1 = 0; i_1 < textFonts.length; i_1++) {
+        for (var i_2 = 0; i_2 < textFonts.length; i_2++) {
             /*@ts-ignore*/
-            if (textFonts[i_1].name == desiredFont) {
+            if (textFonts[i_2].name == desiredFont) {
                 /*@ts-ignore*/
-                textRef.textRange.characterAttributes.textFont = textFonts[i_1];
+                textRef.textRange.characterAttributes.textFont = textFonts[i_2];
                 foundFont = true;
                 break;
             }
@@ -344,17 +374,17 @@ var CSTasks = (function () {
     //returns an array of ColorElements [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...] (usable by the script for fill colors etc.)
     tasks.initializeColors = function (RGBArray, CMYKArray) {
         var colors = new Array(RGBArray.length);
-        for (var i_2 = 0; i_2 < RGBArray.length; i_2++) {
+        for (var i_3 = 0; i_3 < RGBArray.length; i_3++) {
             var rgb = new RGBColor();
-            rgb.red = RGBArray[i_2][0];
-            rgb.green = RGBArray[i_2][1];
-            rgb.blue = RGBArray[i_2][2];
+            rgb.red = RGBArray[i_3][0];
+            rgb.green = RGBArray[i_3][1];
+            rgb.blue = RGBArray[i_3][2];
             var cmyk = new CMYKColor();
-            cmyk.cyan = CMYKArray[i_2][0];
-            cmyk.magenta = CMYKArray[i_2][1];
-            cmyk.yellow = CMYKArray[i_2][2];
-            cmyk.black = CMYKArray[i_2][3];
-            colors[i_2] = [rgb, cmyk];
+            cmyk.cyan = CMYKArray[i_3][0];
+            cmyk.magenta = CMYKArray[i_3][1];
+            cmyk.yellow = CMYKArray[i_3][2];
+            cmyk.black = CMYKArray[i_3][3];
+            colors[i_3] = [rgb, cmyk];
         }
         return colors;
     };
@@ -362,12 +392,12 @@ var CSTasks = (function () {
     //returns the index in the array if it finds a match, otherwise returns -1
     tasks.matchRGB = function (color, matchArray) {
         //compares a single color RGB color against RGB colors in [[RGB],[CMYK]] array
-        for (var i_3 = 0; i_3 < matchArray.length; i_3++) {
-            if (Math.abs(color.red - matchArray[i_3][0].red) < 1 &&
-                Math.abs(color.green - matchArray[i_3][0].green) < 1 &&
-                Math.abs(color.blue - matchArray[i_3][0].blue) < 1) {
+        for (var i_4 = 0; i_4 < matchArray.length; i_4++) {
+            if (Math.abs(color.red - matchArray[i_4][0].red) < 1 &&
+                Math.abs(color.green - matchArray[i_4][0].green) < 1 &&
+                Math.abs(color.blue - matchArray[i_4][0].blue) < 1) {
                 //can't do equality because it adds very small decimals
-                return i_3;
+                return i_4;
             }
         }
         return -1;
@@ -376,7 +406,9 @@ var CSTasks = (function () {
     //returns the index in the array if it finds a match, otherwise returns -1
     tasks.matchColorsRGB = function (color1, color2) {
         //compares two colors to see if they match
-        if (Math.abs(color1.red - color2.red) < 1 &&
+        if (color1 instanceof RGBColor &&
+            color2 instanceof RGBColor &&
+            Math.abs(color1.red - color2.red) < 1 &&
             Math.abs(color1.green - color2.green) < 1 &&
             Math.abs(color1.blue - color2.blue) < 1) {
             //can't do equality because it adds very small decimals
@@ -395,7 +427,9 @@ var CSTasks = (function () {
     //returns the index in the array if it finds a match, otherwise returns -1
     tasks.matchColorsCMYK = function (color1, color2) {
         //compares two colors to see if they match
-        if (Math.abs(color1.cyan - color2.cyan) < 1 &&
+        if (color1 instanceof CMYKColor &&
+            color2 instanceof CMYKColor &&
+            Math.abs(color1.cyan - color2.cyan) < 1 &&
             Math.abs(color1.magenta - color2.magenta) < 1 &&
             Math.abs(color1.yellow - color2.yellow) < 1 &&
             Math.abs(color1.black - color2.black) < 1) {
@@ -421,10 +455,10 @@ var CSTasks = (function () {
     //takes a collection of pathItems and an array of specified RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
     //returns an array with an index to the RGB color if it is in the array
     tasks.indexRGBColors = function (pathItems, matchArray) {
-        var colorIndex = new Array(pathItems.length);
-        for (i = 0; i < pathItems.length; i++) {
-            var itemColor = pathItems[i].fillColor;
-            colorIndex[i] = tasks.matchRGB(itemColor, matchArray);
+        var colorIndex = [];
+        for (var i_5 = 0; i_5 < pathItems.length; i_5++) {
+            var itemColor = pathItems[i_5].fillColor;
+            colorIndex[i_5] = tasks.matchRGB(itemColor, matchArray);
         }
         return colorIndex;
     };
@@ -438,10 +472,13 @@ var CSTasks = (function () {
                 pathItems[i].fillColor = colorArray[colorIndex[i]][1];
             else {
                 var unmatchedColor = "(" +
+                    /*@ts-ignore*/
                     pathItems[i].fillColor.red +
                     ", " +
+                    /*@ts-ignore*/
                     pathItems[i].fillColor.green +
                     ", " +
+                    /*@ts-ignore*/
                     pathItems[i].fillColor.blue +
                     ")";
                 unmatchedColors.push(unmatchedColor);
@@ -453,12 +490,12 @@ var CSTasks = (function () {
             alert("One or more colors don't match the brand palette and weren't converted.");
             unmatchedColors = tasks.unique(unmatchedColors);
             var unmatchedString = "Unconverted colors:";
-            for (var i_4 = 0; i_4 < unmatchedColors.length; i_4++) {
-                unmatchedString = unmatchedString + "\n" + unmatchedColors[i_4];
+            for (var i_6 = 0; i_6 < unmatchedColors.length; i_6++) {
+                unmatchedString = unmatchedString + "\n" + unmatchedColors[i_6];
             }
             var errorMsgPos = [Infinity, Infinity]; //gets the bottom left of all the artboards
-            for (var i_5 = 0; i_5 < doc.artboards.length; i_5++) {
-                var rect = doc.artboards[i_5].artboardRect;
+            for (var i_7 = 0; i_7 < doc.artboards.length; i_7++) {
+                var rect = doc.artboards[i_7].artboardRect;
                 if (rect[0] < errorMsgPos[0])
                     errorMsgPos[0] = rect[0];
                 if (rect[3] < errorMsgPos[1])
@@ -476,9 +513,9 @@ var CSTasks = (function () {
         if (a.length > 0) {
             sorted = a.sort();
             uniq = [sorted[0]];
-            for (var i_6 = 1; i_6 < sorted.length; i_6++) {
-                if (sorted[i_6] != sorted[i_6 - 1])
-                    uniq.push(sorted[i_6]);
+            for (var i_8 = 1; i_8 < sorted.length; i_8++) {
+                if (sorted[i_8] != sorted[i_8 - 1])
+                    uniq.push(sorted[i_8]);
             }
             return uniq;
         }
@@ -1120,19 +1157,19 @@ Create new artboard with text lockup
     CSTasks.convertAll(mastDoc.pathItems, colors[grayIndex][0], 100);
     // save a text and lockup PNG
     var masterStartWidthPng = mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
-    for (var i_7 = 0; i_7 < exportSizes.length; i_7++) {
+    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(alternateName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
         var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(pngName)) + filename);
         CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidthPng, exportSizes[0]);
     }
     //save a text and lockup SVG
-    for (var i_8 = 0; i_8 < exportSizes.length; i_8++) {
+    for (var i_10 = 0; i_10 < exportSizes.length; i_10++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(alternateName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".svg");
         var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(svgName)) + filename);
         CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
     }
     //save a text and lockup EPS
-    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
+    for (var i_11 = 0; i_11 < exportSizes.length; i_11++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(alternateName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".eps");
         var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(alternativeLockupFolderName, "/").concat(epsName, "/").concat(rgbName)) + filename);
         var rgbSaveOpts = new EPSSaveOptions();

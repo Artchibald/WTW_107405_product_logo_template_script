@@ -149,69 +149,69 @@ let guideLayer = sourceDoc.layers["Guidelines"];
 Module for image manipulation tasks 
 ***********************************/
 // this is a typescript feature to help debugging 
-// interface Task {
-// 	getArtboardCorner(artboard: Artboard);
-// 	getOffset(itemPos: [number, number] | Point, referencePos: [number, number]): [number, number];
-// 	translateObjectTo(pageItems: PageItem, mastTextLoc: number[]): void;
-// 	clearArtboard(doc: Document, index: number): void;
-// 	selectContentsOnArtboard(doc: Document, index: number): PageItems;
-// 	createGroup(doc: Document, collection: PageItems): GroupItem;
-// 	ungroupOnce(group: PageItem): void;
-// 	newDocument(sourceDoc: Document, colorSpace: DocumentColorSpace): Document;
-// 	duplicateArtboardInNewDoc(sourceDoc: Document, artboardIndex: number, colorspace: DocumentColorSpace): Document;
-// 	scaleAndExportPNG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
-// 	scaleAndExportNonTransparentPNG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
-// 	scaleAndExportSVG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
-// 	scaleAndExportJPEG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
-// 	newRect(x: number, y: number, width: number, height: number): [number, number, number, number];
-// 	setFont(textRef: any, desiredFont: string): void;
-// 	createTextFrame(doc: Document, message: string, pos: number[], size: number): any;
-// 	// initializeColors(RGBArray: number[][], CMYKArray: number[][]): [RGBColor, CMYKColor][];
-// 	initializeColors(RGBArray: any, CMYKArray: any);
-// 	matchRGB(color: RGBColor, matchArray: [RGBColor, CMYKColor][]): number;
-// 	matchColorsRGB(itemColor: RGBColor, color: RGBColor): boolean;
-// 	convertColorCMYK(pathItems: PathItems, startColor: CMYKColor, endColor: CMYKColor): void;
-// 	matchColorsCMYK(color1: CMYKColor, color2: CMYKColor): boolean;
-// 	convertColorRGB(pathItems: PathItems, startColor: RGBColor, endColor: RGBColor): void;
-// 	convertAll(pathItems: PathItems, endColor: RGBColor, opacity: number): void;
-// 	convertToCMYK(doc: Document, pathItems: PathItems, colors: any, colorIndex: any);
-// 	indexRGBColors(doc: PathItems, colors: [RGBColor, CMYKColor][]): void;
-// 	unique(unmatchedColors: any);
-
-// }
-
 interface Task {
-	getArtboardCorner(artboard: any);
-	getOffset(itemPos: any, referencePos: any);
-	translateObjectTo(object: any, destination: any);
-	clearArtboard(doc: any, index: any);
-	selectContentsOnArtboard(doc: any, i: any);
-	createGroup(doc: any, collection: any);
-	ungroupOnce(group: any);
-	newDocument(sourceDoc: any, colorSpace: any);
-	duplicateArtboardInNewDoc(sourceDoc: any,
-		artboardIndex: number,
-		colorspace: any);
-	scaleAndExportPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-	scaleAndExportNonTransparentPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-	scaleAndExportSVG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-	scaleAndExportJPEG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-	newRect(x: any, y: any, width: any, height: any);
-	setFont(textRef: any, desiredFont: any);
-	createTextFrame(doc: any, message: any, pos: any, size: any);
+	getArtboardCorner(artboard: Artboard);
+	getOffset(itemPos: number[] | Point, referencePos: number[]): number[];
+	translateObjectTo(pageItems: PageItem, mastTextLoc: number[]): void;
+	clearArtboard(doc: Document, index: number): void;
+	selectContentsOnArtboard(doc: Document, index: number): PageItems;
+	createGroup(doc: Document, collection: PageItem[]): GroupItem;
+	ungroupOnce(group: any): void;
+	newDocument(sourceDoc: Document, colorSpace: DocumentColorSpace): Document;
+	duplicateArtboardInNewDoc(sourceDoc: Document, artboardIndex: number, colorspace: DocumentColorSpace): Document;
+	scaleAndExportPNG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
+	scaleAndExportNonTransparentPNG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
+	scaleAndExportSVG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
+	scaleAndExportJPEG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
+	newRect(x: number, y: number, width: number, height: number): [number, number, number, number];
+	setFont(textRef: any, desiredFont: string): void;
+	createTextFrame(doc: Document, message: string, pos: number[], size: number): any;
 	initializeColors(RGBArray: any, CMYKArray: any);
-	matchRGB(color: any, matchArray: any);
-	matchColorsRGB(color1: any, color2: any);
-	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
-	matchRGB(color: any, matchArray: any);
-	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
-	matchColorsCMYK(color1: any, color2: any): any;
-	convertColorRGB(pathItems: any, startColor: any, endColor: any);
-	convertAll(pathItems: any, endColor: any, opcty: any);
-	indexRGBColors(pathItems: PathItems, matchArray: any);
-	convertToCMYK(doc: any, pathItems: any, colorArray: any, colorIndex: any);
-	unique(a: any): any;
+	matchRGB(color: RGBColor, matchArray: [RGBColor, CMYKColor][]): number;
+	matchColorsRGB(color1: RGBColor | Color, color2: RGBColor | Color): boolean;
+	convertColorCMYK(pathItems: PathItems, startColor: CMYKColor | Color, endColor: CMYKColor): void;
+	matchColorsCMYK(color1: CMYKColor | Color, color2: CMYKColor | Color): boolean;
+	convertColorRGB(pathItems: PathItems, startColor: RGBColor | Color, endColor: RGBColor): void;
+	convertAll(pathItems: PathItems, endColor: RGBColor, opacity: number): void;
+	convertToCMYK(doc: Document, pathItems: PathItems, colorArray: any, colorIndex: any);
+	indexRGBColors(doc: PathItems, colors: [RGBColor, CMYKColor][]): number[];
+
+	unique(unmatchedColors: any);
+
 }
+
+// interface Task {
+// 	getArtboardCorner(artboard: any);
+// 	getOffset(itemPos: any, referencePos: any);
+// 	translateObjectTo(object: any, destination: any);
+// 	clearArtboard(doc: any, index: any);
+// 	selectContentsOnArtboard(doc: any, i: any);
+// 	createGroup(doc: any, collection: any);
+// 	ungroupOnce(group: any);
+// 	newDocument(sourceDoc: any, colorSpace: any);
+// 	duplicateArtboardInNewDoc(sourceDoc: any,
+// 		artboardIndex: number,
+// 		colorspace: any);
+// 	scaleAndExportPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	scaleAndExportNonTransparentPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	scaleAndExportSVG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	scaleAndExportJPEG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
+// 	newRect(x: any, y: any, width: any, height: any);
+// 	setFont(textRef: any, desiredFont: any);
+// 	createTextFrame(doc: any, message: any, pos: any, size: any);
+// 	initializeColors(RGBArray: any, CMYKArray: any);
+// 	matchRGB(color: any, matchArray: any);
+// 	matchColorsRGB(color1: any, color2: any);
+// 	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
+// 	matchRGB(color: any, matchArray: any);
+// 	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
+// 	matchColorsCMYK(color1: any, color2: any): any;
+// 	convertColorRGB(pathItems: any, startColor: any, endColor: any);
+// 	convertAll(pathItems: any, endColor: any, opcty: any);
+// 	indexRGBColors(pathItems: PathItems, matchArray: any);
+// 	convertToCMYK(doc: any, pathItems: any, colorArray: any, colorIndex: any);
+// 	unique(a: any): any;
+// }
 
 
 
@@ -240,7 +240,7 @@ let CSTasks = (function () {
 	//takes an object (e.g. group) and a destination array [x,y]
 	//moves the group to the specified destination
 	tasks.translateObjectTo = function (object, destination) {
-		let offset = tasks.getOffset(object.position, destination);
+		let offset = tasks.getOffset(object.position, destination) as [number, number];
 		object.translate(-offset[0], -offset[1]);
 	};
 
@@ -274,8 +274,10 @@ let CSTasks = (function () {
 	//returns a group made from that collection
 	tasks.createGroup = function (doc, collection) {
 		let newGroup = doc.groupItems.add();
-		for (i = 0; i < collection.length; i++) {
-			collection[i].moveToBeginning(newGroup);
+		for (let i = collection.length - 1; i >= 0; i--) {
+			collection[i].move(newGroup,
+				/*@ts-ignore*/
+				ElementPlacement.PLACEATBEGINNING);
 		}
 		return newGroup;
 	};
@@ -407,12 +409,9 @@ let CSTasks = (function () {
 
 	//takes left x, top y, width, and height
 	//returns a Rect that can be used to create an artboard
+
 	tasks.newRect = function (x, y, width, height) {
-		let rect = [];
-		rect[0] = x;
-		rect[1] = -y;
-		rect[2] = width + x;
-		rect[3] = -(height + y);
+		let rect: [number, number, number, number] = [x, -y, width + x, -(height + y)];
 		return rect;
 	};
 
@@ -498,6 +497,8 @@ let CSTasks = (function () {
 	tasks.matchColorsRGB = function (color1, color2) {
 		//compares two colors to see if they match
 		if (
+			color1 instanceof RGBColor &&
+			color2 instanceof RGBColor &&
 			Math.abs(color1.red - color2.red) < 1 &&
 			Math.abs(color1.green - color2.green) < 1 &&
 			Math.abs(color1.blue - color2.blue) < 1
@@ -515,12 +516,13 @@ let CSTasks = (function () {
 				pathItems[i].fillColor = endColor;
 		}
 	};
-
 	//take a single CMYKColor and an array of corresponding RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
 	//returns the index in the array if it finds a match, otherwise returns -1
 	tasks.matchColorsCMYK = function (color1, color2) {
 		//compares two colors to see if they match
 		if (
+			color1 instanceof CMYKColor &&
+			color2 instanceof CMYKColor &&
 			Math.abs(color1.cyan - color2.cyan) < 1 &&
 			Math.abs(color1.magenta - color2.magenta) < 1 &&
 			Math.abs(color1.yellow - color2.yellow) < 1 &&
@@ -551,9 +553,9 @@ let CSTasks = (function () {
 	//takes a collection of pathItems and an array of specified RGB and CMYK colors [[RGBColor,CMYKColor],[RGBColor2,CMYKColor2],...]
 	//returns an array with an index to the RGB color if it is in the array
 	tasks.indexRGBColors = function (pathItems, matchArray) {
-		let colorIndex = new Array(pathItems.length);
-		for (i = 0; i < pathItems.length; i++) {
-			let itemColor = pathItems[i].fillColor;
+		let colorIndex: number[] = [];
+		for (let i = 0; i < pathItems.length; i++) {
+			let itemColor: RGBColor = <RGBColor>pathItems[i].fillColor;
 			colorIndex[i] = tasks.matchRGB(itemColor, matchArray);
 		}
 		return colorIndex;
@@ -570,10 +572,13 @@ let CSTasks = (function () {
 			else {
 				let unmatchedColor =
 					"(" +
+					/*@ts-ignore*/
 					pathItems[i].fillColor.red +
 					", " +
+					/*@ts-ignore*/
 					pathItems[i].fillColor.green +
 					", " +
+					/*@ts-ignore*/
 					pathItems[i].fillColor.blue +
 					")";
 				unmatchedColors.push(unmatchedColor);
