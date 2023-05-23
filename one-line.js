@@ -71,36 +71,35 @@ var sourceDocName = sourceDoc.name.slice(0, -3);
 var iconFilename = sourceDoc.name.split(".")[0];
 var name = sourceDoc.name.split(".")[0];
 var destFolder = Folder(sourceDoc.path + "/" + name);
-// New
 var wtwName = "wtw";
-//New asset types names
+// asset types names
 var primaryName = "pri";
 var alternateName = "alt";
 var iconName = "icn";
 var expressiveIconName = "exp";
 var expressiveArtworkName = "art";
-// New color names
+//  color names
 var fullColorName = "fc";
 var oneColorName = "1c";
-// New style names
+//  style names
 var standardName = "std";
 var inactiveName = "inact";
-// New artwork color names
+//  artwork color names
 var positiveColorName = "pos";
 var inverseColorName = "inv";
 var blackColorName = "blk";
 var whiteColorName = "wht";
-// New bg color names
+// bg color names
 var transparentBgColorName = "t";
 var whiteBgColorName = "w";
 var blackBgColorName = "k";
-// New color mode names
+//  color mode names
 var fourColorProcessName = "4cp";
 var pantoneColorName = "pms";
 var rgbColorName = "rgb";
-// New size names
+// size names
 var croppedToArtworkName = "crp";
-// New folder names
+// folder names
 var primaryLockupFolderName = "Primary_lockup";
 var alternativeLockupFolderName = "Alternate_lockup";
 var iconFolderName = "Icon";
@@ -110,13 +109,6 @@ var inactiveFolderName = "inactive";
 var positiveFolderName = "positive";
 var inverseTransparentFolderName = "inverse_transparent_bg";
 var inverseWhiteBgFolderName = "inverse_white_bg";
-//End new
-// Lockups
-var lockupName = "Lockup";
-var lockup1 = "Lockup1";
-var lockup2 = "Lockup2";
-var eightByFour = "800x400";
-var tenByFive = "1024x512";
 // Colors
 var rgbName = "RGB";
 var cmykName = "CMYK";
@@ -127,8 +119,6 @@ var svgName = "svg";
 var svgCroppedName = "svg_cropped";
 var epsName = "eps";
 var rebuild = true;
-// let gutter = 32;
-// hide guides
 var guideLayer = sourceDoc.layers["Guidelines"];
 // interface Task {
 // 	getArtboardCorner(artboard: any);
@@ -1105,7 +1095,7 @@ Create new artboard with text lockup
     placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
     landingZoneSquare.remove();
     //#endregion
-    //#region ARTBOARD2 EXPORTS
+    //#region ARTBOARD2 RGB EXPORTS
     //select the contents on artboard 0
     /********************
     Lockup export core RGB (EPS)

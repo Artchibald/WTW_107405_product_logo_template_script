@@ -67,51 +67,39 @@ let blackIndex = 6;
 //loop default 
 let i;
 // folder and naming creations
-
 let sourceDocName = sourceDoc.name.slice(0, -3);
 let iconFilename = sourceDoc.name.split(".")[0];
 let name = sourceDoc.name.split(".")[0];
 let destFolder = Folder(sourceDoc.path + "/" + name);
-
-
-// New
 let wtwName = "wtw";
-//New asset types names
+// asset types names
 let primaryName = "pri";
 let alternateName = "alt";
 let iconName = "icn";
 let expressiveIconName = "exp";
 let expressiveArtworkName = "art";
-
-// New color names
+//  color names
 let fullColorName = "fc";
 let oneColorName = "1c";
-
-// New style names
+//  style names
 let standardName = "std";
 let inactiveName = "inact";
-
-
-// New artwork color names
+//  artwork color names
 let positiveColorName = "pos";
 let inverseColorName = "inv";
 let blackColorName = "blk";
 let whiteColorName = "wht";
-
-// New bg color names
+// bg color names
 let transparentBgColorName = "t";
 let whiteBgColorName = "w";
 let blackBgColorName = "k";
-
-// New color mode names
+//  color mode names
 let fourColorProcessName = "4cp";
 let pantoneColorName = "pms";
 let rgbColorName = "rgb";
-
-// New size names
+// size names
 let croppedToArtworkName = "crp";
-
-// New folder names
+// folder names
 let primaryLockupFolderName = "Primary_lockup";
 let alternativeLockupFolderName = "Alternate_lockup";
 let iconFolderName = "Icon";
@@ -121,14 +109,6 @@ let inactiveFolderName = "inactive";
 let positiveFolderName = "positive";
 let inverseTransparentFolderName = "inverse_transparent_bg";
 let inverseWhiteBgFolderName = "inverse_white_bg";
-//End new
-// Lockups
-let lockupName = "Lockup";
-let lockup1 = "Lockup1";
-let lockup2 = "Lockup2";
-let eightByFour = "800x400";
-let tenByFive = "1024x512";
-
 // Colors
 let rgbName = "RGB";
 let cmykName = "CMYK";
@@ -139,8 +119,6 @@ let svgName = "svg";
 let svgCroppedName = "svg_cropped";
 let epsName = "eps";
 let rebuild = true;
-// let gutter = 32;
-// hide guides
 let guideLayer = sourceDoc.layers["Guidelines"];
 
 //#endregion
@@ -1414,7 +1392,7 @@ Create new artboard with text lockup
 	landingZoneSquare.remove();
 
 	//#endregion
-	//#region ARTBOARD2 EXPORTS
+	//#region ARTBOARD2 RGB EXPORTS
 	//select the contents on artboard 0
 
 	/********************
