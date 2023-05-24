@@ -549,7 +549,7 @@ var appNameCore = prompt("What name do you want to put in the first Core lockup?
 var appNameExpressive = prompt("What name do you want to put in the second Expressive lockup?");
 //#endregion
 function iconGenCore() {
-    //#region CORE EXPORTS
+    //#region CORE EXPORTS RGB
     /*****************************
 This block creates the 3rd artboard,
 it has to remain here or the inverse function doesn't work correctly
@@ -687,6 +687,8 @@ it has to remain here or the inverse function doesn't work correctly
     //close and clean up 
     rgbDoc.close(SaveOptions.DONOTSAVECHANGES);
     rgbDoc = null;
+    //#endregion
+    //#region CORE EXPORT CMYK
     /****************
     CMYK exports x4 (EPS only)
     ****************/
@@ -739,6 +741,8 @@ it has to remain here or the inverse function doesn't work correctly
     //close and clean up
     cmykDoc.close(SaveOptions.DONOTSAVECHANGES);
     cmykDoc = null;
+    //#endregion
+    //#region CORE EXPORT RGB CROPPED
     /*********************************************************************
     RGB cropped export (SVG only), squares, cropped to artwork
     **********************************************************************/
@@ -809,7 +813,7 @@ it has to remain here or the inverse function doesn't work correctly
 }
 iconGenCore();
 function iconGenExp() {
-    //#region EXPRESSIVE EXPORTS
+    //#region EXPRESSIVE RGB EXPORTS
     /*****************
         Expressive icon exports
         ***************/
@@ -881,6 +885,8 @@ function iconGenExp() {
     //close and clean up
     rgbExpDoc.close(SaveOptions.DONOTSAVECHANGES);
     rgbExpDoc = null;
+    //#endregion
+    //#region EXPRESSIVE RGB CROPPED
     // exp svg crop
     /*********************************************************************
     All exports from new file with expressive icon copied across
@@ -921,6 +927,8 @@ function iconGenExp() {
     //close and clean up
     rgbExpDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
     rgbExpDocCroppedVersion = null;
+    //#endregion
+    //#region EXPRESSIVE CMYK
     // eps cmyk
     // exp svg crop
     /****************
@@ -1345,11 +1353,11 @@ Create new artboard with text lockup
 }
 createAndExportArtboard2();
 function createAndExportArtboard3() {
+    //#region ARTBOARD3 CREATION
     //select the contents on artboard 1
     var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
     var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     var iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
-    //#region ARTBOARD3 CREATION
     /******************
     Set up purple artboard 3 in main file
     ******************/
@@ -1808,6 +1816,7 @@ function createAndExportArtboard3() {
         var rgbSaveOpts = new EPSSaveOptions();
         mastDocCMYK.saveAs(destFile, rgbSaveOpts);
     }
+    // not working, colors do not match cmyk array of colors
     // make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
     app.executeMenuCommand('Colors8');
     //Invert
@@ -1819,7 +1828,6 @@ function createAndExportArtboard3() {
         var rgbSaveOpts = new EPSSaveOptions();
         mastDocCMYK.saveAs(destFile, rgbSaveOpts);
     }
-    return;
     //close and clean up
     mastDocCMYK.close(SaveOptions.DONOTSAVECHANGES);
     mastDocCMYK = null;
