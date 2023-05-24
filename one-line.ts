@@ -108,7 +108,7 @@ let expressiveFolderName = "Expressive";
 let inactiveFolderName = "inactive";
 let positiveFolderName = "positive";
 let inverseTransparentFolderName = "inverse_transparent_bg";
-let inverseWhiteBgFolderName = "inverse_white_bg";
+let positiveOnWhiteFolderName = "positive_white_bg";
 // Colors
 let rgbName = "RGB";
 let cmykName = "CMYK";
@@ -613,7 +613,7 @@ try {
 	new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`).create();
 	new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveFolderName}`).create();
 	new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inverseTransparentFolderName}`).create();
-	new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inverseWhiteBgFolderName}`).create();
+	new Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveOnWhiteFolderName}`).create();
 	// Expressive lockup folders
 	new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}`).create();
 	new Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}`).create();
@@ -683,13 +683,20 @@ it has to remain here or the inverse function doesn't work correctly
 	CSTasks.ungroupOnce(rgbGroup);
 
 	//save the classic PNGs in icon folder
-	// let masterStartWidth =
-	// 	rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
+	let masterStartWidth =
+		rgbDoc.artboards[0].artboardRect[2] - rgbDoc.artboards[0].artboardRect[0];
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${exportSizes[i]}.png`;
 	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveFolderName}`) + filename);
 	// 	CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[i]);
 	// }
+
+	//save the classic PNGs on white in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${whiteBgColorName}_${rgbColorName}_${exportSizes[i]}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${positiveOnWhiteFolderName}`) + filename);
+		CSTasks.scaleAndExportNonTransparentPNG(rgbDoc, destFile, masterStartWidth, exportSizes[i]);
+	}
 
 	//save a classic EPS into the icon folder
 	// for (let i = 0; i < exportSizes.length; i++) {
