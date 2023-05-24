@@ -31,7 +31,7 @@ Starting with an open AI file with a single icon on a single 256 x 256 artboard
 ************************************************/
 //
 //#endregion
-alert(" \n\nThis is the one line script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\nVideo set up tutorial available here: https://youtu.be/XXXXXXXXXX. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
+//alert(" \n\nThis is the one line script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\nVideo set up tutorial available here: https://youtu.be/XXXXXXXXXX. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
 //#region GLOBAL VARS
 /********************************* 
 VARIABLES YOU MIGHT NEED TO CHANGE 
@@ -149,48 +149,13 @@ interface Task {
 	matchColorsRGB(color1: RGBColor | Color, color2: RGBColor | Color): boolean;
 	convertColorCMYK(pathItems: PathItems, startColor: CMYKColor | Color, endColor: CMYKColor): void;
 	matchColorsCMYK(color1: CMYKColor | Color, color2: CMYKColor | Color): boolean;
-	convertColorRGB(pathItems: PathItems, startColor: RGBColor | Color, endColor: RGBColor): void;
+	convertColorRGB(pathItems: PathItems, startColor: RGBColor, endColor: RGBColor): void;
 	convertAll(pathItems: PathItems, endColor: RGBColor, opacity: number): void;
 	convertToCMYK(doc: Document, pathItems: PathItems, colorArray: any, colorIndex: any);
 	indexRGBColors(doc: PathItems, colors: [RGBColor, CMYKColor][]): number[];
 	unique(unmatchedColors: any);
 
 }
-
-// interface Task {
-// 	getArtboardCorner(artboard: any);
-// 	getOffset(itemPos: any, referencePos: any);
-// 	translateObjectTo(object: any, destination: any);
-// 	clearArtboard(doc: any, index: any);
-// 	selectContentsOnArtboard(doc: any, i: any);
-// 	createGroup(doc: any, collection: any);
-// 	ungroupOnce(group: any);
-// 	newDocument(sourceDoc: any, colorSpace: any);
-// 	duplicateArtboardInNewDoc(sourceDoc: any,
-// 		artboardIndex: number,
-// 		colorspace: any);
-// 	scaleAndExportPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-// 	scaleAndExportNonTransparentPNG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-// 	scaleAndExportSVG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-// 	scaleAndExportJPEG(doc: any, destFile: any, startWidth: any, desiredWidth: any);
-// 	newRect(x: any, y: any, width: any, height: any);
-// 	setFont(textRef: any, desiredFont: any);
-// 	createTextFrame(doc: any, message: any, pos: any, size: any);
-// 	initializeColors(RGBArray: any, CMYKArray: any);
-// 	matchRGB(color: any, matchArray: any);
-// 	matchColorsRGB(color1: any, color2: any);
-// 	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
-// 	matchRGB(color: any, matchArray: any);
-// 	convertColorCMYK(pathItems: any, startColor: any, endColor: any)
-// 	matchColorsCMYK(color1: any, color2: any): any;
-// 	convertColorRGB(pathItems: any, startColor: any, endColor: any);
-// 	convertAll(pathItems: any, endColor: any, opcty: any);
-// 	indexRGBColors(pathItems: PathItems, matchArray: any);
-// 	convertToCMYK(doc: any, pathItems: any, colorArray: any, colorIndex: any);
-// 	unique(a: any): any;
-// }
-
-
 
 // All reusable functions are in CSTasks below
 let CSTasks = (function () {
@@ -674,12 +639,8 @@ Moving both prompts to the top of the file for efficiency purposes
 
 //request a name for the icon, and place that as text on the lockup artboard
 let appNameCore = prompt("What name do you want to put in the first Core lockup?");
-
 //request a name for the icon, and place that as text on the lockup artboard
 let appNameExpressive = prompt("What name do you want to put in the second Expressive lockup?");
-
-
-
 //#endregion
 function iconGen() {
 	//#region CORE EXPORTS
@@ -955,8 +916,8 @@ it has to remain here or the inverse function doesn't work correctly
 	// below we export croped only versions
 	// Save a cropped SVG 
 
-	let svgMasterCoreStartWidthCroppedSvg =
-		rgbDocCroppedVersion.artboards[0].artboardRect[2] - rgbDocCroppedVersion.artboards[0].artboardRect[0];
+	// let svgMasterCoreStartWidthCroppedSvg =
+	// 	rgbDocCroppedVersion.artboards[0].artboardRect[2] - rgbDocCroppedVersion.artboards[0].artboardRect[0];
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
 	// 	let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
@@ -1077,12 +1038,10 @@ it has to remain here or the inverse function doesn't work correctly
 
 	// Parking inverted expressive will come back to this
 	//convert violet to white
-	// it is not working because an extra stripe color is interfering, making the array not match
 	//index the RGB colors for conversion to CMYK. An inelegant location.
 	//CSTasks.indexRGBColors(rgbExpDoc.pathItems, colorsExp);
 	//convert violet to white and save as
-	//CSTasks.convertColorRGB(rgbExpDoc.pathItems, colorsExp[violetIndex][0], colorsExp[whiteIndex][0]);
-
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${inverseColorName}_${rgbColorName}.png`;
@@ -1226,6 +1185,11 @@ function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
 	//select the contents on artboard 0
 	//place icon and text in the first generated lockup artboard 
+	/*****************************
+This block creates the 2nd artboard, 
+it has to remain here or the inverse function doesn't work correctly 
+******************************/
+
 
 	/********************************
 Create new artboard with text lockup
@@ -1269,6 +1233,7 @@ Create new artboard with text lockup
 	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
 	app.executeMenuCommand('Colors9');
 
+	//select the contents on artboard 0
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
 	if (sel.length == 0) {
 		//if nothing is in the artboard
@@ -1345,7 +1310,7 @@ Create new artboard with text lockup
 		0,
 		256,
 		256);
-	function placeIconLockup1Correctly0(mast, maxSize) {
+	function placeIconLockup1Correctly0(mast, maxSize, getArtLayer) {
 		let setLandingZoneSquareColor = new RGBColor();
 		setLandingZoneSquareColor.red = 12;
 		setLandingZoneSquareColor.green = 28;
@@ -1388,7 +1353,7 @@ Create new artboard with text lockup
 		mast.resize(factor, factor);
 	}
 
-	placeIconLockup1Correctly0(mast, { W: 256, H: 256 });
+	placeIconLockup1Correctly0(mast, { W: 256, H: 256 }, getArtLayer);
 	landingZoneSquare.remove();
 
 	//#endregion
@@ -1433,10 +1398,26 @@ Create new artboard with text lockup
 		mastDoc.artboards[0].artboardRect[1] + mastTextOffset[1],
 	];
 
-
 	CSTasks.translateObjectTo(mastText, mastTextLoc);
 
-	mastDoc.selectObjectsOnActiveArtboard();
+
+
+	// we need to make artboard clipping mask here for the artboard to crop expressive icons correctly.
+
+	let GetMyCroppingLayerMastDoc = mastDoc.layers.getByName('Layer 1');
+	mastDoc.activeLayer = GetMyCroppingLayerMastDoc;
+	mastDoc.activeLayer.hasSelectedArtwork = true;
+	// select all for clipping here
+	sourceDoc.selectObjectsOnActiveArtboard();
+
+
+
+
+
+
+
+
+
 
 
 	// save a text and lockup PNG
@@ -1461,17 +1442,47 @@ Create new artboard with text lockup
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDoc.saveAs(destFile, rgbSaveOpts);
 	}
+	// flatten layers test
+	// function flattenGroups(group) {
+	// 	for (var i = group.pageItems.length - 1; i >= 0; i--) {
+	// 		var pageItem = group.pageItems[i];
+	// 		if (pageItem.typename === "GroupItem") {
+	// 			flattenGroups(pageItem);
+	// 		} else {
+	// 			// Move the page item to the parent layer
+	// 			pageItem.move(pageItem.layer,
+	// 				/*@ts-ignore*/
+	// 				ElementPlacement.PLACEATEND);
+	// 		}
+	// 	}
+	// }
+
+	// // Usage:
+	// var targetGroup = mastDoc.layers[0].groupItems[0]; // Replace with your target group
+	// flattenGroups(targetGroup);
 
 	// let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
 	// CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
 	// return;
 	//INVERSE NOT WORKING HERE!
-	// CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+	// alert(mastDoc.layers[0].pathItems.length.toString());
+	// alert(colors[violetIndex][0].toString())
+	// alert(colors[whiteIndex][0].toString())
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+	//alert(mastDoc.layers[0].groupItems[0].groupItems[0].groupItems[0].pathItems.length.toString());
+	return;
+	let masterStartWidthPng =
+		mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
+	// save a text and lockup PNG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidthPng, exportSizes[0]);
+	}
+
 	CSTasks.convertAll(mastDoc.pathItems, colors[blackIndex][0], 100);
 
 	// save a text and lockup PNG
-	let masterStartWidthPng =
-		mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
@@ -1524,7 +1535,7 @@ Create new artboard with text lockup
 	//select the contents on artboard 0
 
 	/********************
-	Lockup export core RGB (EPS)
+	Lockup export core CMYK (EPS)
 	********************/
 
 	//open a new doc and copy and position the icon and the lockup text
@@ -2045,7 +2056,7 @@ function createAndExportArtboard3() {
 
 	//Invert
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-
+	return;
 	//save a inverted banner PNG
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.png`;
