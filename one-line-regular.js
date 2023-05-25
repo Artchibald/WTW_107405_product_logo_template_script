@@ -1323,6 +1323,60 @@ Create new artboard with text lockup
         mastDocCMYK.artboards[0].artboardRect[1] + iconOffset[1],
     ];
     CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+    //make icon fill whole area
+    var getLayer2 = mastDocCMYK.layers.getByName('Layer 1');
+    var landingZoneSquare3 = getLayer2.pathItems.rectangle(-384, 0, 256, 256);
+    function placeIconOnArtboard4(mastGroupCMYK, maxSize, getLayer2) {
+        var setLandingZoneSquareColor = new RGBColor();
+        setLandingZoneSquareColor.red = 12;
+        setLandingZoneSquareColor.green = 28;
+        setLandingZoneSquareColor.blue = 151;
+        landingZoneSquare3.fillColor = setLandingZoneSquareColor;
+        landingZoneSquare3.name = "LandingZone";
+        landingZoneSquare3.filled = false;
+        /*@ts-ignore*/
+        landingZoneSquare3.move(getLayer2, ElementPlacement.PLACEATEND);
+        var placedMastBannerIconOnText = mastGroupCMYK;
+        var landingZone = mastDocCMYK.pathItems.getByName("LandingZone");
+        var preferredWidth = 256;
+        var preferredHeight = 256;
+        // Resize the mast icon to the preferred width if necessary
+        var widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
+        if (placedMastBannerIconOnText.width != preferredWidth) {
+            placedMastBannerIconOnText.resize(widthRatio, widthRatio);
+        }
+        // Resize the mast icon to the preferred height if necessary
+        var heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
+        if (placedMastBannerIconOnText.height != preferredHeight) {
+            placedMastBannerIconOnText.resize(heightRatio, heightRatio);
+        }
+        // Center the mast icon on the landing zone
+        var centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
+        var centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
+        placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
+        // Resize the mast icon again to ensure it fits within the maximum size
+        var W = mastGroupCMYK.width, H = mastGroupCMYK.height, MW = maxSize.W, MH = maxSize.H, factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+        mastGroupCMYK.resize(factor, factor);
+    }
+    placeIconOnArtboard4(mastGroupCMYK, { W: 256, H: 256 }, getLayer2);
+    landingZoneSquare3.remove();
+    if (mastGroupCMYK.width > mastGroupCMYK.height) {
+        //alert("icon is more wide than tall!");
+        var verticalOffset = (256 - mastGroupCMYK.height) / 2;
+        mastLocCMYK = [
+            mastDocCMYK.artboards[0].artboardRect[0],
+            mastDocCMYK.artboards[0].artboardRect[1] + -verticalOffset, // vert
+        ];
+        CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+    }
+    else {
+        //alert("icon is more tall than wide!")
+        mastLocCMYK = [
+            mastDocCMYK.artboards[0].artboardRect[0],
+            mastDocCMYK.artboards[0].artboardRect[1],
+        ];
+        CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+    }
     CSTasks.ungroupOnce(mastGroupCMYK);
     //get the text offset for exporting
     var mastTextOffsetCMYK = CSTasks.getOffset(textGroup.position, CSTasks.getArtboardCorner(sourceDoc.artboards[0]));

@@ -1517,18 +1517,7 @@ Create new artboard with text lockup
 		];
 		CSTasks.translateObjectTo(mastGroup, mastLoc);
 	}
-
-
-
-
-
-
-
 	CSTasks.ungroupOnce(mastGroup);
-
-
-
-
 	//get the text offset for exporting
 	let mastTextOffset = CSTasks.getOffset(
 		textGroup.position,
@@ -1677,8 +1666,76 @@ Create new artboard with text lockup
 		mastDocCMYK.artboards[0].artboardRect[1] + iconOffset[1],
 	];
 	CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
-	CSTasks.ungroupOnce(mastGroupCMYK);
+	//make icon fill whole area
+	let getLayer2 = mastDocCMYK.layers.getByName('Layer 1');
+	let landingZoneSquare3 = getLayer2.pathItems.rectangle(
+		-384,
+		0,
+		256,
+		256);
+	function placeIconOnArtboard4(mastGroupCMYK, maxSize, getLayer2) {
+		let setLandingZoneSquareColor = new RGBColor();
+		setLandingZoneSquareColor.red = 12;
+		setLandingZoneSquareColor.green = 28;
+		setLandingZoneSquareColor.blue = 151;
 
+		landingZoneSquare3.fillColor = setLandingZoneSquareColor;
+		landingZoneSquare3.name = "LandingZone";
+		landingZoneSquare3.filled = false;
+		/*@ts-ignore*/
+		landingZoneSquare3.move(getLayer2, ElementPlacement.PLACEATEND);
+
+		let placedMastBannerIconOnText = mastGroupCMYK;
+		let landingZone = mastDocCMYK.pathItems.getByName("LandingZone");
+		let preferredWidth = 256;
+		let preferredHeight = 256;
+
+		// Resize the mast icon to the preferred width if necessary
+		let widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
+		if (placedMastBannerIconOnText.width != preferredWidth) {
+			placedMastBannerIconOnText.resize(widthRatio, widthRatio);
+		}
+
+		// Resize the mast icon to the preferred height if necessary
+		let heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
+		if (placedMastBannerIconOnText.height != preferredHeight) {
+			placedMastBannerIconOnText.resize(heightRatio, heightRatio);
+		}
+
+		// Center the mast icon on the landing zone
+		let centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
+		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
+		placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
+
+		// Resize the mast icon again to ensure it fits within the maximum size
+		let W = mastGroupCMYK.width,
+			H = mastGroupCMYK.height,
+			MW = maxSize.W,
+			MH = maxSize.H,
+			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+		mastGroupCMYK.resize(factor, factor);
+	}
+
+	placeIconOnArtboard4(mastGroupCMYK, { W: 256, H: 256 }, getLayer2);
+	landingZoneSquare3.remove();
+
+	if (mastGroupCMYK.width > mastGroupCMYK.height) {
+		//alert("icon is more wide than tall!");
+		let verticalOffset = (256 - mastGroupCMYK.height) / 2;
+		mastLocCMYK = [
+			mastDocCMYK.artboards[0].artboardRect[0],
+			mastDocCMYK.artboards[0].artboardRect[1] + -verticalOffset, // vert
+		];
+		CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+	} else {
+		//alert("icon is more tall than wide!")
+		mastLocCMYK = [
+			mastDocCMYK.artboards[0].artboardRect[0],
+			mastDocCMYK.artboards[0].artboardRect[1],
+		];
+		CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+	}
+	CSTasks.ungroupOnce(mastGroupCMYK);
 	//get the text offset for exporting
 	let mastTextOffsetCMYK = CSTasks.getOffset(
 		textGroup.position,
@@ -1693,13 +1750,8 @@ Create new artboard with text lockup
 		mastDocCMYK.artboards[0].artboardRect[0] + mastTextOffsetCMYK[0],
 		mastDocCMYK.artboards[0].artboardRect[1] + mastTextOffsetCMYK[1],
 	];
-
-
 	CSTasks.translateObjectTo(mastTextCMYK, mastTextLocCMYK);
-
 	mastDocCMYK.selectObjectsOnActiveArtboard();
-
-
 	let colorIndex = CSTasks.indexRGBColors(mastDocCMYK.pathItems, colors);
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 
