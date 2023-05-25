@@ -943,6 +943,7 @@ it has to remain here or the inverse function doesn't work correctly
 	CSTasks.translateObjectTo(cmykGroup, cmykLoc);
 	CSTasks.ungroupOnce(cmykGroup);
 
+	app.executeMenuCommand('Colors8');
 	CSTasks.convertToCMYK(cmykDoc, cmykDoc.pathItems, colors, colorIndex);
 
 	// for (let i = 0; i < exportSizes.length; i++) {
@@ -957,13 +958,13 @@ it has to remain here or the inverse function doesn't work correctly
 	// inverse color cmyk doc
 	CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
 
-	// for (let i = 0; i < exportSizes.length; i++) {
-	// 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
-	// 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
-	// 	let cmykSaveOpts = new EPSSaveOptions();
-	// 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-	// }
-
+	for (let i = 0; i < exportSizes.length; i++) {
+		let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+		let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+		let cmykSaveOpts = new EPSSaveOptions();
+		cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+	}
+	return;
 	//convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
 	CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
 
@@ -1563,6 +1564,8 @@ Create new artboard with text lockup
 
 	// you need this to invert correctly
 	app.executeMenuCommand('Colors9');
+	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
+
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
 
@@ -1736,6 +1739,8 @@ Create new artboard with text lockup
 		CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
 	}
 	CSTasks.ungroupOnce(mastGroupCMYK);
+
+
 	//get the text offset for exporting
 	let mastTextOffsetCMYK = CSTasks.getOffset(
 		textGroup.position,
@@ -1752,8 +1757,10 @@ Create new artboard with text lockup
 	];
 	CSTasks.translateObjectTo(mastTextCMYK, mastTextLocCMYK);
 	mastDocCMYK.selectObjectsOnActiveArtboard();
-	let colorIndex = CSTasks.indexRGBColors(mastDocCMYK.pathItems, colors);
+
+	app.executeMenuCommand('Colors8');
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
+
 
 	// save a text and lockup PNG
 	// let masterStartWidthCMYK =
@@ -1779,12 +1786,10 @@ Create new artboard with text lockup
 	// }
 	// not working
 	// CMYK color doesn'tmatch array
-	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
-	app.executeMenuCommand('Colors8');
-	CSTasks.convertColorRGB(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 	// save a text and lockup inverse PNG
-	let masterStartWidthPngCMYK =
-		mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
+	// let masterStartWidthPngCMYK =
+	// 	mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.png`;
 	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
@@ -1797,6 +1802,7 @@ Create new artboard with text lockup
 	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
 	// 	CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
 	// }
+
 	//save a text and lockup inverse EPS
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
