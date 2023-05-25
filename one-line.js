@@ -610,34 +610,6 @@ Create new artboard with text lockup
     ];
     // paste icon
     CSTasks.translateObjectTo(mast, mastPos);
-    // add text from prompt
-    var textRef = sourceDoc.textFrames.add();
-    textRef.contents = appNameCore;
-    textRef.textRange.characterAttributes.size = 182;
-    CSTasks.setFont(textRef, desiredFont);
-    //vertically align the baseline to be 64 px above the bottom of the artboard
-    var bottomEdge = sourceDoc.artboards[2].artboardRect[3] +
-        0.25 * sourceDoc.artboards[0].artboardRect[2] -
-        sourceDoc.artboards[0].artboardRect[0]; //64px (0.25*256px) above the bottom edge of the artboard
-    var vOffset = CSTasks.getOffset(textRef.anchor, [0, bottomEdge]);
-    textRef.translate(0, -vOffset[1]);
-    //create an outline of the text
-    var textGroup = textRef.createOutline();
-    //horizontally align the left edge of the text to be 96px to the right of the edge
-    var rightEdge = mast.position[0] +
-        mast.width +
-        0.375 * sourceDoc.artboards[0].artboardRect[2] -
-        sourceDoc.artboards[0].artboardRect[0]; //96px (0.375*256px) right of the icon 
-    var hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
-    textGroup.translate(-hOffset[0], 0);
-    //resize the artboard to be only a little wider than the text
-    var leftMargin = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
-    var newWidth = textGroup.position[0] +
-        textGroup.width -
-        sourceDoc.artboards[2].artboardRect[0] +
-        leftMargin - 16;
-    var resizedRect = CSTasks.newRect(sourceDoc.artboards[2].artboardRect[0], -sourceDoc.artboards[2].artboardRect[1], newWidth, 256);
-    sourceDoc.artboards[2].artboardRect = resizedRect;
     // new position of icon in text banner 1 without padding
     mastPos = [
         sourceDoc.artboards[2].artboardRect[0],
@@ -698,6 +670,36 @@ Create new artboard with text lockup
         ];
         CSTasks.translateObjectTo(mast, mastPos);
     }
+    // add text from prompt
+    var textRef = sourceDoc.textFrames.add();
+    textRef.contents = appNameCore;
+    textRef.textRange.characterAttributes.size = 182;
+    CSTasks.setFont(textRef, desiredFont);
+    //vertically align the baseline to be 64 px above the bottom of the artboard
+    var bottomEdge = sourceDoc.artboards[2].artboardRect[3] +
+        0.25 * sourceDoc.artboards[0].artboardRect[2] -
+        sourceDoc.artboards[0].artboardRect[0]; //64px (0.25*256px) above the bottom edge of the artboard
+    var vOffset = CSTasks.getOffset(textRef.anchor, [0, bottomEdge]);
+    textRef.translate(0, -vOffset[1]);
+    //create an outline of the text
+    var textGroup = textRef.createOutline();
+    //horizontally align the left edge of the text to be 64px to the right of the edge
+    var rightEdge = mast.position[0] +
+        mast.width +
+        64; //64px (0.25*256px) right of the icon
+    alert(mast.position[0].toString());
+    alert(mast.width.toString());
+    alert(rightEdge.toString());
+    var hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
+    textGroup.translate(-hOffset[0], 0);
+    //resize the artboard to be only a little wider than the text
+    var leftMargin = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
+    var newWidth = textGroup.position[0] +
+        textGroup.width -
+        sourceDoc.artboards[2].artboardRect[0] +
+        leftMargin - 16;
+    var resizedRect = CSTasks.newRect(sourceDoc.artboards[2].artboardRect[0], -sourceDoc.artboards[2].artboardRect[1], newWidth, 256);
+    sourceDoc.artboards[2].artboardRect = resizedRect;
     // move icon to fully left on the artboard 2
     //#endregion
     //#region ARTBOARD2 RGB EXPORTS
