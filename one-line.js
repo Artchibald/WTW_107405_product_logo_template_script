@@ -654,7 +654,7 @@ Create new artboard with text lockup
     placeIconOnArtboard2(mast, { W: 256, H: 256 }, getArtLayer);
     landingZoneSquare.remove();
     if (mast.width > mast.height) {
-        alert("icon is more wide than tall!");
+        //alert("icon is more wide than tall!");
         var verticalOffset = (256 - mast.height) / 2;
         mastPos = [
             sourceDoc.artboards[2].artboardRect[0],
@@ -663,7 +663,7 @@ Create new artboard with text lockup
         CSTasks.translateObjectTo(mast, mastPos);
     }
     else {
-        alert("icon is more tall than wide!");
+        //alert("icon is more tall than wide!")
         mastPos = [
             sourceDoc.artboards[2].artboardRect[0],
             sourceDoc.artboards[2].artboardRect[1],
@@ -687,9 +687,9 @@ Create new artboard with text lockup
     var rightEdge = mast.position[0] +
         mast.width +
         64; //64px (0.25*256px) right of the icon
-    alert(mast.position[0].toString());
-    alert(mast.width.toString());
-    alert(rightEdge.toString());
+    // alert(mast.position[0].toString())
+    // alert(mast.width.toString())
+    // alert(rightEdge.toString())
     var hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
     textGroup.translate(-hOffset[0], 0);
     //resize the artboard to be only a little wider than the text
@@ -697,7 +697,7 @@ Create new artboard with text lockup
     var newWidth = textGroup.position[0] +
         textGroup.width -
         sourceDoc.artboards[2].artboardRect[0] +
-        leftMargin - 16;
+        leftMargin + 8;
     var resizedRect = CSTasks.newRect(sourceDoc.artboards[2].artboardRect[0], -sourceDoc.artboards[2].artboardRect[1], newWidth, 256);
     sourceDoc.artboards[2].artboardRect = resizedRect;
     // move icon to fully left on the artboard 2
