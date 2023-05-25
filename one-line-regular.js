@@ -773,7 +773,7 @@ it has to remain here or the inverse function doesn't work correctly
     ];
     CSTasks.translateObjectTo(cmykGroup, cmykLoc);
     CSTasks.ungroupOnce(cmykGroup);
-    app.executeMenuCommand('Colors8');
+    app.executeMenuCommand('Colors9');
     CSTasks.convertToCMYK(cmykDoc, cmykDoc.pathItems, colors, colorIndex);
     // for (let i = 0; i < exportSizes.length; i++) {
     // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
@@ -782,7 +782,7 @@ it has to remain here or the inverse function doesn't work correctly
     // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
     // }
     // you need this to invert correctly
-    app.executeMenuCommand('Colors8');
+    app.executeMenuCommand('Colors9');
     // inverse color cmyk doc
     CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
     for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
@@ -791,7 +791,6 @@ it has to remain here or the inverse function doesn't work correctly
         var cmykSaveOpts = new EPSSaveOptions();
         cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
     }
-    return;
     //convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
     CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
     // for (let i = 0; i < exportSizes.length; i++) {
@@ -959,15 +958,15 @@ function iconGenExp() {
     // }
     // not working
     // you need this to invert correctly
-    app.executeMenuCommand('Colors8');
+    app.executeMenuCommand('Colors9');
     //convert violet to white and save as
     CSTasks.convertColorCMYK(cmykDocExp.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-    // for (let i = 0; i < exportSizes.length; i++) {
-    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
-    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + cmykFilename);
-    // 	let cmykSaveOpts = new EPSSaveOptions();
-    // 	cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
-    // }
+    for (var i_10 = 0; i_10 < exportSizes.length; i_10++) {
+        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(fourColorProcessName, ".eps");
+        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(epsName)) + cmykFilename);
+        var cmykSaveOpts = new EPSSaveOptions();
+        cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
+    }
     //close and clean up
     cmykDocExp.close(SaveOptions.DONOTSAVECHANGES);
     cmykDocExp = null;
@@ -989,7 +988,6 @@ it has to remain here or the inverse function doesn't work correctly
 ******************************/
     //select the contents on artboard 0
     var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
-    var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     var iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
     var iconOffset = CSTasks.getOffset(iconGroup.position, CSTasks.getArtboardCorner(sourceDoc.artboards[0]));
     /********************************
@@ -1241,6 +1239,7 @@ Create new artboard with text lockup
     // 	let rgbSaveOpts = new EPSSaveOptions();
     // 	mastDoc.saveAs(destFile, rgbSaveOpts);
     // }
+    var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     // you need this to invert correctly
     app.executeMenuCommand('Colors9');
     var colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
@@ -1326,6 +1325,7 @@ Create new artboard with text lockup
         mastDocCMYK.artboards[0].artboardRect[1] + iconOffset[1],
     ];
     CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
+    mastDocCMYK.selectObjectsOnActiveArtboard();
     //make icon fill whole area
     var getLayer2 = mastDocCMYK.layers.getByName('Layer 1');
     var landingZoneSquare3 = getLayer2.pathItems.rectangle(-384, 0, 256, 256);
@@ -1391,9 +1391,6 @@ Create new artboard with text lockup
         mastDocCMYK.artboards[0].artboardRect[1] + mastTextOffsetCMYK[1],
     ];
     CSTasks.translateObjectTo(mastTextCMYK, mastTextLocCMYK);
-    mastDocCMYK.selectObjectsOnActiveArtboard();
-    app.executeMenuCommand('Colors8');
-    CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
     // save a text and lockup PNG
     // let masterStartWidthCMYK =
     // 	mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
@@ -1417,6 +1414,8 @@ Create new artboard with text lockup
     // }
     // not working
     // CMYK color doesn'tmatch array
+    app.executeMenuCommand('Colors8');
+    CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
     // save a text and lockup inverse PNG
     // let masterStartWidthPngCMYK =
