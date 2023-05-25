@@ -860,12 +860,15 @@ Create new artboard with text lockup
 		DocumentColorSpace.RGB
 	);
 	mastDoc.swatches.removeAll();
+
+
 	// duplicate icon
 	let mastGroup = iconGroup.duplicate(
 		mastDoc.layers[0],
 		/*@ts-ignore*/
 		ElementPlacement.PLACEATEND
 	);
+
 	// get correct position
 	let mastLoc = [
 		mastDoc.artboards[0].artboardRect[0] + iconOffset[0],
@@ -873,7 +876,94 @@ Create new artboard with text lockup
 	];
 	// paste icon
 	CSTasks.translateObjectTo(mastGroup, mastLoc);
+
+
+
+
+
+
+
+
+	//make icon fill whole area
+	let getLayer = mastDoc.layers.getByName('Layer 1');
+	let landingZoneSquare2 = getLayer.pathItems.rectangle(
+		-384,
+		0,
+		256,
+		256);
+	function placeIconOnArtboard3(mastGroup, maxSize, getLayer) {
+		let setLandingZoneSquareColor = new RGBColor();
+		setLandingZoneSquareColor.red = 12;
+		setLandingZoneSquareColor.green = 28;
+		setLandingZoneSquareColor.blue = 151;
+
+		landingZoneSquare2.fillColor = setLandingZoneSquareColor;
+		landingZoneSquare2.name = "LandingZone";
+		landingZoneSquare2.filled = false;
+		/*@ts-ignore*/
+		landingZoneSquare2.move(getLayer, ElementPlacement.PLACEATEND);
+
+		let placedMastBannerIconOnText = mastGroup;
+		let landingZone = mastDoc.pathItems.getByName("LandingZone");
+		let preferredWidth = 256;
+		let preferredHeight = 256;
+
+		// Resize the mast icon to the preferred width if necessary
+		let widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
+		if (placedMastBannerIconOnText.width != preferredWidth) {
+			placedMastBannerIconOnText.resize(widthRatio, widthRatio);
+		}
+
+		// Resize the mast icon to the preferred height if necessary
+		let heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
+		if (placedMastBannerIconOnText.height != preferredHeight) {
+			placedMastBannerIconOnText.resize(heightRatio, heightRatio);
+		}
+
+		// Center the mast icon on the landing zone
+		let centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
+		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
+		placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
+
+		// Resize the mast icon again to ensure it fits within the maximum size
+		let W = mastGroup.width,
+			H = mastGroup.height,
+			MW = maxSize.W,
+			MH = maxSize.H,
+			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
+		mastGroup.resize(factor, factor);
+	}
+
+	placeIconOnArtboard3(mastGroup, { W: 256, H: 256 }, getLayer);
+	landingZoneSquare2.remove();
+
+	if (mastGroup.width > mastGroup.height) {
+		//alert("icon is more wide than tall!");
+		let verticalOffset = (256 - mastGroup.height) / 2;
+		mastLoc = [
+			mastDoc.artboards[0].artboardRect[0],
+			mastDoc.artboards[0].artboardRect[1] + -verticalOffset, // vert
+		];
+		CSTasks.translateObjectTo(mast, mastLoc);
+	} else {
+		//alert("icon is more tall than wide!")
+		mastLoc = [
+			mastDoc.artboards[0].artboardRect[0],
+			mastDoc.artboards[0].artboardRect[1],
+		];
+		CSTasks.translateObjectTo(mastGroup, mastLoc);
+	}
+
+
+
+
+
+
+
 	CSTasks.ungroupOnce(mastGroup);
+
+
+
 
 	//get the text offset for exporting
 	let mastTextOffset = CSTasks.getOffset(
@@ -893,32 +983,6 @@ Create new artboard with text lockup
 	];
 	// paste text
 	CSTasks.translateObjectTo(mastText, mastTextLoc);
-	// return;
-	// alert(mastText.toString());
-	// get left at 0
-	// let artboardStartPoint =	mastDoc.artboards[0].artboardRect[0]
-	// get icon poisition
-	// let iconPosition = mastDoc.
-	// let item = app.activeDocument.selection[0];
-	// alert(item);
-	// mastDoc.artboards[0].name = 			mastDoc.artboards[0].artboardRect[0] + iconOffset[0],
-	// mastDoc.artboards[0].artboardRect[1] + iconOffset[1],
-	// alert(mastDoc.artboards[0].artboardRect[0].toString()); //0
-	// alert(mastDoc.artboards[0].artboardRect[1].toString()); // -384
-	// alert(mastDoc.artboards[0].artboardRect[2].toString()); //1173.7
-	// alert(mastDoc.artboards[0].artboardRect[3].toString());// -640
-	// mastDoc.artboards[0].artboardRect = [0, 0, 200, 300];
-	// Get a reference to the active document
-	// var doc = app.activeDocument;
-	// // Get a reference to the active artboard
-	// var activeArtboard = doc.artboards[doc.artboards.getActiveArtboardIndex()];
-	// // Set the new width for the artboard (in points)
-	// var newWidth2 = 500; // Update with your desired width
-	// // Reduce the width of the artboard
-	// activeArtboard.resizeArtboard(newWidth2, activeArtboard.artboardRect[1], activeArtboard.artboardRect[2], activeArtboard.artboardRect[3]);
-	// // Redraw the document to reflect the changes
-	// doc.redraw();
-
 
 	// save a text and lockup PNG
 	// let masterStartWidth =
