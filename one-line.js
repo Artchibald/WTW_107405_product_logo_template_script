@@ -688,60 +688,6 @@ it has to remain here or the inverse function doesn't work correctly
     rgbDoc.close(SaveOptions.DONOTSAVECHANGES);
     rgbDoc = null;
     //#endregion
-    //#region CORE EXPORT CMYK
-    /****************
-    CMYK exports x4 (EPS only)
-    ****************/
-    //open a new document with CMYK colorspace, and duplicate the icon to the new document
-    var cmykDoc = CSTasks.duplicateArtboardInNewDoc(sourceDoc, 0, DocumentColorSpace.CMYK);
-    cmykDoc.swatches.removeAll();
-    //need to reverse the order of copying the group to get the right color ordering
-    var cmykGroup = iconGroup.duplicate(cmykDoc.layers[0], 
-    /*@ts-ignore*/
-    ElementPlacement.PLACEATBEGINNING);
-    var cmykLoc = [
-        cmykDoc.artboards[0].artboardRect[0] + iconOffset[0],
-        cmykDoc.artboards[0].artboardRect[1] + iconOffset[1],
-    ];
-    CSTasks.translateObjectTo(cmykGroup, cmykLoc);
-    CSTasks.ungroupOnce(cmykGroup);
-    CSTasks.convertToCMYK(cmykDoc, cmykDoc.pathItems, colors, colorIndex);
-    // for (let i = 0; i < exportSizes.length; i++) {
-    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
-    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
-    // 	let cmykSaveOpts = new EPSSaveOptions();
-    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-    // }
-    // you need this to invert correctly
-    app.executeMenuCommand('Colors8');
-    // inverse color cmyk doc
-    CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
-    // for (let i = 0; i < exportSizes.length; i++) {
-    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
-    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
-    // 	let cmykSaveOpts = new EPSSaveOptions();
-    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-    // }
-    //convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
-    CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
-    // for (let i = 0; i < exportSizes.length; i++) {
-    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${whiteColorName}_${inverseColorName}_${fourColorProcessName}.eps`;
-    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
-    // 	let cmykSaveOpts = new EPSSaveOptions();
-    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-    // }
-    //convert to black color cmyk doc (WTW Icon black at 100% opacity) and save EPS
-    CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
-    // for (let i = 0; i < exportSizes.length; i++) {
-    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${blackColorName}_${positiveColorName}_${fourColorProcessName}.eps`;
-    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
-    // 	let cmykSaveOpts = new EPSSaveOptions();
-    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-    // }
-    //close and clean up
-    cmykDoc.close(SaveOptions.DONOTSAVECHANGES);
-    cmykDoc = null;
-    //#endregion
     //#region CORE EXPORT RGB CROPPED
     /*********************************************************************
     RGB cropped export (SVG only), squares, cropped to artwork
@@ -809,6 +755,60 @@ it has to remain here or the inverse function doesn't work correctly
     //close and clean up
     rgbDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
     rgbDocCroppedVersion = null;
+    //#endregion
+    //#region CORE EXPORT CMYK
+    /****************
+    CMYK exports x4 (EPS only)
+    ****************/
+    //open a new document with CMYK colorspace, and duplicate the icon to the new document
+    var cmykDoc = CSTasks.duplicateArtboardInNewDoc(sourceDoc, 0, DocumentColorSpace.CMYK);
+    cmykDoc.swatches.removeAll();
+    //need to reverse the order of copying the group to get the right color ordering
+    var cmykGroup = iconGroup.duplicate(cmykDoc.layers[0], 
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATBEGINNING);
+    var cmykLoc = [
+        cmykDoc.artboards[0].artboardRect[0] + iconOffset[0],
+        cmykDoc.artboards[0].artboardRect[1] + iconOffset[1],
+    ];
+    CSTasks.translateObjectTo(cmykGroup, cmykLoc);
+    CSTasks.ungroupOnce(cmykGroup);
+    CSTasks.convertToCMYK(cmykDoc, cmykDoc.pathItems, colors, colorIndex);
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
+    // you need this to invert correctly
+    app.executeMenuCommand('Colors8');
+    // inverse color cmyk doc
+    CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
+    //convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
+    CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${whiteColorName}_${inverseColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
+    //convert to black color cmyk doc (WTW Icon black at 100% opacity) and save EPS
+    CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${blackColorName}_${positiveColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
+    //close and clean up
+    cmykDoc.close(SaveOptions.DONOTSAVECHANGES);
+    cmykDoc = null;
     //#endregion
 }
 iconGenCore();
@@ -1001,7 +1001,7 @@ Create new artboard with text lockup
         sourceDoc.artboards[0].artboardRect[1] -
             sourceDoc.artboards[0].artboardRect[3] ==
             256) {
-        // alert("More than 2 artboards detected!");
+        // create new artboard
         var firstRect = sourceDoc.artboards[0].artboardRect;
         sourceDoc.artboards.add(CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2400, 256));
     }
@@ -1028,19 +1028,23 @@ Create new artboard with text lockup
         alert("Please try again with artwork on the main 256x256 artboard.");
         return;
     }
-    var mast = 
+    // get icon
+    var mast = iconGroup.duplicate(iconGroup.layer, 
     /*@ts-ignore*/
-    iconGroup.duplicate(iconGroup.layer, ElementPlacement.PLACEATEND);
+    ElementPlacement.PLACEATEND);
+    // get icon new pos
     var mastPos = [
         sourceDoc.artboards[2].artboardRect[0] + iconOffset[0],
         sourceDoc.artboards[2].artboardRect[1] + iconOffset[1],
     ];
+    // paste icon
     CSTasks.translateObjectTo(mast, mastPos);
+    // add text from prompt
     var textRef = sourceDoc.textFrames.add();
     textRef.contents = appNameCore;
     textRef.textRange.characterAttributes.size = 182;
     CSTasks.setFont(textRef, desiredFont);
-    //vertically align the baseline to be 64 px above the botom of the artboard
+    //vertically align the baseline to be 64 px above the bottom of the artboard
     var bottomEdge = sourceDoc.artboards[2].artboardRect[3] +
         0.25 * sourceDoc.artboards[0].artboardRect[2] -
         sourceDoc.artboards[0].artboardRect[0]; //64px (0.25*256px) above the bottom edge of the artboard
@@ -1060,7 +1064,7 @@ Create new artboard with text lockup
     var newWidth = textGroup.position[0] +
         textGroup.width -
         sourceDoc.artboards[2].artboardRect[0] +
-        leftMargin - 16;
+        leftMargin - 64;
     var resizedRect = CSTasks.newRect(sourceDoc.artboards[2].artboardRect[0], -sourceDoc.artboards[2].artboardRect[1], newWidth, 256);
     sourceDoc.artboards[2].artboardRect = resizedRect;
     // new position of icon in text banner 1 without padding
@@ -1106,6 +1110,13 @@ Create new artboard with text lockup
     }
     placeIconOnArtboard2(mast, { W: 256, H: 256 }, getArtLayer);
     landingZoneSquare.remove();
+    // move icon to fully left on the artboard 2
+    mastPos = [
+        sourceDoc.artboards[2].artboardRect[0],
+        sourceDoc.artboards[2].artboardRect[1],
+    ];
+    CSTasks.translateObjectTo(mast, mastPos);
+    return;
     //#endregion
     //#region ARTBOARD2 RGB EXPORTS
     //select the contents on artboard 0
@@ -1115,31 +1126,54 @@ Create new artboard with text lockup
     //open a new doc and copy and position the icon and the lockup text
     var mastDoc = CSTasks.duplicateArtboardInNewDoc(sourceDoc, 2, DocumentColorSpace.RGB);
     mastDoc.swatches.removeAll();
+    // duplicate icon
     var mastGroup = iconGroup.duplicate(mastDoc.layers[0], 
     /*@ts-ignore*/
     ElementPlacement.PLACEATEND);
+    // get correct position
     var mastLoc = [
         mastDoc.artboards[0].artboardRect[0] + iconOffset[0],
         mastDoc.artboards[0].artboardRect[1] + iconOffset[1],
     ];
+    // paste icon
     CSTasks.translateObjectTo(mastGroup, mastLoc);
     CSTasks.ungroupOnce(mastGroup);
     //get the text offset for exporting
     var mastTextOffset = CSTasks.getOffset(textGroup.position, CSTasks.getArtboardCorner(sourceDoc.artboards[0]));
+    // duplicate text
     var mastText = textGroup.duplicate(mastDoc.layers[0], 
     /*@ts-ignore*/
     ElementPlacement.PLACEATEND);
+    // text position
     var mastTextLoc = [
         mastDoc.artboards[0].artboardRect[0] + mastTextOffset[0],
         mastDoc.artboards[0].artboardRect[1] + mastTextOffset[1],
     ];
+    // paste text
     CSTasks.translateObjectTo(mastText, mastTextLoc);
-    // we need to make artboard clipping mask here for the artboard to crop expressive icons correctly.
-    var GetMyCroppingLayerMastDoc = mastDoc.layers.getByName('Layer 1');
-    mastDoc.activeLayer = GetMyCroppingLayerMastDoc;
-    mastDoc.activeLayer.hasSelectedArtwork = true;
-    // select all
-    sourceDoc.selectObjectsOnActiveArtboard();
+    // get left at 0
+    // let artboardStartPoint =	mastDoc.artboards[0].artboardRect[0]
+    // get icon poisition
+    // let iconPosition = mastDoc.
+    // let item = app.activeDocument.selection[0];
+    // alert(item);
+    // mastDoc.artboards[0].name = 			mastDoc.artboards[0].artboardRect[0] + iconOffset[0],
+    // mastDoc.artboards[0].artboardRect[1] + iconOffset[1],
+    // alert(mastDoc.artboards[0].artboardRect[0].toString()); //0
+    // alert(mastDoc.artboards[0].artboardRect[1].toString()); // -384
+    // alert(mastDoc.artboards[0].artboardRect[2].toString()); //1173.7
+    // alert(mastDoc.artboards[0].artboardRect[3].toString());// -640
+    // mastDoc.artboards[0].artboardRect = [0, 0, 200, 300];
+    // Get a reference to the active document
+    // var doc = app.activeDocument;
+    // // Get a reference to the active artboard
+    // var activeArtboard = doc.artboards[doc.artboards.getActiveArtboardIndex()];
+    // // Set the new width for the artboard (in points)
+    // var newWidth2 = 500; // Update with your desired width
+    // // Reduce the width of the artboard
+    // activeArtboard.resizeArtboard(newWidth2, activeArtboard.artboardRect[1], activeArtboard.artboardRect[2], activeArtboard.artboardRect[3]);
+    // // Redraw the document to reflect the changes
+    // doc.redraw();
     // save a text and lockup PNG
     // let masterStartWidth =
     // 	mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
@@ -1810,24 +1844,24 @@ function createAndExportArtboard3() {
     // clip!
     app.executeMenuCommand('makeMask');
     // save banner EPS 
-    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
-        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(expressiveArtworkName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(positiveColorName, "_").concat(cmykName, ".eps");
-        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)) + filename);
-        var rgbSaveOpts = new EPSSaveOptions();
-        mastDocCMYK.saveAs(destFile, rgbSaveOpts);
-    }
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${cmykName}.eps`;
+    // 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
+    // 	let rgbSaveOpts = new EPSSaveOptions();
+    // 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
+    // }
     // not working, colors do not match cmyk array of colors
     // make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
     app.executeMenuCommand('Colors8');
     //Invert
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
     // save banner EPS 
-    for (var i_10 = 0; i_10 < exportSizes.length; i_10++) {
-        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(expressiveArtworkName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(cmykName, ".eps");
-        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconInLayoutFolderName, "/").concat(epsName)) + filename);
-        var rgbSaveOpts = new EPSSaveOptions();
-        mastDocCMYK.saveAs(destFile, rgbSaveOpts);
-    }
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${cmykName}.eps`;
+    // 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
+    // 	let rgbSaveOpts = new EPSSaveOptions();
+    // 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
+    // }
     //close and clean up
     mastDocCMYK.close(SaveOptions.DONOTSAVECHANGES);
     mastDocCMYK = null;
