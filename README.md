@@ -125,7 +125,7 @@ To
 - Then all the Core exports (sourceDoc.artboards[0].XXXX)
 - Then all the expressive exports (sourceDoc.artboards[1].XXXX)
 - Extra note: I noticed "let = colorIndex" is needed for CMYK conversions, be sure it isdeclared in the previous new docrgb block, but after the function convertToRGB or cmyk invert further on, does not work.
-
+- Extra note: Make sure you use colors8 (CMYK) and colors9 (RGB) in the right places or you will have problems with inverts
 # Font issues
 
 Font type must be TT (truetype), doesn't work with O (opentype)
