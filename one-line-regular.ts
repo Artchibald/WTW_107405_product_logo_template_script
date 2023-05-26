@@ -958,12 +958,12 @@ it has to remain here or the inverse function doesn't work correctly
 	// inverse color cmyk doc
 	CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
 
-	for (let i = 0; i < exportSizes.length; i++) {
-		let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
-		let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
-		let cmykSaveOpts = new EPSSaveOptions();
-		cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-	}
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+	// 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+	// 	let cmykSaveOpts = new EPSSaveOptions();
+	// 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+	// }
 	//convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
 	CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
 
@@ -1198,12 +1198,12 @@ function iconGenExp() {
 	//convert violet to white and save as
 	CSTasks.convertColorCMYK(cmykDocExp.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
-	for (let i = 0; i < exportSizes.length; i++) {
-		let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
-		let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + cmykFilename);
-		let cmykSaveOpts = new EPSSaveOptions();
-		cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
-	}
+	// for (let i = 0; i < exportSizes.length; i++) {
+	// 	let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+	// 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + cmykFilename);
+	// 	let cmykSaveOpts = new EPSSaveOptions();
+	// 	cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
+	// }
 
 	//close and clean up
 	cmykDocExp.close(SaveOptions.DONOTSAVECHANGES);
@@ -1743,7 +1743,7 @@ Create new artboard with text lockup
 		CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
 	}
 	CSTasks.ungroupOnce(mastGroupCMYK);
-
+	mastDocCMYK.selectObjectsOnActiveArtboard();
 
 	//get the text offset for exporting
 	let mastTextOffsetCMYK = CSTasks.getOffset(
@@ -1785,8 +1785,9 @@ Create new artboard with text lockup
 	// 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	// }
 	// not working
-	// CMYK color doesn'tmatch array
-	app.executeMenuCommand('Colors8');
+	CSTasks.ungroupOnce(mastGroupCMYK);
+	mastDocCMYK.selectObjectsOnActiveArtboard();
+	//app.executeMenuCommand('Colors8');
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 	// save a text and lockup inverse PNG
@@ -2474,12 +2475,13 @@ function createAndExportArtboard3() {
 	// 	let rgbSaveOpts = new EPSSaveOptions();
 	// 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	// }
-	// not working, colors do not match cmyk array of colors
 	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
+
 	app.executeMenuCommand('Colors8');
+	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 	//Invert
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-
+	return;
 	// save banner EPS 
 	// for (let i = 0; i < exportSizes.length; i++) {
 	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${cmykName}.eps`;

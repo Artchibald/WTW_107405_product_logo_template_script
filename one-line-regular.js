@@ -785,12 +785,12 @@ it has to remain here or the inverse function doesn't work correctly
     app.executeMenuCommand('Colors9');
     // inverse color cmyk doc
     CSTasks.convertColorCMYK(cmykDoc.pathItems, colors[violetIndex][1], colors[whiteIndex][1]);
-    for (var i_9 = 0; i_9 < exportSizes.length; i_9++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(epsName, "/").concat(cmykName)) + cmykFilename);
-        var cmykSaveOpts = new EPSSaveOptions();
-        cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
-    }
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${cmykName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
     //convert to white color cmyk doc (WTW Icon white at 100% opacity) and save 
     CSTasks.convertAll(cmykDoc.pathItems, colors[whiteIndex][0], 100);
     // for (let i = 0; i < exportSizes.length; i++) {
@@ -961,12 +961,12 @@ function iconGenExp() {
     app.executeMenuCommand('Colors9');
     //convert violet to white and save as
     CSTasks.convertColorCMYK(cmykDocExp.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-    for (var i_10 = 0; i_10 < exportSizes.length; i_10++) {
-        var cmykFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(fourColorProcessName, ".eps");
-        var cmykDestFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(expressiveFolderName, "/").concat(iconFolderName, "/").concat(epsName)) + cmykFilename);
-        var cmykSaveOpts = new EPSSaveOptions();
-        cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
-    }
+    // for (let i = 0; i < exportSizes.length; i++) {
+    // 	let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
+    // 	let cmykDestFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + cmykFilename);
+    // 	let cmykSaveOpts = new EPSSaveOptions();
+    // 	cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
+    // }
     //close and clean up
     cmykDocExp.close(SaveOptions.DONOTSAVECHANGES);
     cmykDocExp = null;
@@ -1381,6 +1381,7 @@ Create new artboard with text lockup
         CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
     }
     CSTasks.ungroupOnce(mastGroupCMYK);
+    mastDocCMYK.selectObjectsOnActiveArtboard();
     //get the text offset for exporting
     var mastTextOffsetCMYK = CSTasks.getOffset(textGroup.position, CSTasks.getArtboardCorner(sourceDoc.artboards[0]));
     var mastTextCMYK = textGroup.duplicate(mastDocCMYK.layers[0], 
@@ -1413,8 +1414,9 @@ Create new artboard with text lockup
     // 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
     // }
     // not working
-    // CMYK color doesn'tmatch array
-    app.executeMenuCommand('Colors8');
+    CSTasks.ungroupOnce(mastGroupCMYK);
+    mastDocCMYK.selectObjectsOnActiveArtboard();
+    //app.executeMenuCommand('Colors8');
     CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
     // save a text and lockup inverse PNG
@@ -1948,11 +1950,12 @@ function createAndExportArtboard3() {
     // 	let rgbSaveOpts = new EPSSaveOptions();
     // 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
     // }
-    // not working, colors do not match cmyk array of colors
     // make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
     app.executeMenuCommand('Colors8');
+    CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
     //Invert
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+    return;
     // save banner EPS 
     // for (let i = 0; i < exportSizes.length; i++) {
     // 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${cmykName}.eps`;
