@@ -1240,6 +1240,7 @@ Create new artboard with text lockup
     // you need this to invert correctly
     app.executeMenuCommand('Colors9');
     CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+    CSTasks.convertColorRGB(mastDoc.pathItems, colors[blackIndex][0], colors[whiteIndex][0]);
     var colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
     //save a text and lockup PNG
     var masterStartWidthPng = mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
@@ -1736,6 +1737,7 @@ function createAndExportArtboard3() {
     app.executeMenuCommand('Colors9');
     //Invert
     CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+    CSTasks.convertColorRGB(mastDoc.pathItems, colors[blackIndex][0], colors[whiteIndex][0]);
     //save a inverted banner PNG
     for (var i_63 = 0; i_63 < exportSizes.length; i_63++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(expressiveArtworkName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
@@ -1905,6 +1907,7 @@ function createAndExportArtboard3() {
     // return;
     //Invert
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
+    CSTasks.convertColorCMYK(mastDoc.pathItems, colors[blackIndex][0], colors[whiteIndex][0]);
     // save banner EPS 
     for (var i_69 = 0; i_69 < exportSizes.length; i_69++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(expressiveArtworkName, "_").concat(fullColorName, "_").concat(standardName, "_").concat(inverseColorName, "_").concat(fourColorProcessName, ".eps");
