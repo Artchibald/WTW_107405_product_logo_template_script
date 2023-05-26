@@ -124,6 +124,7 @@ To
 - Then reusable interface with reusable functions.
 - Then all the Core exports (sourceDoc.artboards[0].XXXX)
 - Then all the expressive exports (sourceDoc.artboards[1].XXXX)
+- Extra note: I noticed "let = colorIndex" is needed for CMYK conversions, be sure it isdeclared in the previous new docrgb block, but after the function convertToRGB or cmyk invert further on, does not work.
 
 # Font issues
 
