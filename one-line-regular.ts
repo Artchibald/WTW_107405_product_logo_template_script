@@ -991,11 +991,14 @@ it has to remain here or the inverse function doesn't work correctly
 	//#endregion
 }
 iconGenCore();
+
 function iconGenExp() {
 	//#region EXPRESSIVE RGB EXPORTS
-	/***************** 
+	/*****************
 		Expressive icon exports
 		***************/
+
+	app.executeMenuCommand('Colors9');
 	//select the contents on artboard 0
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	//select the contents on artboard 0
@@ -1057,6 +1060,9 @@ function iconGenExp() {
 
 	//convert violet to white
 	// you need this to invert correctly
+
+	//index the RGB colors for conversion to CMYK. An inelegant location.
+	let colorIndex = CSTasks.indexRGBColors(rgbExpDoc.pathItems, colors);
 	app.executeMenuCommand('Colors9');
 	//convert violet to white and save as
 	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
@@ -1182,9 +1188,10 @@ function iconGenExp() {
 	CSTasks.translateObjectTo(cmykGroupExp, cmykLocExp);
 	CSTasks.ungroupOnce(cmykGroupExp);
 
-
-	let colorIndex = CSTasks.indexRGBColors(cmykDocExp.pathItems, colors);
+	cmykDocExp.selectObjectsOnActiveArtboard();
+	app.executeMenuCommand('Colors9');
 	CSTasks.convertToCMYK(cmykDocExp, cmykDocExp.pathItems, colors, colorIndex);
+
 
 	for (let i = 0; i < exportSizes.length; i++) {
 		let cmykFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
@@ -1193,9 +1200,8 @@ function iconGenExp() {
 		cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
 	}
 	// not working
-	// you need this to invert correctly
 	app.executeMenuCommand('Colors9');
-	//convert violet to white and save as
+	//Invert
 	CSTasks.convertColorCMYK(cmykDocExp.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -1538,19 +1544,20 @@ Create new artboard with text lockup
 	CSTasks.translateObjectTo(mastText, mastTextLoc);
 
 	// save a text and lockup PNG
+	let masterStartHeight = mastDoc.artboards[0].artboardRect[3] - mastDoc.artboards[0].artboardRect[1];
 	let masterStartWidth =
 		mastDoc.artboards[0].artboardRect[2] - mastDoc.artboards[0].artboardRect[0];
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, exportSizes[0]);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//save a text and lockup SVG
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, 256);
 	}
 
 	//save a text and lockup EPS
@@ -1575,14 +1582,14 @@ Create new artboard with text lockup
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidthPng, exportSizes[0]);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//save a text and lockup SVG
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//save a text and lockup EPS
@@ -1599,14 +1606,14 @@ Create new artboard with text lockup
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidthPng, exportSizes[0]);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//save a text and lockup SVG
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//save a text and lockup EPS
@@ -1624,14 +1631,14 @@ Create new artboard with text lockup
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidthPng, exportSizes[0]);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//save a text and lockup SVG
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDoc, destFile, 512, 1024);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 	//save a text and lockup EPS
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -1761,22 +1768,6 @@ Create new artboard with text lockup
 	];
 	CSTasks.translateObjectTo(mastTextCMYK, mastTextLocCMYK);
 
-
-	// save a text and lockup PNG
-	let masterStartWidthCMYK =
-		mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.png`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthCMYK, exportSizes[0]);
-	}
-
-	//save a text and lockup SVG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.svg`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
-	}
 	//save a text and lockup EPS
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
@@ -1794,19 +1785,6 @@ Create new artboard with text lockup
 	// save a text and lockup inverse PNG
 	let masterStartWidthPngCMYK =
 		mastDocCMYK.artboards[0].artboardRect[2] - mastDocCMYK.artboards[0].artboardRect[0];
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.png`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthPngCMYK, exportSizes[0]);
-	}
-
-	//save a text and lockup inverse SVG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.svg`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
-	}
-
 	//save a text and lockup inverse EPS
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
@@ -1817,19 +1795,6 @@ Create new artboard with text lockup
 
 	CSTasks.convertAll(mastDocCMYK.pathItems, colors[blackIndex][0], 100);
 
-	// save a text and lockup PNG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.png`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthPngCMYK, exportSizes[0]);
-	}
-
-	//save a text and lockup SVG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.svg`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
-	}
 	//save a text and lockup EPS
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${blackColorName}_${fourColorProcessName}.eps`;
@@ -1838,22 +1803,8 @@ Create new artboard with text lockup
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
 
-
 	CSTasks.convertAll(mastDocCMYK.pathItems, colors[whiteIndex][0], 100);
 
-	// save a text and lockup PNG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.png`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${pngName}`) + filename);
-		CSTasks.scaleAndExportPNG(mastDocCMYK, destFile, masterStartWidthPngCMYK, exportSizes[0]);
-	}
-
-	//save a text and lockup SVG
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.svg`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${alternativeLockupFolderName}/${svgName}`) + filename);
-		CSTasks.scaleAndExportSVG(mastDocCMYK, destFile, 512, 1024);
-	}
 	//save a text and lockup EPS
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${alternateName}_${fullColorName}_${standardName}_${whiteColorName}_${fourColorProcessName}.eps`;
@@ -1870,7 +1821,6 @@ Create new artboard with text lockup
 createAndExportArtboard2();
 
 function createAndExportArtboard3() {
-
 	//#region ARTBOARD3 CREATION
 	//select the contents on artboard 1
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
@@ -2471,7 +2421,7 @@ function createAndExportArtboard3() {
 
 	// save banner EPS 
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${cmykName}.eps`;
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
@@ -2485,7 +2435,7 @@ function createAndExportArtboard3() {
 
 	// save banner EPS 
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${cmykName}.eps`;
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
