@@ -2222,7 +2222,6 @@ function createAndExportArtboard3() {
 	app.executeMenuCommand('Colors9');
 	//Invert
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-	CSTasks.convertColorRGB(mastDoc.pathItems, colors[blackIndex][0], colors[whiteIndex][0]);
 
 	//save a inverted banner PNG
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -2439,7 +2438,6 @@ function createAndExportArtboard3() {
 	// return;
 	//Invert
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-	CSTasks.convertColorCMYK(mastDoc.pathItems, colors[blackIndex][0], colors[whiteIndex][0]);
 
 
 	// save banner EPS 
