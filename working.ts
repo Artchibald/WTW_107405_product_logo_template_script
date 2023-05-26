@@ -160,17 +160,3 @@ app.executeMenuCommand('Colors8');
 CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 //Invert
 CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-return;
-// save banner EPS 
-// for (let i = 0; i < exportSizes.length; i++) {
-// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${cmykName}.eps`;
-// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
-// 	let rgbSaveOpts = new EPSSaveOptions();
-// 	mastDocCMYK.saveAs(destFile, rgbSaveOpts);
-// }
-//close and clean up
-mastDocCMYK.close(SaveOptions.DONOTSAVECHANGES);
-mastDocCMYK = null;
-//#endregion
-}
-createAndExportArtboard3(); 

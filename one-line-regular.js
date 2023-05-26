@@ -1416,7 +1416,7 @@ Create new artboard with text lockup
     // not working
     CSTasks.ungroupOnce(mastGroupCMYK);
     mastDocCMYK.selectObjectsOnActiveArtboard();
-    //app.executeMenuCommand('Colors8');
+    app.executeMenuCommand('Colors8');
     CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
     // save a text and lockup inverse PNG
@@ -1955,7 +1955,6 @@ function createAndExportArtboard3() {
     CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
     //Invert
     CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-    return;
     // save banner EPS 
     // for (let i = 0; i < exportSizes.length; i++) {
     // 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${cmykName}.eps`;
