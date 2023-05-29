@@ -6,7 +6,7 @@
     "types": ["types-for-adobe/illustrator/2015.3"]
   },  
   "include": [
-    "one-line-regular.ts"
+    "one-line-bold.ts"
   ],
   "exclude": ["node_modules"]
 }
