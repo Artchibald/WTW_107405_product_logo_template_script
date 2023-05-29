@@ -6,7 +6,7 @@
     "types": ["types-for-adobe/illustrator/2015.3"]
   },  
   "include": [
-    "two-line-bold.ts"
+    "two-line-second-bold.ts"
   ],
   "exclude": ["node_modules"]
 }
