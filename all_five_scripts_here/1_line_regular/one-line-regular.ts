@@ -533,7 +533,7 @@ let CSTasks = (function () {
          }
       }
       if (unmatchedColors.length > 0) {
-         // NOTE: Don't perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
+         // NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
          return;
          alert(
             "One or more colors don't match the brand palette and weren't converted."
