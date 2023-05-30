@@ -145,7 +145,7 @@ interface Task {
 	newRect(x: number, y: number, width: number, height: number): [number, number, number, number];
 	setFont(textRef: any, desiredFont: string): void;
 	createTextFrame(doc: Document, message: string, pos: number[], size: number): any;
-	initializeColors(RGBArray: any, CMYKArray: any);
+	initializeColors(RGBArray: number[][], CMYKArray: number[][]);
 	matchRGB(color: RGBColor, matchArray: [RGBColor, CMYKColor][]): number;
 	matchColorsRGB(color1: RGBColor | Color, color2: RGBColor | Color): boolean;
 	convertColorCMYK(pathItems: PathItems, startColor: CMYKColor | Color, endColor: CMYKColor): void;
@@ -546,7 +546,7 @@ let CSTasks = (function () {
 			}
 			errorMsgPos[1] = errorMsgPos[1] - 20;
 
-			tasks.createTextFrame(doc, unmatchedString, errorMsgPos, 18);
+			tasks.createTextFrame(doc, unmatchedString, errorMsgPos, 40);
 		}
 	};
 
@@ -1065,8 +1065,10 @@ function iconGenExp() {
 	//convert violet to white
 	// you need this to invert correctly
 
-	//index the RGB colors for conversion to CMYK. An inelegant location.
 	app.executeMenuCommand('Colors9');
+
+	//index the RGB colors for conversion to CMYK. An inelegant location.
+	let colorIndex = CSTasks.indexRGBColors(rgbExpDocCroppedVersion.pathItems, colors);
 	//convert violet to white and save as
 	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -1158,7 +1160,6 @@ function iconGenExp() {
 
 	//close and clean up
 
-	let colorIndex = CSTasks.indexRGBColors(rgbExpDocCroppedVersion.pathItems, colors);
 	rgbExpDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
 
 	rgbExpDocCroppedVersion = null;
@@ -1193,9 +1194,12 @@ function iconGenExp() {
 	];
 	CSTasks.translateObjectTo(cmykGroupExp, cmykLocExp);
 
+	CSTasks.ungroupOnce(cmykGroupExp);
+	app.executeMenuCommand('Colors8');
+
+
 	cmykDocExp.selectObjectsOnActiveArtboard();
 	app.executeMenuCommand('Colors8');
-	CSTasks.ungroupOnce(cmykGroupExp);
 
 	CSTasks.convertToCMYK(cmykDocExp, cmykDocExp.pathItems, colors, colorIndex);
 
@@ -1205,7 +1209,7 @@ function iconGenExp() {
 		let cmykSaveOpts = new EPSSaveOptions();
 		cmykDocExp.saveAs(cmykDestFile, cmykSaveOpts);
 	}
-	app.executeMenuCommand('Colors8');
+
 	//Invert
 	CSTasks.convertColorCMYK(cmykDocExp.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -1644,9 +1648,9 @@ Create new artboard with text lockup
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	// you need this to invert correctly
 	app.executeMenuCommand('Colors9');
+	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[blackIndex][0], colors[whiteIndex][0]);
-	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
 
 	//save a text and lockup PNG
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -2304,6 +2308,8 @@ function createAndExportArtboard3() {
 	}
 	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
 	app.executeMenuCommand('Colors9');
+	//index the RGB colors for conversion to CMYK. An inelegant location.
+	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
 	//Invert
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -2337,8 +2343,6 @@ function createAndExportArtboard3() {
 	}
 
 
-	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
-	//index the RGB colors for conversion to CMYK. An inelegant location.
 	CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
 	//save a inverted CMYK banner EPS
 	for (let i = 0; i < exportSizes.length; i++) {
