@@ -122,6 +122,8 @@ To
 
 You must have a purple portion of your original icons or the invert to whites wont work and will skip.
 
+Make sure that all the colours in the expressive stripe are set to RGB otherwise the script will have trouble with CMYK colour conversion.
+
 # Script is 4 distinct blocks
 
 - Script starts with global var declarations, standard.
