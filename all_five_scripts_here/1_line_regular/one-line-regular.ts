@@ -1771,7 +1771,7 @@ createAndExportArtboard2();
 
 function createAndExportArtboard3() {
    //#region ARTBOARD3 CREATION
-   //select the contents on artboard 0
+   //select the contents on artboard 1
    let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
    let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
    let iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
@@ -2199,17 +2199,6 @@ function createAndExportArtboard3() {
       let rgbSaveOpts = new EPSSaveOptions();
       mastDoc.saveAs(destFile, rgbSaveOpts);
    }
-
-
-   // CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
-   // return;
-   // //save a inverted CMYK banner EPS
-   // for (let i = 0; i < exportSizes.length; i++) {
-   //    let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
-   //    let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
-   //    let rgbSaveOpts = new EPSSaveOptions();
-   //    mastDoc.saveAs(destFile, rgbSaveOpts);
-   // }
 
    //close and clean up
    mastDoc.close(SaveOptions.DONOTSAVECHANGES);
