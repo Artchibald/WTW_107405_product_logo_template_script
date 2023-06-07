@@ -45,6 +45,7 @@ let RGBColorElements = [
 	[58, 220, 201], // Inifinity turquoise 
 	[255, 255, 255], // white
 	[0, 0, 0], // Black
+	[128, 128, 128], // Grey matter dark
 	[51, 151, 129], // Expressive Inf Turquoise pattern
 	[52, 84, 153], // Expressive Strat blue pattern
 	[147, 0, 130], // Fireworks magenta pattern
@@ -61,6 +62,7 @@ let CMYKColorElements = [
 	[53, 0, 34, 0], // Inifinity turquoise   
 	[0, 0, 0, 0], // white
 	[0, 0, 0, 100], // Black
+	[0, 0, 0, 50], // grey matter dark
 	[76, 18, 56, 3], // Expressive Inf Turquoise pattern
 	[89, 66, 8, 1], // Expressive Strat blue pattern
 	[53, 100, 0, 1], // Fireworks magenta pattern
@@ -75,6 +77,7 @@ let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
 let whiteIndex = 5;
 let blackIndex = 6;
+let darkGreyIndex = 7;
 //loop default 
 let i;
 // folder and naming creations
@@ -162,7 +165,7 @@ interface Task {
 	matchColorsCMYK(color1: CMYKColor | Color, color2: CMYKColor | Color): boolean;
 	convertColorRGB(pathItems: PathItems, startColor: RGBColor, endColor: RGBColor): void;
 	convertAll(pathItems: PathItems, endColor: RGBColor, opacity: number): void;
-	convertToCMYK(doc: Document, pathItems: PathItems, colorArray: any, colorIndex: any);
+	convertToCMYK(doc: Document, pathItems: PathItems, colorArray: number[], colorIndex: number[]);
 	indexRGBColors(doc: PathItems, colors: [RGBColor, CMYKColor][]): number[];
 	unique(unmatchedColors: any);
 
@@ -538,7 +541,7 @@ let CSTasks = (function () {
 			}
 		}
 		if (unmatchedColors.length > 0) {
-			// NOTE: Don't perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
+			// NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
 			return;
 			alert(
 				"One or more colors don't match the brand palette and weren't converted."
@@ -655,7 +658,7 @@ let appNameExpressive = prompt("What name do you want to put in the second Expre
 //#endregion
 
 function iconGenCore() {
-	//#region CORE EXPORTS RGB 
+	//#region INDEX ONLY FOR CMYK conversion
 	//select the contents on artboard 0
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
@@ -664,7 +667,6 @@ function iconGenCore() {
 		iconGroup.position,
 		CSTasks.getArtboardCorner(sourceDoc.artboards[0])
 	);
-
 	// open a doc just for color indexing
 	/*********************************************************************
 All exports from artboard 0
@@ -705,8 +707,6 @@ All exports from artboard 0
 	This block creates the 3rd artboard, 
 	it has to remain here or the inverse function doesn't work correctly 
 	******************************/
-
-
 
 	/*********************************************************************
 	All exports from artboard 0
@@ -793,31 +793,31 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
 
-	//convert to inactive color (WTW Icon grey at 100% opacity) and save 
-	CSTasks.convertAll(rgbDoc.pathItems, colors[grayIndex][0], 100);
+	//convert to inactive color (WTW Icon DARK grey) and save 
+	CSTasks.convertAll(rgbDoc.pathItems, colors[darkGreyIndex][0], 100);
 
-	// save an inactive png to icon folder, need x2 problem here is spreadsheet, contradiction
+	// save an inactive png to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
 
-	// save an inactive png to icon folder, need x2 problem here is spreadsheet, contradiction
+	// save an inactive png to icon folder, same as above different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
 
-	// save 2 inactive svgs to icon folder, problem in spreadsheet here, contradiction
+	// save 2 inactive svgs to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
 
-	// save 2 inactive svgs to icon folder, problem in spreadsheet here, contradiction
+	// save 2 inactive svgs to icon folder, same as above different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
@@ -943,10 +943,17 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
 
-	//convert to inactive color
-	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[grayIndex][0], 100);
+	//convert to inactive DARK GRAY color
+	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], 100);
 
-	// Save a inactive cropped SVG,need x2 here, contradiction in spreadsheet
+	// Save a inactive cropped SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
+		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
+	}
+
+	// Save a inactive cropped SVG, same as above but different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
 		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
@@ -1017,8 +1024,9 @@ All exports from artboard 0
 		cmykDoc.saveAs(cmykDestFile, cmykSaveOpts);
 	}
 	app.executeMenuCommand('Colors9');
+	// alert(colorIndex.toString())
 	//convert to black color cmyk doc (WTW Icon black at 100% opacity) and save EPS
-	CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
+	//CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
 
 	let black = new CMYKColor();
 	black.cyan = 0;
@@ -1049,10 +1057,6 @@ iconGenCore();
 
 function iconGenExp() {
 	//#region EXPRESSIVE RGB EXPORTS
-	/*****************
-		Expressive icon exports
-		***************/
-
 	//select the contents on artboard 0
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	//select the contents on artboard 0
@@ -1322,6 +1326,7 @@ All exports from artboard 0
 }
 iconGenExp();
 
+
 function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
 	//select the contents on artboard 0
@@ -1394,88 +1399,11 @@ Create new artboard with text lockup
 		ElementPlacement.PLACEATEND);
 	// get icon new pos
 	let mastPos = [
-		sourceDoc.artboards[2].artboardRect[0] + iconOffset[0],
+		sourceDoc.artboards[2].artboardRect[0],
 		sourceDoc.artboards[2].artboardRect[1] + iconOffset[1],
 	];
 	// paste icon
 	CSTasks.translateObjectTo(mast, mastPos);
-
-	// new position of icon in text banner 1 without padding
-	mastPos = [
-		sourceDoc.artboards[2].artboardRect[0],
-		sourceDoc.artboards[2].artboardRect[1],
-	];
-	CSTasks.translateObjectTo(mast, mastPos);
-
-	//make icon fill whole area
-	let getArtLayer = sourceDoc.layers.getByName('Art');
-	let landingZoneSquare = getArtLayer.pathItems.rectangle(
-		-384,
-		0,
-		256,
-		256);
-	function placeIconOnArtboard2(mast, maxSize, getArtLayer) {
-		let setLandingZoneSquareColor = new RGBColor();
-		setLandingZoneSquareColor.red = 12;
-		setLandingZoneSquareColor.green = 28;
-		setLandingZoneSquareColor.blue = 151;
-
-		landingZoneSquare.fillColor = setLandingZoneSquareColor;
-		landingZoneSquare.name = "LandingZone";
-		landingZoneSquare.filled = false;
-		/*@ts-ignore*/
-		landingZoneSquare.move(getArtLayer, ElementPlacement.PLACEATEND);
-
-		let placedMastBannerIconOnText = mast;
-		let landingZone = sourceDoc.pathItems.getByName("LandingZone");
-		let preferredWidth = 256;
-		let preferredHeight = 256;
-
-		// Resize the mast icon to the preferred width if necessary
-		let widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
-		if (placedMastBannerIconOnText.width != preferredWidth) {
-			placedMastBannerIconOnText.resize(widthRatio, widthRatio);
-		}
-
-		// Resize the mast icon to the preferred height if necessary
-		let heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
-		if (placedMastBannerIconOnText.height != preferredHeight) {
-			placedMastBannerIconOnText.resize(heightRatio, heightRatio);
-		}
-
-		// Center the mast icon on the landing zone
-		let centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
-		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
-		placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
-
-		// Resize the mast icon again to ensure it fits within the maximum size
-		let W = mast.width,
-			H = mast.height,
-			MW = maxSize.W,
-			MH = maxSize.H,
-			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
-		mast.resize(factor, factor);
-	}
-
-	placeIconOnArtboard2(mast, { W: 256, H: 256 }, getArtLayer);
-	landingZoneSquare.remove();
-
-	if (mast.width > mast.height) {
-		//alert("icon is more wide than tall!");
-		let verticalOffset = (256 - mast.height) / 2;
-		mastPos = [
-			sourceDoc.artboards[2].artboardRect[0],
-			sourceDoc.artboards[2].artboardRect[1] + -verticalOffset, // vert
-		];
-		CSTasks.translateObjectTo(mast, mastPos);
-	} else {
-		//alert("icon is more tall than wide!")
-		mastPos = [
-			sourceDoc.artboards[2].artboardRect[0],
-			sourceDoc.artboards[2].artboardRect[1],
-		];
-		CSTasks.translateObjectTo(mast, mastPos);
-	}
 
 	// add text from prompt
 	let textRef = sourceDoc.textFrames.add();
@@ -1529,7 +1457,6 @@ Create new artboard with text lockup
 		textGroup.pathItems[i].fillColor = rgbBlack;
 	}
 
-
 	//#endregion
 	//#region INDEX ONLY FOR CMYK conversion
 	// open a doc just for color indexing
@@ -1550,7 +1477,7 @@ All exports from artboard 0
 		ElementPlacement.PLACEATEND
 	);
 	let IndexRgbLoc = [
-		indexRgbDoc.artboards[0].artboardRect[0] + iconOffset[0],
+		indexRgbDoc.artboards[0].artboardRect[0],
 		indexRgbDoc.artboards[0].artboardRect[1] + iconOffset[1],
 	];
 	CSTasks.translateObjectTo(IndexRgbGroup, IndexRgbLoc);
@@ -1578,11 +1505,9 @@ All exports from artboard 0
 	//index the RGB colors for conversion to CMYK. An inelegant location.
 	let colorIndex = CSTasks.indexRGBColors(indexRgbDoc.pathItems, colors);
 
-
 	//close and clean up 
 	indexRgbDoc.close(SaveOptions.DONOTSAVECHANGES);
 	indexRgbDoc = null;
-
 
 	//#endregion
 	//#region ARTBOARD2 RGB EXPORTS
@@ -1610,80 +1535,12 @@ All exports from artboard 0
 
 	// get correct position
 	let mastLoc = [
-		mastDoc.artboards[0].artboardRect[0] + iconOffset[0],
+		mastDoc.artboards[0].artboardRect[0],
 		mastDoc.artboards[0].artboardRect[1] + iconOffset[1],
 	];
 	// paste icon
 	CSTasks.translateObjectTo(mastGroup, mastLoc);
-	//make icon fill whole area
-	let getLayer = mastDoc.layers.getByName('Layer 1');
-	let landingZoneSquare2 = getLayer.pathItems.rectangle(
-		-384,
-		0,
-		256,
-		256);
-	function placeIconOnArtboard3(mastGroup, maxSize, getLayer) {
-		let setLandingZoneSquareColor = new RGBColor();
-		setLandingZoneSquareColor.red = 12;
-		setLandingZoneSquareColor.green = 28;
-		setLandingZoneSquareColor.blue = 151;
 
-		landingZoneSquare2.fillColor = setLandingZoneSquareColor;
-		landingZoneSquare2.name = "LandingZone";
-		landingZoneSquare2.filled = false;
-		/*@ts-ignore*/
-		landingZoneSquare2.move(getLayer, ElementPlacement.PLACEATEND);
-
-		let placedMastBannerIconOnText = mastGroup;
-		let landingZone = mastDoc.pathItems.getByName("LandingZone");
-		let preferredWidth = 256;
-		let preferredHeight = 256;
-
-		// Resize the mast icon to the preferred width if necessary
-		let widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
-		if (placedMastBannerIconOnText.width != preferredWidth) {
-			placedMastBannerIconOnText.resize(widthRatio, widthRatio);
-		}
-
-		// Resize the mast icon to the preferred height if necessary
-		let heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
-		if (placedMastBannerIconOnText.height != preferredHeight) {
-			placedMastBannerIconOnText.resize(heightRatio, heightRatio);
-		}
-
-		// Center the mast icon on the landing zone
-		let centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
-		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
-		placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
-
-		// Resize the mast icon again to ensure it fits within the maximum size
-		let W = mastGroup.width,
-			H = mastGroup.height,
-			MW = maxSize.W,
-			MH = maxSize.H,
-			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
-		mastGroup.resize(factor, factor);
-	}
-
-	placeIconOnArtboard3(mastGroup, { W: 256, H: 256 }, getLayer);
-	landingZoneSquare2.remove();
-
-	if (mastGroup.width > mastGroup.height) {
-		//alert("icon is more wide than tall!");
-		let verticalOffset = (256 - mastGroup.height) / 2;
-		mastLoc = [
-			mastDoc.artboards[0].artboardRect[0],
-			mastDoc.artboards[0].artboardRect[1] + -verticalOffset, // vert
-		];
-		CSTasks.translateObjectTo(mast, mastLoc);
-	} else {
-		//alert("icon is more tall than wide!")
-		mastLoc = [
-			mastDoc.artboards[0].artboardRect[0],
-			mastDoc.artboards[0].artboardRect[1],
-		];
-		CSTasks.translateObjectTo(mastGroup, mastLoc);
-	}
 	CSTasks.ungroupOnce(mastGroup);
 	//get the text offset for exporting
 	let mastTextOffset = CSTasks.getOffset(
@@ -1838,75 +1695,6 @@ All exports from artboard 0
 
 	mastDocCMYK.selectObjectsOnActiveArtboard();
 
-	//make icon fill whole area
-	let getLayer2 = mastDocCMYK.layers.getByName('Layer 1');
-	let landingZoneSquare3 = getLayer2.pathItems.rectangle(
-		-384,
-		0,
-		256,
-		256);
-	function placeIconOnArtboard4(mastGroupCMYK, maxSize, getLayer2) {
-		let setLandingZoneSquareColor = new RGBColor();
-		setLandingZoneSquareColor.red = 12;
-		setLandingZoneSquareColor.green = 28;
-		setLandingZoneSquareColor.blue = 151;
-
-		landingZoneSquare3.fillColor = setLandingZoneSquareColor;
-		landingZoneSquare3.name = "LandingZone";
-		landingZoneSquare3.filled = false;
-		/*@ts-ignore*/
-		landingZoneSquare3.move(getLayer2, ElementPlacement.PLACEATEND);
-
-		let placedMastBannerIconOnText = mastGroupCMYK;
-		let landingZone = mastDocCMYK.pathItems.getByName("LandingZone");
-		let preferredWidth = 256;
-		let preferredHeight = 256;
-
-		// Resize the mast icon to the preferred width if necessary
-		let widthRatio = (preferredWidth / placedMastBannerIconOnText.width) * 100;
-		if (placedMastBannerIconOnText.width != preferredWidth) {
-			placedMastBannerIconOnText.resize(widthRatio, widthRatio);
-		}
-
-		// Resize the mast icon to the preferred height if necessary
-		let heightRatio = (preferredHeight / placedMastBannerIconOnText.height) * 100;
-		if (placedMastBannerIconOnText.height != preferredHeight) {
-			placedMastBannerIconOnText.resize(heightRatio, heightRatio);
-		}
-
-		// Center the mast icon on the landing zone
-		let centerArt = [placedMastBannerIconOnText.left + (placedMastBannerIconOnText.width / 2), placedMastBannerIconOnText.top + (placedMastBannerIconOnText.height / 2)];
-		let centerLz = [landingZone.left + (landingZone.width / 2), landingZone.top + (landingZone.height / 2)];
-		placedMastBannerIconOnText.translate(centerLz[0] - centerArt[0], centerLz[1] - centerArt[1]);
-
-		// Resize the mast icon again to ensure it fits within the maximum size
-		let W = mastGroupCMYK.width,
-			H = mastGroupCMYK.height,
-			MW = maxSize.W,
-			MH = maxSize.H,
-			factor = W / H > MW / MH ? MW / W * 100 : MH / H * 100;
-		mastGroupCMYK.resize(factor, factor);
-	}
-
-	placeIconOnArtboard4(mastGroupCMYK, { W: 256, H: 256 }, getLayer2);
-	landingZoneSquare3.remove();
-
-	if (mastGroupCMYK.width > mastGroupCMYK.height) {
-		//alert("icon is more wide than tall!");
-		let verticalOffset = (256 - mastGroupCMYK.height) / 2;
-		mastLocCMYK = [
-			mastDocCMYK.artboards[0].artboardRect[0],
-			mastDocCMYK.artboards[0].artboardRect[1] + -verticalOffset, // vert
-		];
-		CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
-	} else {
-		//alert("icon is more tall than wide!")
-		mastLocCMYK = [
-			mastDocCMYK.artboards[0].artboardRect[0],
-			mastDocCMYK.artboards[0].artboardRect[1],
-		];
-		CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
-	}
 	CSTasks.ungroupOnce(mastGroupCMYK);
 	mastDocCMYK.selectObjectsOnActiveArtboard();
 
@@ -1925,6 +1713,11 @@ All exports from artboard 0
 		mastDocCMYK.artboards[0].artboardRect[1] + mastTextOffsetCMYK[1],
 	];
 	CSTasks.translateObjectTo(mastTextCMYK, mastTextLocCMYK);
+	CSTasks.ungroupOnce(mastGroupCMYK);
+	mastDocCMYK.selectObjectsOnActiveArtboard();
+	app.executeMenuCommand('Colors8');
+	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
+
 
 	//save a text and lockup EPS
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -1933,10 +1726,10 @@ All exports from artboard 0
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
+
 	CSTasks.ungroupOnce(mastGroupCMYK);
 	mastDocCMYK.selectObjectsOnActiveArtboard();
 	app.executeMenuCommand('Colors8');
-	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex2);
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -1987,10 +1780,11 @@ All exports from artboard 0
 }
 createAndExportArtboard2();
 
+
 function createAndExportArtboard3() {
 	//#region ARTBOARD3 CREATION
 	//select the contents on artboard 1
-	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements);
+	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
 	let iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
 	/******************
@@ -2348,7 +2142,7 @@ function createAndExportArtboard3() {
 	sourceDoc.selectObjectsOnActiveArtboard();
 	// clip!
 	app.executeMenuCommand('makeMask');
-
+	app.executeMenuCommand('Colors9');
 	//index the RGB colors for conversion to CMYK. An inelegant location.
 	let colorIndex = CSTasks.indexRGBColors(mastDoc.pathItems, colors);
 
@@ -2417,16 +2211,6 @@ function createAndExportArtboard3() {
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDoc.saveAs(destFile, rgbSaveOpts);
 	}
-
-
-	// CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
-	// //save a inverted CMYK banner EPS
-	// for (let i = 0; i < exportSizes.length; i++) {
-	// 	let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
-	// 	let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
-	// 	let rgbSaveOpts = new EPSSaveOptions();
-	// 	mastDoc.saveAs(destFile, rgbSaveOpts);
-	// }
 
 	//close and clean up
 	mastDoc.close(SaveOptions.DONOTSAVECHANGES);
@@ -2588,6 +2372,7 @@ function createAndExportArtboard3() {
 	app.executeMenuCommand('makeMask');
 	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
 	app.executeMenuCommand('Colors8');
+
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 
 	// save banner EPS 
@@ -2597,15 +2382,12 @@ function createAndExportArtboard3() {
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
-	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
-
 	app.executeMenuCommand('Colors8');
-	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
-
+	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex2);
 	//Invert
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
-
-
+	// alert(colorIndex.toString())
+	// return;
 	// save banner EPS 
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${inverseColorName}_${fourColorProcessName}.eps`;
@@ -2613,12 +2395,15 @@ function createAndExportArtboard3() {
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
+
+
 	//close and clean up
 	mastDocCMYK.close(SaveOptions.DONOTSAVECHANGES);
 	mastDocCMYK = null;
 	//#endregion
 }
 createAndExportArtboard3();
+
 
 // this opens the folder where the assets are saved
 var scriptsFolder = Folder(sourceDoc.path + "/");

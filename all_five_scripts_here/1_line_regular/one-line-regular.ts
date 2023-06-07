@@ -792,31 +792,31 @@ function iconGenCore() {
       CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
    }
 
-   //convert to inactive color (WTW Icon grey at 100% opacity) and save 
-   CSTasks.convertAll(rgbDoc.pathItems, colors[grayIndex][0], 100);
+   //convert to inactive color (WTW Icon DARK grey) and save 
+   CSTasks.convertAll(rgbDoc.pathItems, colors[darkGreyIndex][0], 100);
 
-   // save an inactive png to icon folder, need x2 problem here is spreadsheet, contradiction
+   // save an inactive png to icon folder
    for (let i = 0; i < exportSizes.length; i++) {
       let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.png`;
       let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
       CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
    }
 
-   // save an inactive png to icon folder, need x2 problem here is spreadsheet, contradiction
+   // save an inactive png to icon folder, same as above different name
    for (let i = 0; i < exportSizes.length; i++) {
       let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.png`;
       let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
       CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
    }
 
-   // save 2 inactive svgs to icon folder, problem in spreadsheet here, contradiction
+   // save 2 inactive svgs to icon folder
    for (let i = 0; i < exportSizes.length; i++) {
       let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.svg`;
       let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
       CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
    }
 
-   // save 2 inactive svgs to icon folder, problem in spreadsheet here, contradiction
+   // save 2 inactive svgs to icon folder, same as above different name
    for (let i = 0; i < exportSizes.length; i++) {
       let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.svg`;
       let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
@@ -942,10 +942,17 @@ function iconGenCore() {
       CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
    }
 
-   //convert to inactive color
-   CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[grayIndex][0], 100);
+   //convert to inactive DARK GRAY color
+   CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], 100);
 
-   // Save a inactive cropped SVG,need x2 here, contradiction in spreadsheet
+   // Save a inactive cropped SVG
+   for (let i = 0; i < exportSizes.length; i++) {
+      let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+      let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
+      CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
+   }
+
+   // Save a inactive cropped SVG, same as above but different name
    for (let i = 0; i < exportSizes.length; i++) {
       let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
       let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);

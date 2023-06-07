@@ -45,6 +45,7 @@ let RGBColorElements = [
 	[58, 220, 201], // Inifinity turquoise 
 	[255, 255, 255], // white
 	[0, 0, 0], // Black
+	[128, 128, 128], // Grey matter dark
 	[51, 151, 129], // Expressive Inf Turquoise pattern 
 	[52, 84, 153], // Expressive Strat blue pattern
 	[147, 0, 130], // Fireworks magenta pattern
@@ -61,6 +62,7 @@ let CMYKColorElements = [
 	[53, 0, 34, 0], // Inifinity turquoise   
 	[0, 0, 0, 0], // white
 	[0, 0, 0, 100], // Black
+	[0, 0, 0, 50], // grey matter dark
 	[76, 18, 56, 3], // Expressive Inf Turquoise pattern
 	[89, 66, 8, 1], // Expressive Strat blue pattern
 	[53, 100, 0, 1], // Fireworks magenta pattern
@@ -75,6 +77,7 @@ let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
 let whiteIndex = 5;
 let blackIndex = 6;
+let darkGreyIndex = 7;
 //loop default 
 let i;
 // folder and naming creations
@@ -792,31 +795,31 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
 
-	//convert to inactive color (WTW Icon grey at 100% opacity) and save 
-	CSTasks.convertAll(rgbDoc.pathItems, colors[grayIndex][0], 100);
+	//convert to inactive color (WTW Icon DARK grey) and save 
+	CSTasks.convertAll(rgbDoc.pathItems, colors[darkGreyIndex][0], 100);
 
-	// save an inactive png to icon folder, need x2 problem here is spreadsheet, contradiction
+	// save an inactive png to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
 
-	// save an inactive png to icon folder, need x2 problem here is spreadsheet, contradiction
+	// save an inactive png to icon folder, same as above different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.png`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
 
-	// save 2 inactive svgs to icon folder, problem in spreadsheet here, contradiction
+	// save 2 inactive svgs to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
 
-	// save 2 inactive svgs to icon folder, problem in spreadsheet here, contradiction
+	// save 2 inactive svgs to icon folder, same as above different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
@@ -942,10 +945,17 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
 
-	//convert to inactive color
-	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[grayIndex][0], 100);
+	//convert to inactive DARK GRAY color
+	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], 100);
 
-	// Save a inactive cropped SVG,need x2 here, contradiction in spreadsheet
+	// Save a inactive cropped SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
+		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
+	}
+
+	// Save a inactive cropped SVG, same as above but different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
 		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
@@ -1424,6 +1434,7 @@ Create new artboard with text lockup
 	let hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
 	textGroup.translate(-hOffset[0], 0);
 
+	//resize the artboard to be only a little wider than the text
 	// second line from second prompt
 	let textRef2 = sourceDoc.textFrames.add();
 	textRef2.contents = appNameCore2;
@@ -1498,6 +1509,9 @@ Create new artboard with text lockup
 	for (let i = 0; i < textGroup2.pathItems.length; i++) {
 		textGroup2.pathItems[i].fillColor = rgbBlack;
 	}
+
+	//#endregion
+	//#region INDEX ONLY FOR CMYK conversion
 	// open a doc just for color indexing
 	/*********************************************************************
 All exports from artboard 0
@@ -1805,7 +1819,6 @@ All exports from artboard 0
 	CSTasks.ungroupOnce(mastGroupCMYK);
 	mastDocCMYK.selectObjectsOnActiveArtboard();
 	app.executeMenuCommand('Colors8');
-	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex2);
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -2459,7 +2472,7 @@ function createAndExportArtboard3() {
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
 	app.executeMenuCommand('Colors8');
-	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
+	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex2);
 	//Invert
 	CSTasks.convertColorCMYK(mastDocCMYK.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 	// alert(colorIndex.toString())
@@ -2471,12 +2484,15 @@ function createAndExportArtboard3() {
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
+
+
 	//close and clean up
 	mastDocCMYK.close(SaveOptions.DONOTSAVECHANGES);
 	mastDocCMYK = null;
 	//#endregion
 }
 createAndExportArtboard3();
+
 
 // this opens the folder where the assets are saved
 var scriptsFolder = Folder(sourceDoc.path + "/");
