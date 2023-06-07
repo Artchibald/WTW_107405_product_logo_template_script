@@ -39,7 +39,7 @@ VARIABLES YOU MIGHT NEED TO CHANGE
 let sourceDoc = app.activeDocument;
 let RGBColorElements = [
 	[127, 53, 178], //ultraviolet purple 
-	[191, 191, 191], //Gray matter light grey INACTIVE 
+	[191, 191, 191], //Gray matter light grey INACTIVE   
 	[201, 0, 172], // Fireworks magenta 
 	[50, 127, 239], //Stratosphere blue 
 	[58, 220, 201], // Inifinity turquoise 
