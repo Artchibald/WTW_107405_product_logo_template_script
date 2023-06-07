@@ -45,6 +45,7 @@ let RGBColorElements = [
    [58, 220, 201], // Inifinity turquoise 
    [255, 255, 255], // white
    [0, 0, 0], // Black
+   [128, 128, 128], // Grey matter dark
    [51, 151, 129], // Expressive Inf Turquoise pattern
    [52, 84, 153], // Expressive Strat blue pattern
    [147, 0, 130], // Fireworks magenta pattern
@@ -61,6 +62,7 @@ let CMYKColorElements = [
    [53, 0, 34, 0], // Inifinity turquoise   
    [0, 0, 0, 0], // white
    [0, 0, 0, 100], // Black
+   [0, 0, 0, 50], // grey matter dark
    [76, 18, 56, 3], // Expressive Inf Turquoise pattern
    [89, 66, 8, 1], // Expressive Strat blue pattern
    [53, 100, 0, 1], // Fireworks magenta pattern
@@ -74,6 +76,7 @@ let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
 let whiteIndex = 5;
 let blackIndex = 6;
+let darkGreyIndex = 7;
 //loop default 
 let i;
 // folder and naming creations

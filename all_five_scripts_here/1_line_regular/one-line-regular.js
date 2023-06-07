@@ -45,6 +45,7 @@ var RGBColorElements = [
     [58, 220, 201],
     [255, 255, 255],
     [0, 0, 0],
+    [128, 128, 128],
     [51, 151, 129],
     [52, 84, 153],
     [147, 0, 130],
@@ -61,6 +62,7 @@ var CMYKColorElements = [
     [53, 0, 34, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 100],
+    [0, 0, 0, 50],
     [76, 18, 56, 3],
     [89, 66, 8, 1],
     [53, 100, 0, 1],
@@ -74,6 +76,7 @@ var violetIndex = 0; //these are for converting to inverse and inactive versions
 var grayIndex = 1;
 var whiteIndex = 5;
 var blackIndex = 6;
+var darkGreyIndex = 7;
 //loop default 
 var i;
 // folder and naming creations
@@ -1402,7 +1405,7 @@ function createAndExportArtboard2() {
 createAndExportArtboard2();
 function createAndExportArtboard3() {
     //#region ARTBOARD3 CREATION
-    //select the contents on artboard 0
+    //select the contents on artboard 1
     var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
     var iconGroup = CSTasks.createGroup(sourceDoc, sel); //group the selection (easier to work with)
@@ -1732,15 +1735,6 @@ function createAndExportArtboard3() {
         var rgbSaveOpts = new EPSSaveOptions();
         mastDoc.saveAs(destFile, rgbSaveOpts);
     }
-    // CSTasks.convertToCMYK(mastDoc, mastDoc.pathItems, colors, colorIndex);
-    // return;
-    // //save a inverted CMYK banner EPS
-    // for (let i = 0; i < exportSizes.length; i++) {
-    //    let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${expressiveArtworkName}_${fullColorName}_${standardName}_${positiveColorName}_${fourColorProcessName}.eps`;
-    //    let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconInLayoutFolderName}/${epsName}`) + filename);
-    //    let rgbSaveOpts = new EPSSaveOptions();
-    //    mastDoc.saveAs(destFile, rgbSaveOpts);
-    // }
     //close and clean up
     mastDoc.close(SaveOptions.DONOTSAVECHANGES);
     mastDoc = null;
