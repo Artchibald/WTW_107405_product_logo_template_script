@@ -47,7 +47,7 @@ var RGBColorElements = [
     [0, 0, 0],
     [128, 128, 128],
     [51, 151, 129],
-    [52, 84, 153],
+    [29, 65, 142],
     [147, 0, 130],
     [153, 153, 153],
     [72, 8, 111], // expressive purple banner bg 
@@ -64,7 +64,7 @@ var CMYKColorElements = [
     [0, 0, 0, 100],
     [0, 0, 0, 50],
     [76, 18, 56, 3],
-    [89, 66, 8, 1],
+    [100, 78, 0, 18],
     [53, 100, 0, 1],
     [41, 32, 32, 11],
     [85, 100, 0, 23], // expressive purple banner bg 
@@ -871,7 +871,7 @@ All exports from artboard 0
 }
 iconGenCore();
 function iconGenExp() {
-    //#region EXPRESSIVE RGB EXPORTS
+    //#region INDEX ONLY FOR CMYK conversion
     //select the contents on artboard 0
     var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     //select the contents on artboard 0
@@ -1336,7 +1336,7 @@ All exports from artboard 0
     /*@ts-ignore*/
     ElementPlacement.PLACEATEND);
     var mastLocCMYK = [
-        mastDocCMYK.artboards[0].artboardRect[0] + iconOffset[0],
+        mastDocCMYK.artboards[0].artboardRect[0],
         mastDocCMYK.artboards[0].artboardRect[1] + iconOffset[1],
     ];
     CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
@@ -1755,7 +1755,7 @@ function createAndExportArtboard3() {
     var mastDocCMYK = CSTasks.duplicateArtboardInNewDoc(sourceDoc, 3, DocumentColorSpace.CMYK);
     mastDocCMYK.swatches.removeAll();
     // let textRef = mastDocCMYK.textFrames.add();
-    //create an outline of the text
+    //create an outline of the text 
     // let textGroup = textRef.createOutline();
     var mastGroupCMYK = iconGroup.duplicate(mastDocCMYK.layers[0], 
     /*@ts-ignore*/

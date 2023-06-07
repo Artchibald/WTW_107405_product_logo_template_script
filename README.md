@@ -124,6 +124,11 @@ You must have a purple portion of your original icons or the invert to whites wo
 
 Make sure that all the colours in the expressive stripe are set to RGB otherwise the script will have trouble with CMYK colour conversion.
 
+Make sure the dark colours of the expressive stripe are expanded under Object > Expand. The dark stripes width and height must not go beyond 256x256. Sometimes it makes it a large background square. This needs to be resolved first:
+
+[stripes]: images/stripes.jpg
+
+
 # Script is 4 distinct blocks
 
 - Script starts with global var declarations, standard.

@@ -47,7 +47,7 @@ let RGBColorElements = [
 	[0, 0, 0], // Black
 	[128, 128, 128], // Grey matter dark
 	[51, 151, 129], // Expressive Inf Turquoise pattern
-	[52, 84, 153], // Expressive Strat blue pattern
+	[29, 65, 142], // Expressive Strat blue pattern
 	[147, 0, 130], // Fireworks magenta pattern
 	[153, 153, 153], // gray matter pattern
 	[72, 8, 111], // expressive purple banner bg 
@@ -64,7 +64,7 @@ let CMYKColorElements = [
 	[0, 0, 0, 100], // Black
 	[0, 0, 0, 50], // grey matter dark
 	[76, 18, 56, 3], // Expressive Inf Turquoise pattern
-	[89, 66, 8, 1], // Expressive Strat blue pattern
+	[100, 78, 0, 18], // Expressive Strat blue pattern
 	[53, 100, 0, 1], // Fireworks magenta pattern
 	[41, 32, 32, 11], // gray matter pattern
 	[85, 100, 0, 23], // expressive purple banner bg 
@@ -1027,7 +1027,6 @@ All exports from artboard 0
 	// alert(colorIndex.toString())
 	//convert to black color cmyk doc (WTW Icon black at 100% opacity) and save EPS
 	//CSTasks.convertAll(cmykDoc.pathItems, colors[blackIndex][0], 100);
-
 	let black = new CMYKColor();
 	black.cyan = 0;
 	black.magenta = 0;
@@ -1056,7 +1055,7 @@ All exports from artboard 0
 iconGenCore();
 
 function iconGenExp() {
-	//#region EXPRESSIVE RGB EXPORTS
+	//#region INDEX ONLY FOR CMYK conversion
 	//select the contents on artboard 0
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	//select the contents on artboard 0
@@ -1687,7 +1686,7 @@ All exports from artboard 0
 		ElementPlacement.PLACEATEND
 	);
 	let mastLocCMYK = [
-		mastDocCMYK.artboards[0].artboardRect[0] + iconOffset[0],
+		mastDocCMYK.artboards[0].artboardRect[0],
 		mastDocCMYK.artboards[0].artboardRect[1] + iconOffset[1],
 	];
 	CSTasks.translateObjectTo(mastGroupCMYK, mastLocCMYK);
@@ -2229,7 +2228,7 @@ function createAndExportArtboard3() {
 	);
 	mastDocCMYK.swatches.removeAll();
 	// let textRef = mastDocCMYK.textFrames.add();
-	//create an outline of the text
+	//create an outline of the text 
 	// let textGroup = textRef.createOutline();
 	let mastGroupCMYK = iconGroup.duplicate(
 		mastDocCMYK.layers[0],
