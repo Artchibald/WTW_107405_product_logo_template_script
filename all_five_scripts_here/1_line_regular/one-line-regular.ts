@@ -2039,7 +2039,8 @@ function createAndExportArtboard3() {
       setLandingZoneSquareColor.blue = 131;
       landingZoneSquare3.fillColor = setLandingZoneSquareColor;
       landingZoneSquare3.name = "LandingZone3"
-      landingZoneSquare3.filled = true;
+      landingZoneSquare3.filled = false;
+
       /*@ts-ignore*/
       landingZoneSquare3.move(getArtLayer3, ElementPlacement.PLACEATEND);
 
@@ -2106,6 +2107,7 @@ function createAndExportArtboard3() {
    setMainVioletBgColorMastDoc.blue = 111;
    mainRectMastDoc.filled = true;
    mainRectMastDoc.fillColor = setMainVioletBgColorMastDoc;
+   mainRectMastDoc.stroked = false;
    /*@ts-ignore*/
    GetMyMainPurpleBgLayerMastDoc.move(myMainArtworkLayerMastDoc, ElementPlacement.PLACEATEND);
 
@@ -2132,7 +2134,7 @@ function createAndExportArtboard3() {
    setClipBgColorMastDoc.red = 0;
    setClipBgColorMastDoc.green = 255;
    setClipBgColorMastDoc.blue = 255;
-   mainClipRectMastDoc.filled = true;
+   mainClipRectMastDoc.filled = false;
    mainClipRectMastDoc.fillColor = setClipBgColorMastDoc;
 
 
@@ -2267,7 +2269,7 @@ function createAndExportArtboard3() {
       setLandingZoneSquareColor.blue = 131;
       landingZoneSquare4.fillColor = setLandingZoneSquareColor;
       landingZoneSquare4.name = "LandingZone3"
-      landingZoneSquare4.filled = true;
+      landingZoneSquare4.filled = false;
       /*@ts-ignore*/
       landingZoneSquare4.move(getArtLayer4, ElementPlacement.PLACEATEND);
 
@@ -2328,12 +2330,14 @@ function createAndExportArtboard3() {
       0,
       1024,
       512);
-   let setMainVioletBgColorMastDocCMYK = new RGBColor();
-   setMainVioletBgColorMastDocCMYK.red = 72;
-   setMainVioletBgColorMastDocCMYK.green = 8;
-   setMainVioletBgColorMastDocCMYK.blue = 111;
+   let setMainVioletBgColorMastDocCMYK = new CMYKColor();
+   setMainVioletBgColorMastDocCMYK.cyan = 85;
+   setMainVioletBgColorMastDocCMYK.magenta = 100;
+   setMainVioletBgColorMastDocCMYK.yellow = 0;
+   setMainVioletBgColorMastDocCMYK.black = 23;
    mainRectMastDocCMYK.filled = true;
    mainRectMastDocCMYK.fillColor = setMainVioletBgColorMastDocCMYK;
+   mainRectMastDocCMYK.stroked = false;
    /*@ts-ignore*/
    GetMyMainPurpleBgLayerMastDocCMYK.move(myMainArtworkLayerMastDocCMYK, ElementPlacement.PLACEATEND);
 
@@ -2361,7 +2365,7 @@ function createAndExportArtboard3() {
    setClipBgColorMastDocCMYK.magenta = 100;
    setClipBgColorMastDocCMYK.yellow = 22;
    setClipBgColorMastDocCMYK.black = 11;
-   mainClipRectMastDocCMYK.filled = true;
+   mainClipRectMastDocCMYK.filled = false;
    mainClipRectMastDocCMYK.fillColor = setClipBgColorMastDocCMYK;
    // select all for clipping here
    sourceDoc.selectObjectsOnActiveArtboard();

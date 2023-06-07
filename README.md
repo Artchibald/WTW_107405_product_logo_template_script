@@ -128,6 +128,7 @@ Make sure the dark colours of the expressive stripe are expanded under Object > 
 
 [stripes]: images/stripes.jpg
 
+As per above image you may need to use the pathFinder intersect option.
 
 # Script is 4 distinct blocks
 
