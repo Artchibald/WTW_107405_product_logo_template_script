@@ -655,9 +655,8 @@ Moving both prompts to the top of the file for efficiency purposes
 let appNameCore = prompt("What name do you want to put in the first line Core lockup?");
 // request a second line of text
 let appNameCore2 = prompt("What name do you want to put in the second line Core lockup?");
-//request a name for the icon, and place that as text on the lockup artboard
-let appNameExpressive = prompt("What name do you want to put in the second Expressive lockup?");
 //#endregion
+
 
 function iconGenCore() {
 	//#region INDEX ONLY FOR CMYK conversion
@@ -2039,22 +2038,20 @@ function createAndExportArtboard3() {
 	/*@ts-ignore*/
 	// svgFile.embed();  
 
-
-
 	let textRef = sourceDoc.textFrames.add();
 
 	//use the areaText method to create the text frame
-	var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
+	let pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
 	/*@ts-ignore*/
 	textRef = sourceDoc.textFrames.areaText(pathRef);
 
-	textRef.contents = appNameExpressive;
+	textRef.contents = appNameCore;
 	textRef.textRange.characterAttributes.size = 62;
 
 	textRef.textRange.paragraphAttributes.hyphenation = false;
 	// textRef.textRange.characterAttributes.horizontalScale = 2299;
 	textRef.textRange.characterAttributes.fillColor = colors[whiteIndex][0];
-	CSTasks.setFont(textRef, desiredFont2);
+	CSTasks.setFont(textRef, desiredFont);
 
 	//create an outline of the text
 	let textGroup = textRef.createOutline();
@@ -2064,7 +2061,29 @@ function createAndExportArtboard3() {
 	let hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
 	textGroup.translate(-hOffset[0], 0);
 
+
+	let textRef2 = sourceDoc.textFrames.add();
+
+	//use the areaText method to create the text frame
+	let pathRef2 = sourceDoc.pathItems.rectangle(-910, -800, 480, 400);
 	/*@ts-ignore*/
+	textRef2 = sourceDoc.textFrames.areaText(pathRef2);
+
+	textRef2.contents = appNameCore2;
+	textRef2.textRange.characterAttributes.size = 62;
+
+	textRef2.textRange.paragraphAttributes.hyphenation = false;
+	// textRef2.textRange.characterAttributes.horizontalScale = 2299;
+	textRef2.textRange.characterAttributes.fillColor = colors[whiteIndex][0];
+	CSTasks.setFont(textRef2, desiredFont);
+
+	//create an outline of the text
+	let textGroup2 = textRef2.createOutline();
+
+	//horizontally align the left edge of the text to be 96px to the right of the edge
+	let rightEdge2 = 64;
+	let hOffset2 = CSTasks.getOffset(textGroup2.position, [rightEdge2, 0]);
+	textGroup2.translate(-hOffset2[0], 0);
 
 
 	let resizedRect = CSTasks.newRect(
@@ -2181,6 +2200,19 @@ function createAndExportArtboard3() {
 		mastDoc.artboards[0].artboardRect[1] - 64,
 	];
 	CSTasks.translateObjectTo(mastText, mastTextLoc);
+
+	let mastText2 = textGroup2.duplicate(
+		mastDoc.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATEND
+	);
+	// text position
+	let mastTextLoc2 = [
+		mastDoc.artboards[0].artboardRect[0] + 63,
+		mastDoc.artboards[0].artboardRect[1] - 124,
+	];
+	CSTasks.translateObjectTo(mastText2, mastTextLoc2);
+
 
 	// add new style purple banner elements
 	let myMainArtworkLayerMastDoc = mastDoc.layers.getByName('Layer 1');
@@ -2374,6 +2406,19 @@ function createAndExportArtboard3() {
 		mastDocCMYK.artboards[0].artboardRect[1] - 64,
 	];
 	CSTasks.translateObjectTo(mastTextCMYK, mastTextCMYKLoc);
+
+
+	let mastTextCMYK2 = textGroup2.duplicate(
+		mastDocCMYK.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATEND
+	);
+	// text position
+	let mastTextCMYKLoc2 = [
+		mastDocCMYK.artboards[0].artboardRect[0] + 63,
+		mastDocCMYK.artboards[0].artboardRect[1] - 124,
+	];
+	CSTasks.translateObjectTo(mastTextCMYK2, mastTextCMYKLoc2);
 
 	// add new style purple banner elements
 	let myMainArtworkLayerMastDocCMYK = mastDocCMYK.layers.getByName('Layer 1');
