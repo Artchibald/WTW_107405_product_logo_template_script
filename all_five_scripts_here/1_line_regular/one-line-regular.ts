@@ -52,7 +52,7 @@ let RGBColorElements = [
    [153, 153, 153], // gray matter pattern
    [72, 8, 111], // expressive purple banner bg  
 ];
-// New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
+// New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script. 
 // Intent is different colors in print for optimum pop of colors
 let CMYKColorElements = [
    [65, 91, 0, 0], //ultraviolet purple 
