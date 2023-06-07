@@ -126,7 +126,7 @@ Make sure that all the colours in the expressive stripe are set to RGB otherwise
 
 Make sure the dark colours of the expressive stripe are expanded under Object > Expand. The dark stripes width and height must not go beyond 256x256. Sometimes it makes it a large background square. This needs to be resolved first:
 
-[stripes]: images/stripes.jpg
+[stripes]: images/stripes.jpg 
 
 As per above image you may need to use the pathFinder intersect option.
 
