@@ -11,13 +11,13 @@
   <p align="center"> 
     Useful links 
     <br />
-    <a href="https://github.com/Artchibald/2022_icon_rebrand_scripts"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Artchibald/WTW_107405_product_logo_template_script"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     ·
-    <a href="https://github.com/Artchibald/2022_icon_rebrand_scripts/issues">Report Bug</a>
+    <a href="https://github.com/Artchibald/WTW_107405_product_logo_template_script/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Artchibald/2022_icon_rebrand_scripts/issues">Request Feature</a>
+    <a href="https://github.com/Artchibald/WTW_107405_product_logo_template_script/issues">Request Feature</a>
         ·
 
   </p>
@@ -41,7 +41,7 @@ https://youtu.be/yxtrt7nkOjA
 
 - This script only works locally not on a server.
 - Don't forget to change .txt to .js on the script.
-- FULL README: https://github.com/Artchibald/2022_icon_rebrand_scripts  
+- FULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script  
 - Video set up tutorial available here: https://youtu.be/yxtrt7nkOjA.
 - Open your own .ai template or the provided ones in folders called test.
 - In Illustrator, go to to file > Scripts > Other Scripts > Import our new script.
@@ -124,11 +124,14 @@ You must have a purple portion of your original icons or the invert to whites wo
 
 Make sure that all the colours in the expressive stripe are set to RGB otherwise the script will have trouble with CMYK colour conversion.
 
-Make sure the dark colours of the expressive stripe are expanded under Object > Expand. The dark stripes width and height must not go beyond 256x256. Sometimes it makes it a large background square. This needs to be resolved first:
+Make sure the dark colours of the expressive stripe are expanded under Object > Expand. The dark stripes width and height must not go beyond 256x256. Sometimes it makes it a large background square. This needs to be resolved first: 
+
+
+[![stripes][stripes]](https://github.com/Artchibald/WTW_107405_product_logo_template_script)
 
 [stripes]: images/stripes.jpg 
 
-As per above image you may need to use the pathFinder intersect option.
+As per above image you may need to use the pathFinder intersect option.  
 
 # Script is 4 distinct blocks
 
@@ -306,7 +309,7 @@ ask_benix_expressive_CMYK
 - ask benix core 1 png 1 svg
 - ask benix expressive 1 png 1 svg
 
-[![explain][explain]](https://github.com/Artchibald/2022_icon_rebrand_scripts)
+[![explain][explain]](https://github.com/Artchibald/WTW_107405_product_logo_template_script)
 
  
 [explain]: images/explain.png
