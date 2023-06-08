@@ -15,7 +15,7 @@ Starting with an open AI file with a single icon on a single 256 x 256 artboard
 - Asks for the name of the icon and adds text to the lockup icon
 - Asks for purple banner text
 - Creates a purple banner 1024 x 512 with text, the icon and logo
-- Creates a purple banner 800 x 400 with icon and logo, no text
+- Creates a purple banner 800 x 400 with icon and logo, no text 
 - Creates exports of the icon:
 - RGB EPS
 - RGB inverse EPS
