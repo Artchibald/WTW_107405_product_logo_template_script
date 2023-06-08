@@ -543,7 +543,7 @@ let CSTasks = (function () {
 		}
 		if (unmatchedColors.length > 0) {
 			// NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
-			// return;
+			return;
 			alert(
 				"One or more colors don't match the brand palette and weren't converted."
 			);
@@ -1335,6 +1335,7 @@ All exports from artboard 0
 }
 iconExportExpressiveArtboard1();
 
+
 function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
 	//select the contents on artboard 0
@@ -1742,6 +1743,36 @@ All exports from artboard 0
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + filename);
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDoc.saveAs(destFile, rgbSaveOpts);
+	}
+
+	CSTasks.convertAll(mastDoc.pathItems, colors[darkGreyIndex][0], 100);
+	// save a text and lockup PNG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
+	}
+
+	//save a text and lockup SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
+	}
+	CSTasks.convertAll(mastDoc.pathItems, colors[grayIndex][0], 100);
+
+	//save a text and lockup SVG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
+	}
+
+	// save a text and lockup PNG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${oneColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
 	}
 
 	//close and clean up
@@ -2355,11 +2386,11 @@ function createAndExportArtboard3() {
 		460);
 
 	function placeIconLockup1Correctly4(mastGroupCMYK, maxSize) {
-		let setLandingZoneSquareColor = new RGBColor();
-		setLandingZoneSquareColor.red = 121;
-		setLandingZoneSquareColor.green = 128;
-		setLandingZoneSquareColor.blue = 131;
-		landingZoneSquare4.fillColor = setLandingZoneSquareColor;
+		// let setLandingZoneSquareColor = new RGBColor();
+		// setLandingZoneSquareColor.red = 121;
+		// setLandingZoneSquareColor.green = 128;
+		// setLandingZoneSquareColor.blue = 131;
+		// landingZoneSquare4.fillColor = setLandingZoneSquareColor;
 		landingZoneSquare4.name = "LandingZone3"
 		landingZoneSquare4.filled = false;
 		/*@ts-ignore*/
@@ -2436,8 +2467,8 @@ function createAndExportArtboard3() {
 		1024,
 		512);
 
+	mainRectMastDocCMYK.fillColor = colors[darkPurpleIndex][0];
 	mainRectMastDocCMYK.filled = true;
-	mainRectMastDocCMYK.fillColor = colors[darkPurpleIndex][1];
 	mainRectMastDocCMYK.stroked = false;
 
 	/*@ts-ignore*/
@@ -2462,13 +2493,13 @@ function createAndExportArtboard3() {
 		0,
 		1024,
 		512);
-	let setClipBgColorMastDocCMYK = new CMYKColor();
-	setClipBgColorMastDocCMYK.cyan = 90;
-	setClipBgColorMastDocCMYK.magenta = 100;
-	setClipBgColorMastDocCMYK.yellow = 22;
-	setClipBgColorMastDocCMYK.black = 11;
+	// let setClipBgColorMastDocCMYK = new CMYKColor();
+	// setClipBgColorMastDocCMYK.cyan = 90;
+	// setClipBgColorMastDocCMYK.magenta = 100;
+	// setClipBgColorMastDocCMYK.yellow = 22;
+	// setClipBgColorMastDocCMYK.black = 11;
 	mainClipRectMastDocCMYK.filled = false;
-	mainClipRectMastDocCMYK.fillColor = setClipBgColorMastDocCMYK;
+	//mainClipRectMastDocCMYK.fillColor = setClipBgColorMastDocCMYK;
 	// select all for clipping here
 	sourceDoc.selectObjectsOnActiveArtboard();
 
