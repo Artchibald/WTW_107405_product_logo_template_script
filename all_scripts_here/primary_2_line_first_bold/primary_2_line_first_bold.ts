@@ -19,7 +19,7 @@ Starting with an open AI file with a single icon on a single 256 x 256 artboard
 - Creates exports of the icon:
 - RGB EPS
 - RGB inverse EPS
-- RGB inactive EPS
+- RGB inactive EPS 
 - PNGs at 1024, 256, 128, 64, 48, 32
 - RGB lockup
 - CMYK EPS 
@@ -31,7 +31,7 @@ Starting with an open AI file with a single icon on a single 256 x 256 artboard
 ************************************************/
 //
 //#endregion
-alert(" \n\nThis is the two line both bold font script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\n Make sure that all colors are set to rgb colors in your template. Especially the stripes of the expressive artboard. If not, some exports won't be correct. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
+alert(" \n\nThis is the two line first bold font script   \n\nThis script only works locally not on a server. \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\n Make sure that all colors are set to rgb colors in your template. Especially the stripes of the expressive artboard. If not, some exports won't be correct. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
 //#region GLOBAL VARS
 /********************************* 
 VARIABLES YOU MIGHT NEED TO CHANGE 
@@ -46,11 +46,11 @@ let RGBColorElements = [
 	[255, 255, 255], // white
 	[0, 0, 0], // Black
 	[128, 128, 128], // Grey matter dark
-	[51, 151, 129], // Expressive Inf Turquoise pattern 
+	[51, 151, 129], // Expressive Inf Turquoise pattern
 	[29, 65, 142], // Expressive Strat blue pattern
 	[147, 0, 130], // Fireworks magenta pattern
 	[153, 153, 153], // gray matter pattern
-	[72, 8, 111], // expressive purple banner bg 
+	[72, 8, 111], // expressive purple banner bg  
 ];
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
 // Intent is different colors in print for optimum pop of colors
@@ -70,8 +70,8 @@ let CMYKColorElements = [
 	[85, 100, 0, 23], // expressive purple banner bg 
 ];
 // Make sure you have the font below installed, ask for font from client
-let desiredFont = "Graphik-Medium";
-let desiredFont2 = "Graphik-Regular";
+let desiredFontReg = "Graphik-Regular";
+let desiredFontBold = "Graphik-Medium";
 let exportSizes = [1024, 512, 256, 128, 64, 48, 32, 24, 16]; //sizes to export
 let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
@@ -156,7 +156,7 @@ interface Task {
 	scaleAndExportSVG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
 	scaleAndExportJPEG(doc: Document, destFile: File, startWidth: number, desiredWidth: number): void;
 	newRect(x: number, y: number, width: number, height: number): [number, number, number, number];
-	setFont(textRef: any, desiredFont: string): void;
+	setFont(textRef: any, desiredFontBold: string): void;
 	createTextFrame(doc: Document, message: string, pos: number[], size: number): any;
 	initializeColors(RGBArray: number[][], CMYKArray: number[][]);
 	matchRGB(color: RGBColor, matchArray: [RGBColor, CMYKColor][]): number;
@@ -377,12 +377,12 @@ let CSTasks = (function () {
 
 	//takes a text frame and a string with the desired font name
 	//sets the text frame to the desired font or alerts if not found
-	tasks.setFont = function (textRef, desiredFont) {
+	tasks.setFont = function (textRef, desiredFontBold) {
 		let foundFont = false;
 		/*@ts-ignore*/
 		for (let i = 0; i < textFonts.length; i++) {
 			/*@ts-ignore*/
-			if (textFonts[i].name == desiredFont) {
+			if (textFonts[i].name == desiredFontBold) {
 				/*@ts-ignore*/
 				textRef.textRange.characterAttributes.textFont = textFonts[i];
 				foundFont = true;
@@ -652,15 +652,15 @@ Moving both prompts to the top of the file for efficiency purposes
 ******************************/
 
 //request a name for the icon, and place that as text on the lockup artboard
-let appNamePrimary = prompt("What text do you want to put in the first line of the primary lockup and the first line of the purple banner lockup?");
+let appNamePrimary = prompt("What text do you want to put in the first line of the primary lockup and the first line of the ultraviolet dark banner lockup?");
 // request a second line of text
-let appNamePrimary2 = prompt("What text do you want to put in the second line of the primary lockup and the second line of the purple banner lockup?");
+let appNamePrimary2 = prompt("What text do you want to put in the second line of the primary lockup and the second line of the ultraviolet dark banner lockup?");
 //request a name for the icon, and place that as text on the last lockup artboard
 let appNameAlternate = prompt("What text do you want to put in the alternate lockup?");
 
 //#endregion
 
-function iconGenCore() {
+function iconExportArtboard0() {
 	//#region INDEX ONLY FOR CMYK conversion
 	//select the contents on artboard 0
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
@@ -1055,9 +1055,9 @@ All exports from artboard 0
 
 	//#endregion
 }
-iconGenCore();
+iconExportArtboard0();
 
-function iconGenExp() {
+function iconExportExpressiveArtboard1() {
 	//#region INDEX ONLY FOR CMYK conversion
 	//select the contents on artboard 0
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
@@ -1326,7 +1326,7 @@ All exports from artboard 0
 	sourceDoc.selection = null;
 	//#endregion
 }
-iconGenExp();
+iconExportExpressiveArtboard1();
 
 
 
@@ -1412,13 +1412,13 @@ Create new artboard with text lockup
 	let textRef = sourceDoc.textFrames.add();
 	textRef.contents = appNamePrimary;
 	textRef.textRange.characterAttributes.size = 107;
-	CSTasks.setFont(textRef, desiredFont);
+	CSTasks.setFont(textRef, desiredFontBold);
 
-	//vertically align the baseline to be 140.8 px above the bottom of the artboard
+	//vertically align the baseline to be 134.4 px above the bottom of the artboard
 	let bottomEdge =
 		sourceDoc.artboards[2].artboardRect[3] +
-		0.55 * sourceDoc.artboards[0].artboardRect[2] -
-		sourceDoc.artboards[0].artboardRect[0]; //140.8px (0.55*256px) above the bottom edge of the artboard
+		0.525 * sourceDoc.artboards[0].artboardRect[2] -
+		sourceDoc.artboards[0].artboardRect[0]; //134.4px (0.525*256px) above the bottom edge of the artboard
 	let vOffset = CSTasks.getOffset(textRef.anchor, [0, bottomEdge]);
 	textRef.translate(0, -vOffset[1]);
 
@@ -1440,17 +1440,18 @@ Create new artboard with text lockup
 	// second line from second prompt
 	let textRef2 = sourceDoc.textFrames.add();
 	textRef2.contents = appNamePrimary2;
-	textRef2.textRange.characterAttributes.size = 107;
-	CSTasks.setFont(textRef2, desiredFont);
-	//vertically align the second baseline to be 38.4 px above the bottom of the artboard
+	textRef2.textRange.characterAttributes.size = 89;
+	CSTasks.setFont(textRef2, desiredFontReg);
+
+	//vertically align the second baseline to be 44.8 px above the bottom of the artboard
 	let bottomEdge2 =
 		sourceDoc.artboards[2].artboardRect[3] +
-		0.15 * sourceDoc.artboards[0].artboardRect[2] -
-		sourceDoc.artboards[0].artboardRect[0]; //38.4px (0.15*256px) above the bottom edge of the artboard
+		0.175 * sourceDoc.artboards[0].artboardRect[2] -
+		sourceDoc.artboards[0].artboardRect[0]; //44.8px (0.175*256px) above the bottom edge of the artboard
 	let vOffset2 = CSTasks.getOffset(textRef2.anchor, [0, bottomEdge2]);
 	textRef2.translate(0, -vOffset2[1]);
 
-	//create an outline of the text 
+	//create an outline of the text
 	let textGroup2 = textRef2.createOutline();
 
 	//horizontally align the left edge of the text to be 64px to the right of the edge
@@ -2056,7 +2057,7 @@ function createAndExportArtboard3() {
 	textRef.textRange.paragraphAttributes.hyphenation = false;
 	// textRef.textRange.characterAttributes.horizontalScale = 2299;
 	textRef.textRange.characterAttributes.fillColor = colors[whiteIndex][0];
-	CSTasks.setFont(textRef, desiredFont);
+	CSTasks.setFont(textRef, desiredFontBold);
 
 	//create an outline of the text
 	let textGroup = textRef.createOutline();
@@ -2075,12 +2076,12 @@ function createAndExportArtboard3() {
 	textRef2 = sourceDoc.textFrames.areaText(pathRef2);
 
 	textRef2.contents = appNamePrimary2;
-	textRef2.textRange.characterAttributes.size = 62;
+	textRef2.textRange.characterAttributes.size = 52;
 
 	textRef2.textRange.paragraphAttributes.hyphenation = false;
 	// textRef2.textRange.characterAttributes.horizontalScale = 2299;
 	textRef2.textRange.characterAttributes.fillColor = colors[whiteIndex][0];
-	CSTasks.setFont(textRef2, desiredFont);
+	CSTasks.setFont(textRef2, desiredFontReg);
 
 	//create an outline of the text
 	let textGroup2 = textRef2.createOutline();
@@ -2580,7 +2581,7 @@ Create new artboard with text lockup
 	let textRef = sourceDoc.textFrames.add();
 	textRef.contents = appNameAlternate;
 	textRef.textRange.characterAttributes.size = 182;
-	CSTasks.setFont(textRef, desiredFont2);
+	CSTasks.setFont(textRef, desiredFontReg);
 
 	//vertically align the baseline to be 64 px above the bottom of the artboard
 	let bottomEdge =

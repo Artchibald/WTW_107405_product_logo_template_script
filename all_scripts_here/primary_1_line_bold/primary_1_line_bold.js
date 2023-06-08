@@ -70,8 +70,8 @@ var CMYKColorElements = [
     [85, 100, 0, 23], // expressive purple banner bg 
 ];
 // Make sure you have the font below installed, ask for font from client
-var desiredFont = "Graphik-Medium";
-var desiredFont2 = "Graphik-Regular";
+var desiredFontReg = "Graphik-Regular";
+var desiredFontBold = "Graphik-Medium";
 var exportSizes = [1024, 512, 256, 128, 64, 48, 32, 24, 16]; //sizes to export
 var violetIndex = 0; //these are for converting to inverse and inactive versions
 var grayIndex = 1;
@@ -315,12 +315,12 @@ var CSTasks = (function () {
     ****/
     //takes a text frame and a string with the desired font name
     //sets the text frame to the desired font or alerts if not found
-    tasks.setFont = function (textRef, desiredFont) {
+    tasks.setFont = function (textRef, desiredFontBold) {
         var foundFont = false;
         /*@ts-ignore*/
         for (var i_2 = 0; i_2 < textFonts.length; i_2++) {
             /*@ts-ignore*/
-            if (textFonts[i_2].name == desiredFont) {
+            if (textFonts[i_2].name == desiredFontBold) {
                 /*@ts-ignore*/
                 textRef.textRange.characterAttributes.textFont = textFonts[i_2];
                 foundFont = true;
@@ -558,13 +558,11 @@ catch (e) {
 Moving both prompts to the top of the file for efficiency purposes
 ******************************/
 //request a name for the icon, and place that as text on the lockup artboard
-var appNamePrimary = prompt("What text do you want to put in the primary lockup?");
-//request a name for the icon, and place that as text on the purple lockup artboard
-var appNameExpressivePurpleBanner = prompt("What text do you want to put in the purple banner Expressive lockup?");
+var appNamePrimary = prompt("What text do you want to put in the primary lockup and in the ultraviolet dark banner lockup?");
 //request a name for the icon, and place that as text on the last lockup artboard
 var appNameAlternate = prompt("What text do you want to put in the alternate lockup?");
 //#endregion
-function iconGenCore() {
+function iconExportArtboard0() {
     //#region INDEX ONLY FOR CMYK conversion
     //select the contents on artboard 0
     var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 0);
@@ -871,8 +869,8 @@ All exports from artboard 0
     cmykDoc = null;
     //#endregion
 }
-iconGenCore();
-function iconGenExp() {
+iconExportArtboard0();
+function iconExportExpressiveArtboard1() {
     //#region INDEX ONLY FOR CMYK conversion
     //select the contents on artboard 0
     var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
@@ -1064,7 +1062,7 @@ All exports from artboard 0
     sourceDoc.selection = null;
     //#endregion
 }
-iconGenExp();
+iconExportExpressiveArtboard1();
 function createAndExportArtboard2() {
     //#region ARTBOARD2 CREATION
     //select the contents on artboard 0
@@ -1131,7 +1129,7 @@ Create new artboard with text lockup
     var textRef = sourceDoc.textFrames.add();
     textRef.contents = appNamePrimary;
     textRef.textRange.characterAttributes.size = 119;
-    CSTasks.setFont(textRef, desiredFont);
+    CSTasks.setFont(textRef, desiredFontBold);
     //vertically align the baseline to be 64 px above the bottom of the artboard
     var bottomEdge = sourceDoc.artboards[2].artboardRect[3] +
         0.3333 * sourceDoc.artboards[0].artboardRect[2] -
@@ -1553,12 +1551,12 @@ function createAndExportArtboard3() {
     var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
     /*@ts-ignore*/
     textRef = sourceDoc.textFrames.areaText(pathRef);
-    textRef.contents = appNameExpressivePurpleBanner;
+    textRef.contents = appNamePrimary;
     textRef.textRange.characterAttributes.size = 62;
     textRef.textRange.paragraphAttributes.hyphenation = false;
     // textRef.textRange.characterAttributes.horizontalScale = 2299;
     textRef.textRange.characterAttributes.fillColor = colors[whiteIndex][0];
-    CSTasks.setFont(textRef, desiredFont);
+    CSTasks.setFont(textRef, desiredFontReg);
     //create an outline of the text
     var textGroup = textRef.createOutline();
     //horizontally align the left edge of the text to be 96px to the right of the edge
@@ -1919,7 +1917,7 @@ Create new artboard with text lockup
     var textRef = sourceDoc.textFrames.add();
     textRef.contents = appNameAlternate;
     textRef.textRange.characterAttributes.size = 182;
-    CSTasks.setFont(textRef, desiredFont2);
+    CSTasks.setFont(textRef, desiredFontReg);
     //vertically align the baseline to be 64 px above the bottom of the artboard
     var bottomEdge = sourceDoc.artboards[4].artboardRect[3] +
         0.25 * sourceDoc.artboards[0].artboardRect[2] -
