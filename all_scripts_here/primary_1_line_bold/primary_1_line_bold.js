@@ -672,17 +672,19 @@ All exports from artboard 0
         var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inactiveFolderName)) + filename);
         CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
     }
-    // save an inactive png to icon folder, same as above different name
-    for (var i_17 = 0; i_17 < exportSizes.length; i_17++) {
-        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(inactiveName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
-        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inactiveFolderName)) + filename);
-        CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
-    }
     // save 2 inactive svgs to icon folder
-    for (var i_18 = 0; i_18 < exportSizes.length; i_18++) {
+    for (var i_17 = 0; i_17 < exportSizes.length; i_17++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(inactiveName, "_").concat(positiveColorName, "_").concat(rgbColorName, ".svg");
         var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(svgName)) + filename);
         CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+    }
+    //convert to light gray matter (WTW Icon light gray at 100% opacity) and save 
+    CSTasks.convertAll(rgbDoc.pathItems, colors[grayIndex][0], 100);
+    // save an inactive png to icon folder, same as above different name
+    for (var i_18 = 0; i_18 < exportSizes.length; i_18++) {
+        var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(oneColorName, "_").concat(inactiveName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
+        var destFile = new File(Folder("".concat(sourceDoc.path, "/").concat(sourceDocName, "/").concat(iconFolderName, "/").concat(pngName, "/").concat(inactiveFolderName)) + filename);
+        CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
     }
     // save 2 inactive svgs to icon folder, same as above different name
     for (var i_19 = 0; i_19 < exportSizes.length; i_19++) {

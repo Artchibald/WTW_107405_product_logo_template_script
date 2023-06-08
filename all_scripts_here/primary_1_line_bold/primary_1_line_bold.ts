@@ -804,12 +804,7 @@ All exports from artboard 0
 		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
 
-	// save an inactive png to icon folder, same as above different name
-	for (let i = 0; i < exportSizes.length; i++) {
-		let filename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.png`;
-		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
-		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
-	}
+
 
 	// save 2 inactive svgs to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -818,12 +813,23 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
 
+	//convert to light gray matter (WTW Icon light gray at 100% opacity) and save 
+	CSTasks.convertAll(rgbDoc.pathItems, colors[grayIndex][0], 100);
+
+	// save an inactive png to icon folder, same as above different name
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${pngName}/${inactiveFolderName}`) + filename);
+		CSTasks.scaleAndExportPNG(rgbDoc, destFile, masterStartWidth, exportSizes[2]);
+	}
+
 	// save 2 inactive svgs to icon folder, same as above different name
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
+
 
 	//convert to white color (WTW Icon white at 100% opacity) and save 
 	CSTasks.convertAll(rgbDoc.pathItems, colors[whiteIndex][0], 100);
@@ -1325,8 +1331,6 @@ All exports from artboard 0
 	//#endregion
 }
 iconExportExpressiveArtboard1();
-
-
 
 function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
