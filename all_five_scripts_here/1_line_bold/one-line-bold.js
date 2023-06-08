@@ -559,9 +559,9 @@ Moving both prompts to the top of the file for efficiency purposes
 ******************************/
 //request a name for the icon, and place that as text on the lockup artboard
 var appNamePrimary = prompt("What text do you want to put in the primary lockup?");
-//request a name for the icon, and place that as text on the lockup artboard
+//request a name for the icon, and place that as text on the purple lockup artboard
 var appNameExpressivePurpleBanner = prompt("What text do you want to put in the purple banner Expressive lockup?");
-//request a name for the icon, and place that as text on the lockup artboard
+//request a name for the icon, and place that as text on the last lockup artboard
 var appNameAlternate = prompt("What text do you want to put in the alternate lockup?");
 //#endregion
 function iconGenCore() {

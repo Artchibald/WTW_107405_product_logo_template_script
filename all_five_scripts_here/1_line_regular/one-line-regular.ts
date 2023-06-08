@@ -1324,7 +1324,7 @@ function iconGenExp() {
 }
 iconGenExp();
 
-
+// Alternate regular text
 function createAndExportArtboard2() {
    //#region ARTBOARD2 CREATION
    //select the contents on artboard 0
@@ -1778,7 +1778,7 @@ function createAndExportArtboard2() {
 }
 createAndExportArtboard2();
 
-
+// Alternate regular text in banner
 function createAndExportArtboard3() {
    //#region ARTBOARD3 CREATION
    //select the contents on artboard 1

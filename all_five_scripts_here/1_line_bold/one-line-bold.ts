@@ -653,9 +653,9 @@ Moving both prompts to the top of the file for efficiency purposes
 
 //request a name for the icon, and place that as text on the lockup artboard
 let appNamePrimary = prompt("What text do you want to put in the primary lockup?");
-//request a name for the icon, and place that as text on the lockup artboard
+//request a name for the icon, and place that as text on the purple lockup artboard
 let appNameExpressivePurpleBanner = prompt("What text do you want to put in the purple banner Expressive lockup?");
-//request a name for the icon, and place that as text on the lockup artboard
+//request a name for the icon, and place that as text on the last lockup artboard
 let appNameAlternate = prompt("What text do you want to put in the alternate lockup?");
 
 //#endregion
@@ -1958,7 +1958,7 @@ function createAndExportArtboard3() {
 	let textRef = sourceDoc.textFrames.add();
 
 	//use the areaText method to create the text frame
-	var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
+	let pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
 	/*@ts-ignore*/
 	textRef = sourceDoc.textFrames.areaText(pathRef);
 
