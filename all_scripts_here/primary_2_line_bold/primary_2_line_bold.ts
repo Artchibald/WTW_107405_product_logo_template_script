@@ -78,6 +78,7 @@ let grayIndex = 1;
 let whiteIndex = 5;
 let blackIndex = 6;
 let darkGreyIndex = 7;
+let darkPurpleIndex = 12;
 //loop default 
 let i;
 // folder and naming creations
@@ -542,7 +543,7 @@ let CSTasks = (function () {
 		}
 		if (unmatchedColors.length > 0) {
 			// NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
-			return;
+			// return;
 			alert(
 				"One or more colors don't match the brand palette and weren't converted."
 			);
@@ -1822,6 +1823,7 @@ All exports from artboard 0
 		mastDocCMYK.saveAs(destFile, rgbSaveOpts);
 	}
 
+
 	CSTasks.ungroupOnce(mastGroupCMYK);
 	mastDocCMYK.selectObjectsOnActiveArtboard();
 	app.executeMenuCommand('Colors8');
@@ -2018,12 +2020,9 @@ function createAndExportArtboard3() {
 		0,
 		1024,
 		512);
-	let setMainVioletBgColor = new RGBColor();
-	setMainVioletBgColor.red = 72;
-	setMainVioletBgColor.green = 8;
-	setMainVioletBgColor.blue = 111;
-	mainRect.filled = true;
-	mainRect.fillColor = setMainVioletBgColor;
+
+	mainRect.fillColor = colors[darkPurpleIndex][0];
+
 	/*@ts-ignore*/
 	GetMyMainPurpleBgLayer.move(myMainArtworkLayer, ElementPlacement.PLACEATEND);
 
@@ -2233,12 +2232,9 @@ function createAndExportArtboard3() {
 		0,
 		1024,
 		512);
-	let setMainVioletBgColorMastDoc = new RGBColor();
-	setMainVioletBgColorMastDoc.red = 72;
-	setMainVioletBgColorMastDoc.green = 8;
-	setMainVioletBgColorMastDoc.blue = 111;
 	mainRectMastDoc.filled = true;
-	mainRectMastDoc.fillColor = setMainVioletBgColorMastDoc;
+	mainRectMastDoc.fillColor = colors[darkPurpleIndex][0];
+
 	mainRectMastDoc.stroked = false;
 	/*@ts-ignore*/
 	GetMyMainPurpleBgLayerMastDoc.move(myMainArtworkLayerMastDoc, ElementPlacement.PLACEATEND);
@@ -2439,14 +2435,11 @@ function createAndExportArtboard3() {
 		0,
 		1024,
 		512);
-	let setMainVioletBgColorMastDocCMYK = new CMYKColor();
-	setMainVioletBgColorMastDocCMYK.cyan = 85;
-	setMainVioletBgColorMastDocCMYK.magenta = 100;
-	setMainVioletBgColorMastDocCMYK.yellow = 0;
-	setMainVioletBgColorMastDocCMYK.black = 23;
+
 	mainRectMastDocCMYK.filled = true;
-	mainRectMastDocCMYK.fillColor = setMainVioletBgColorMastDocCMYK;
+	mainRectMastDocCMYK.fillColor = colors[darkPurpleIndex][1];
 	mainRectMastDocCMYK.stroked = false;
+
 	/*@ts-ignore*/
 	GetMyMainPurpleBgLayerMastDocCMYK.move(myMainArtworkLayerMastDocCMYK, ElementPlacement.PLACEATEND);
 

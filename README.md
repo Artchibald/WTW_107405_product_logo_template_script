@@ -133,6 +133,22 @@ Make sure the dark colours of the expressive stripe are expanded under Object > 
 
 As per above image you may need to use the pathFinder intersect option.  
 
+If you enable strict mode by removing the return from convertTo CMYK, all colors must be referenced in the array.
+
+```
+// make a rect and fill it with color (darkPurpleIndex) from position 12 of the CMYK array, RGB is 0, CMYK, is 1:
+let mainRectMastDocCMYK = GetMyMainPurpleBgLayerMastDocCMYK.pathItems.rectangle(
+		-784,
+		0,
+		1024,
+		512);
+
+	mainRectMastDocCMYK.filled = true;
+	mainRectMastDocCMYK.fillColor = colors[darkPurpleIndex][1];
+```
+
+If you use new colors that are not taken from the array of bran colors you will get "unconverted colors: X,X,X"
+
 # Script is 4 distinct blocks
 
 - Script starts with global var declarations, standard.
