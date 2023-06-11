@@ -198,8 +198,6 @@ After updated Illustrator, it couldn't read wtw_logo.ai, so one opens that file 
 
  # Select each individual colour shape and under Window > Colours make sure each shape colour is set to rgb in burger or main menu or it may not work as expected!
 
- # Presentation question what would be liked for folder structure
-
  # Blockers
 
 Amends undergoing
@@ -209,29 +207,29 @@ Amends undergoing
 - managed to fix with    // make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
 
 ```
+   // rgb
    app.executeMenuCommand('Colors9');
+   // cmyk
+   app.executeMenuCommand('Colors8');
 ```
 
 - The list of all these available commands can be useful for a specific task: https://community.adobe.com/t5/illustrator-discussions/a-list-of-illustrator-menu-commands-we-can-call-from-javascript/td-p/7694367
 
 
-# Briefs and other less important notes
-
 # To do
 
-- Change svg dimensions in their respective code?
 - Do we move our resize functions into reusable section at top of script?
+- Find bug: One or more colours....
 
 # Done
 
 - Create folders for all SVG, EPS, JPG,PNG and try to save them in the right place
-- Find bug: One or more colours....
 - let tasks: any = {}; line 83, better solution than any?
 - Is there a way to edit the viewbox 256 settings in each svg?
 - Convert to CMYK breaking script, not working colours undefined
 - Inverse action works with old colours not new ones
 - do cropped 16 + 24
-- documentation - reusability for other devs
+- documentation reusability for other devs
 - DONE CMYK and RGB don't match this time round! We blocked with a commented return.
 
 # Initial call brief

@@ -953,21 +953,25 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
 
-	//convert to inactive DARK GRAY color
+
+	//convert to inactive color (WTW Icon DARK grey) and save 
 	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], 100);
 
-	// Save a inactive cropped SVG
+	// save inactive positive svg to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
-		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
-		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFile, svgMasterCoreStartWidthCroppedSvg, exportSizes[2]);
 	}
 
-	// Save a inactive cropped SVG, same as above but different name
+	//convert to light gray matter (WTW Icon light gray at 100% opacity) and save 
+	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[grayIndex][0], 100);
+
+	// save inactive inverted light grey svg to icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
-		let filenameCroppedSvg = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${positiveColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
-		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
-		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${oneColorName}_${inactiveName}_${inverseColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFile, svgMasterCoreStartWidthCroppedSvg, exportSizes[2]);
 	}
 
 	//close and clean up
