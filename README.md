@@ -157,7 +157,9 @@ Around line 554, removing this return may help with debugging.
 			);
 ```
 
-If you enable strict mode by removing the return from convertTo CMYK, all colors must be referenced in the array.
+If you enable strict mode by removing the return from convertTo CMYK, all colors must be referenced from the array. You shouldn't declare new colours outside the RGB and CMYK where possible.
+
+As a developer, hard coding colour values can be used for debugging but you should then remove them and reference them from the 2 colour arrays instead.
 
 ```
 // make a rect and fill it with color (darkPurpleIndex) from position 12 of the CMYK array, RGB is 0, CMYK, is 1:
@@ -177,9 +179,12 @@ If you use new colors that are not taken from the array of brand colors you will
 
 - Script starts with global var declarations, standard.
 - Then reusable interface with reusable functions.
-- Then all the Core exports (sourceDoc.artboards[0].XXXX)
-- Then all the expressive exports (sourceDoc.artboards[1].XXXX)
-- Extra note: I noticed "let = colorIndex" is needed for CMYK conversions, be sure it is declared in the previous new doc rgb block, but after the function convertToRGB or cmyk invert further on, does not work. You may use the app shortcut colors8 and colors9. These will try to select and set all the colors to rgb or cmyk depending. Ref: https://ten-artai.com/illustrator-ccver-22-menu-commands-list/
+- Then all the Core icon exports (sourceDoc.artboards[0].XXXX)
+- Then all the expressive pattern icon exports (sourceDoc.artboards[1].XXXX)
+- Then all the new different typography (called PRIMARY) artboard exports (sourceDoc.artboards[2].XXXX)
+- Then all the new purple banner artboard exports (sourceDoc.artboards[3].XXXX)
+- Then all the new bigger text (called ALTERNATE) artboard exports (sourceDoc.artboards[4].XXXX)
+- New! I noticed "let = colorIndex" is needed for CMYK conversions, be sure it is declared in the previous new doc rgb block, but after the function convertToRGB or cmyk invert further on, does not work. You may use the app shortcut colors8 and colors9. These will try to select and set all the colors to rgb or cmyk depending. Ref: https://ten-artai.com/illustrator-ccver-22-menu-commands-list/
 
 # Font issues
 
