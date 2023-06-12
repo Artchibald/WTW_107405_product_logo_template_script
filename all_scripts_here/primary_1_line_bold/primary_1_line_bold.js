@@ -464,6 +464,7 @@ var CSTasks = (function () {
         }
         if (unmatchedColors.length > 0) {
             // NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
+            return;
             alert("One or more colors don't match the brand palette and weren't converted.");
             unmatchedColors = tasks.unique(unmatchedColors);
             var unmatchedString = "Unconverted colors:";
@@ -1446,7 +1447,7 @@ All exports from artboard 0
 }
 createAndExportArtboard2();
 function createAndExportArtboard3() {
-    //#region ARTBOARD3 CREATION 
+    //#region ARTBOARD3 CREATION
     //select the contents on artboard 1
     var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
@@ -1593,13 +1594,8 @@ function createAndExportArtboard3() {
     var hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
     textGroup.translate(-hOffset[0], 0);
     /*@ts-ignore*/
-    // let resizedRect = CSTasks.newRect(
-    // 	sourceDoc.artboards[3].artboardRect[0],
-    // 	-sourceDoc.artboards[3].artboardRect[1],
-    // 	1024,
-    // 	512
-    // );
-    // sourceDoc.artboards[3].artboardRect = resizedRect;
+    var resizedRect = CSTasks.newRect(sourceDoc.artboards[3].artboardRect[0], -sourceDoc.artboards[3].artboardRect[1], 1024, 512);
+    sourceDoc.artboards[3].artboardRect = resizedRect;
     //#endregion
     //#region ARTBOARD3 EXPORTS RGB
     /********************

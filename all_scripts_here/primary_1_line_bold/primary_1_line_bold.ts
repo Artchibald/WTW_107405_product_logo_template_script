@@ -551,7 +551,7 @@ let CSTasks = (function () {
 		}
 		if (unmatchedColors.length > 0) {
 			// NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
-
+			return;
 			alert(
 				"One or more colors don't match the brand palette and weren't converted."
 			);
@@ -1345,6 +1345,7 @@ All exports from artboard 0
 }
 iconExportExpressiveArtboard1();
 
+
 function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
 	//select the contents on artboard 0
@@ -1829,8 +1830,9 @@ All exports from artboard 0
 }
 createAndExportArtboard2();
 
+
 function createAndExportArtboard3() {
-	//#region ARTBOARD3 CREATION 
+	//#region ARTBOARD3 CREATION
 	//select the contents on artboard 1
 	let colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
 	let sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
@@ -2022,13 +2024,13 @@ function createAndExportArtboard3() {
 	/*@ts-ignore*/
 
 
-	// let resizedRect = CSTasks.newRect(
-	// 	sourceDoc.artboards[3].artboardRect[0],
-	// 	-sourceDoc.artboards[3].artboardRect[1],
-	// 	1024,
-	// 	512
-	// );
-	// sourceDoc.artboards[3].artboardRect = resizedRect;
+	let resizedRect = CSTasks.newRect(
+		sourceDoc.artboards[3].artboardRect[0],
+		-sourceDoc.artboards[3].artboardRect[1],
+		1024,
+		512
+	);
+	sourceDoc.artboards[3].artboardRect = resizedRect;
 
 
 	//#endregion
@@ -2382,7 +2384,6 @@ function createAndExportArtboard3() {
 	// make sure all colors are RGB, equivalent of Edit > Colors > Convert to RGB
 	app.executeMenuCommand('Colors8');
 
-
 	CSTasks.convertToCMYK(mastDocCMYK, mastDocCMYK.pathItems, colors, colorIndex);
 
 	// save banner EPS 
@@ -2399,6 +2400,7 @@ function createAndExportArtboard3() {
 	//#endregion
 }
 createAndExportArtboard3();
+
 
 function createAndExportArtboard4Alternate() {
 	//#region ARTBOARD4 CREATION

@@ -2077,8 +2077,7 @@ function createAndExportArtboard3() {
 	imagePlacedItem.file = svgFile;
 	imagePlacedItem.top = -1188;
 	imagePlacedItem.left = 62;
-	/*@ts-ignore*/
-	// svgFile.embed();
+	imagePlacedItem.embed();
 
 
 
@@ -2281,6 +2280,7 @@ function createAndExportArtboard3() {
 	imagePlacedItemMastDoc.file = svgFileMastDoc;
 	imagePlacedItemMastDoc.top = -1189;
 	imagePlacedItemMastDoc.left = 62;
+	imagePlacedItemMastDoc.embed();
 
 	// we need to make artboard clipping mask here for the artboard to crop expressive icons correctly.
 	let myCroppingLayerMastDoc = mastDoc.layers.add();
