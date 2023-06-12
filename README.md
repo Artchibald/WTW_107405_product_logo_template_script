@@ -144,6 +144,8 @@ Make sure the dark colours of the expressive stripe are expanded under Object > 
 
 As per above image you may need to use the pathFinder intersect option to crop out the extra stripe areas.  
 
+- Patterns: Y
+
 # Strict mode
 
 Around line 554, removing this return may help with debugging.
@@ -248,3 +250,14 @@ New set up for the original script to undergo some formatting changes. Original 
 
  
 [explain]: images/explain.png
+
+# Next call
+
+talk about expanding patterns that is the issue
+
+Cant access the pattern colors for conversion because:
+
+- We don't know the exact rgb and cmyk for pattern dark areas
+- They are a part of swatches which is a global reference to a color or swatch, they need to be expanded as per those sent to me
+
+Basically need all stripe values confirmed in RGB and CMYK plus a few more icons for testing especially gray ones.

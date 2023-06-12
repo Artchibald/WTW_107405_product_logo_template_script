@@ -52,6 +52,11 @@ var RGBColorElements = [
     [153, 153, 153],
     [72, 8, 111], // expressive purple banner bg 
 ];
+// Explanation: The Stratosphere pattern uses an 90% tint of Stratosphere Dark. The Infinity and Gray Matter patterns use a 80% tint of Infinity Dark and Gray Matter Dark. Fireworks Dark has been adjusted to add increased contrast within the Fireworks patterns. The adjusted HEX value is #930082.
+// magenta dark pattern #930082 is RGB 147 0 130 or CMYK 48% 100% 0% 0% 
+// stratosphere dark pattern #345499 is 52, 84, 153 or 91% 68% 4% 0% 
+// infinity turquoise pattern #339781 is 51 151 129 or CMYK 85% 11% 59% 1%
+// gray matter dark pattern is ?
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
 // Intent is different colors in print for optimum pop of colors
 var CMYKColorElements = [
@@ -459,7 +464,6 @@ var CSTasks = (function () {
         }
         if (unmatchedColors.length > 0) {
             // NOTE: Do not perform the Artboard Creation Work if there are unmatched colors due to new palettes CMYK and RGB no longer matching.
-            return;
             alert("One or more colors don't match the brand palette and weren't converted.");
             unmatchedColors = tasks.unique(unmatchedColors);
             var unmatchedString = "Unconverted colors:";
@@ -1442,7 +1446,7 @@ All exports from artboard 0
 }
 createAndExportArtboard2();
 function createAndExportArtboard3() {
-    //#region ARTBOARD3 CREATION
+    //#region ARTBOARD3 CREATION 
     //select the contents on artboard 1
     var colors = CSTasks.initializeColors(RGBColorElements, CMYKColorElements); //initialize the colors from the brand palette
     var sel = CSTasks.selectContentsOnArtboard(sourceDoc, 1);
@@ -1570,8 +1574,7 @@ function createAndExportArtboard3() {
     imagePlacedItem.file = svgFile;
     imagePlacedItem.top = -1188;
     imagePlacedItem.left = 62;
-    /*@ts-ignore*/
-    // svgFile.embed();  
+    imagePlacedItem.embed();
     var textRef = sourceDoc.textFrames.add();
     //use the areaText method to create the text frame
     var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
@@ -1590,8 +1593,13 @@ function createAndExportArtboard3() {
     var hOffset = CSTasks.getOffset(textGroup.position, [rightEdge, 0]);
     textGroup.translate(-hOffset[0], 0);
     /*@ts-ignore*/
-    var resizedRect = CSTasks.newRect(sourceDoc.artboards[3].artboardRect[0], -sourceDoc.artboards[3].artboardRect[1], 1024, 512);
-    sourceDoc.artboards[3].artboardRect = resizedRect;
+    // let resizedRect = CSTasks.newRect(
+    // 	sourceDoc.artboards[3].artboardRect[0],
+    // 	-sourceDoc.artboards[3].artboardRect[1],
+    // 	1024,
+    // 	512
+    // );
+    // sourceDoc.artboards[3].artboardRect = resizedRect;
     //#endregion
     //#region ARTBOARD3 EXPORTS RGB
     /********************
@@ -1688,6 +1696,7 @@ function createAndExportArtboard3() {
     imagePlacedItemMastDoc.file = svgFileMastDoc;
     imagePlacedItemMastDoc.top = -1189;
     imagePlacedItemMastDoc.left = 62;
+    imagePlacedItemMastDoc.embed();
     // we need to make artboard clipping mask here for the artboard to crop expressive icons correctly.
     var myCroppingLayerMastDoc = mastDoc.layers.add();
     myCroppingLayerMastDoc.name = "crop";
@@ -1833,6 +1842,7 @@ function createAndExportArtboard3() {
     imagePlacedItemMastDocCMYK.file = svgFileMastDocCMYK;
     imagePlacedItemMastDocCMYK.top = -1189;
     imagePlacedItemMastDocCMYK.left = 62;
+    imagePlacedItemMastDocCMYK.embed();
     // we need to make artboard clipping mask here for the artboard to crop expressive icons correctly.
     var myCroppingLayerMastDocCMYK = mastDocCMYK.layers.add();
     myCroppingLayerMastDocCMYK.name = "crop";
