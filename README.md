@@ -127,6 +127,48 @@ To
    someDoc = null;
 ```
 
+# script overview
+
+The script also looks at 2 arrays of color:1 rgb and 1 cmyk, if the colors match up, they get converted correctly.
+
+Here are the two arrays:
+
+```
+let RGBColorElements = [
+	[127, 53, 178], //ultraviolet purple 
+	[191, 191, 191], //Gray matter light grey INACTIVE   
+	[201, 0, 172], // Fireworks magenta 
+	[50, 127, 239], //Stratosphere blue 
+	[58, 220, 201], // Inifinity turquoise 
+	[255, 255, 255], // white
+	[0, 0, 0], // Black
+	[128, 128, 128], // Grey matter dark
+	[147, 0, 130], // Fireworks magenta dark pattern CUSTOM COLOR
+	[52, 84, 153], // Expressive Strat blue dark pattern @90%
+	[51, 151, 129], // Expressive Inf Turquoise dark pattern @80%
+	[153, 153, 153], // gray matter dark pattern @80%
+	[72, 8, 111], // expressive purple banner bg 
+];
+
+// New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
+// Intent is different colors in print for optimum pop of colors
+let CMYKColorElements = [
+	[65, 91, 0, 0], //ultraviolet purple 
+	[0, 0, 0, 25], //Gray matter light grey INACTIVE 
+	[16, 96, 0, 0], // Fireworks magenta 
+	[78, 47, 0, 0], //Stratosphere blue 
+	[53, 0, 34, 0], // Inifinity turquoise   
+	[0, 0, 0, 0], // white
+	[0, 0, 0, 100], // Black
+	[0, 0, 0, 50], // grey matter dark
+	[51, 100, 11, 1], // Fireworks magenta dark pattern, CUSTOM COLOR
+	[90, 70, 0, 16], // Expressive Strat blue dark pattern @90%
+	[25, 0, 17, 0], // Expressive Inf Turquoise dark pattern @80%
+	[0, 0, 0, 40], // gray matter dark pattern @80%
+	[85, 100, 0, 23], // expressive purple banner bg 
+];
+```
+
 # Consideration
 
 You must have a purple portion of your original icons or the invert to whites wont work and will skip. At the end of this project, it is possible we add more colours for the invert, but this needs to happen after amends, because of duplication.
@@ -145,6 +187,39 @@ Make sure the dark colours of the expressive stripe are expanded under Object > 
 As per above image you may need to use the pathFinder intersect option to crop out the extra stripe areas.  
 
 - Patterns: Y
+
+# New palette of dark pattern stripe colors
+
+We need the actual color values of the shapes of the expressive pattern. This is why those objects need to be expanded (Object > Expand). Then you should use the Pathfinder's divide icon tool. To get rid of the hidden pattern layer around the expressive icon. We should basically embed the shapes into the artboard instead of using a shared swatch. Accessing a global swatch for color evaluation is something that could be done with more time.
+
+According to Brand, we are looking for the color of the dark stripe in the patterns, from Wiki:
+
+The Stratosphere pattern uses an 90% tint of Stratosphere Dark. The Infinity and Gray Matter patterns use a 80% tint of Infinity Dark and Gray Matter Dark. Fireworks Dark has been adjusted to add increased contrast within the Fireworks patterns. The adjusted HEX value is #930082.
+
+Taken from https://wtwbrandcentral.com/content/software-product-icons
+
+Here are the calculations for the tints of color required:
+
+2 examples with stratosphere dark at 90% tint:
+
+For an 90% tint of the stratosphere dark blue CMYK color (85% Cyan, 11% Magenta, 59% Yellow, 1% Black):
+
+Cyan: 100% * 0.9 = 90%
+Magenta: 78% * 0.9 = 70.2%
+Yellow: 0% * 0.9 = 0%
+Black: 18% * 0.9 = 16.2%
+
+New stratosphere dark blue: CMYK 90% 70% 0% 16%.
+
+And for an 90% tint of stratosphere dark rgb 29, 65, 142:
+
+Red: 29 * 0.9 + 255 * 0.1 = 26.1 + 25.5 ≈ 51.6
+Green: 65 * 0.9 + 255 * 0.1 = 58.5 + 25.5 ≈ 84
+Blue: 142 * 0.9 + 255 * 0.1 = 127.8 + 25.5 ≈ 153.3
+
+New stratosphere dark blue  would be RGB(52, 84, 153).
+
+
 
 # Strict mode
 
