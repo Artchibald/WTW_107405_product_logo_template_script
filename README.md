@@ -6,7 +6,7 @@
     <img src="images/img.png" alt="Logo" width="180" height="180">
   </a>
 
-<h3 align="center">A Typescript file that converts into ECMA 3 target JS file for use in Adobe Illustrator 2022. JS script that takes 2 icons on 2 artboards @256x256 and exports them into a variety of banners and formats, including company logo and text.</h3>
+<h3 align="center">A Typescript file that converts Adobe Extendscript into ECMA 3 target JS file for use in Adobe Illustrator 2023. JS script that takes 2 icons on 2 artboards @256x256 and exports them into a variety of banners and formats, including company logo and text for use in various software use interfaces.</h3>
 
   <p align="center"> 
     Useful links 
@@ -22,16 +22,6 @@
 
   </p>
 </div> 
-
-<!--# Ref for email comms
-
- Subject >>>
-WTW_55556_Software Product Icons
-
-cc' >>>
- rrdcreativeldn @willistowerswatson.com
-
-# 2022_icon_rebrand_scripts -->
 
 # Video tutorial
 
@@ -184,7 +174,7 @@ Make sure the dark colours of the expressive stripe are expanded under Object > 
 
 [stripes]: images/stripes.jpg 
 
-As per above image you may need to use the pathFinder intersect option to crop out the extra stripe areas.  
+As per above image you may need to use the pathFinder divide icon option to crop out the extra invisible stripe areas.  
 
 - Patterns: Y
 
@@ -194,7 +184,7 @@ We need the actual color values of the shapes of the expressive pattern. This is
 
 According to Brand, we are looking for the color of the dark stripe in the patterns, from Wiki:
 
-The Stratosphere pattern uses an 90% tint of Stratosphere Dark. The Infinity and Gray Matter patterns use a 80% tint of Infinity Dark and Gray Matter Dark. Fireworks Dark has been adjusted to add increased contrast within the Fireworks patterns. The adjusted HEX value is #930082.
+"The Stratosphere pattern uses an 90% tint of Stratosphere Dark. The Infinity and Gray Matter patterns use a 80% tint of Infinity Dark and Gray Matter Dark. Fireworks Dark has been adjusted to add increased contrast within the Fireworks patterns. The adjusted HEX value is #930082."
 
 Taken from https://wtwbrandcentral.com/content/software-product-icons
 
@@ -234,7 +224,7 @@ Around line 554, removing this return may help with debugging.
 			);
 ```
 
-If you enable strict mode by removing the return from convertTo CMYK, all colors must be referenced from the array. You shouldn't declare new colours outside the RGB and CMYK where possible.
+If you enable strict mode by removing the return from convertToCMYK, all colors must be referenced from the array. You shouldn't declare new colours outside the RGB and CMYK where possible.
 
 As a developer, hard coding colour values can be used for debugging but you should then remove them and reference them from the 2 colour arrays instead.
 
