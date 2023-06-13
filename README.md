@@ -25,7 +25,7 @@
 
 # Video tutorial
 
-https://youtu.be/yxtrt7nkOjA
+https://youtu.be/rrIYYenHrn0
 
 # This is v2 2023
 
@@ -36,7 +36,7 @@ The original script was https://github.com/Artchibald/2022_icon_rebrand_scripts
 - This script only works locally not on a server.
 - Don't forget to change .txt to .js on the script.
 - FULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script  
-- Video set up tutorial available here: https://youtu.be/yxtrt7nkOjA.
+- Video set up tutorial available here: https://youtu.be/rrIYYenHrn0.
 - Open your own .ai template or the provided ones in folders called all_scripts_here.
 - In Illustrator, go to to file > Scripts > Other Scripts > Import our new script.
 -  Make sure you have the graphik-regular and graphik-bold font installed on your CPU. 
@@ -265,6 +265,15 @@ After updated Illustrator, it couldn't read wtw_logo.ai, so one opens that file 
 
  # Select each individual colour shape and under Window > Colours make sure each shape colour is set to rgb in burger or main menu or it may not work as expected!
 
+# How the purple banner placement works:
+
+[![explain][explain]](https://github.com/Artchibald/WTW_107405_product_logo_template_script)
+
+ 
+[explain]: images/explain.png
+
+# Add swatch to your swatches panel before starting with swatch .ai file. Swatch menu > Other Library..., ask design team for these swatches if you do not have them.
+
  # Blockers
 
 Amends undergoing
@@ -305,24 +314,4 @@ New set up for the original script to undergo some formatting changes. Original 
 
 # TUBS
 
-# Add swatch to your swatches panel before starting with swatch .ai file. Swatch menu > Other Library..., ask design team for these swatches if you do not have them.
 
-# New action for pattern form Diane and Chris, see chat and discuss on call
-
-# New amends 
-
-[![explain][explain]](https://github.com/Artchibald/WTW_107405_product_logo_template_script)
-
- 
-[explain]: images/explain.png
-
-# Next call
-
-talk about expanding patterns that is the issue
-
-Cant access the pattern colors for conversion because:
-
-- We don't know the exact rgb and cmyk for pattern dark areas
-- They are a part of swatches which is a global reference to a color or swatch, they need to be expanded as per those sent to me
-
-Basically need all stripe values confirmed in RGB and CMYK plus a few more icons for testing especially gray ones.
