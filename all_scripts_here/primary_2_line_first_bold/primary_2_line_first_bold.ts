@@ -39,19 +39,20 @@ VARIABLES YOU MIGHT NEED TO CHANGE
 let sourceDoc = app.activeDocument;
 let RGBColorElements = [
 	[127, 53, 178], //ultraviolet purple 
-	[191, 191, 191], //Gray matter light grey INACTIVE 
+	[191, 191, 191], //Gray matter light grey INACTIVE   
 	[201, 0, 172], // Fireworks magenta 
 	[50, 127, 239], //Stratosphere blue 
 	[58, 220, 201], // Inifinity turquoise 
 	[255, 255, 255], // white
 	[0, 0, 0], // Black
 	[128, 128, 128], // Grey matter dark
-	[51, 151, 129], // Expressive Inf Turquoise pattern
-	[29, 65, 142], // Expressive Strat blue pattern
-	[147, 0, 130], // Fireworks magenta pattern
-	[153, 153, 153], // gray matter pattern
-	[72, 8, 111], // expressive purple banner bg  
+	[147, 0, 130], // Fireworks magenta dark pattern CUSTOM COLOR
+	[52, 84, 153], // Expressive Strat blue dark pattern @90%
+	[51, 151, 129], // Expressive Inf Turquoise dark pattern @80%
+	[153, 153, 153], // gray matter dark pattern @80%
+	[72, 8, 111], // expressive purple banner bg 
 ];
+
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
 // Intent is different colors in print for optimum pop of colors
 let CMYKColorElements = [
@@ -63,10 +64,10 @@ let CMYKColorElements = [
 	[0, 0, 0, 0], // white
 	[0, 0, 0, 100], // Black
 	[0, 0, 0, 50], // grey matter dark
-	[76, 18, 56, 3], // Expressive Inf Turquoise pattern
-	[100, 78, 0, 18], // Expressive Strat blue pattern
-	[53, 100, 0, 1], // Fireworks magenta pattern
-	[41, 32, 32, 11], // gray matter pattern
+	[51, 100, 11, 1], // Fireworks magenta dark pattern, CUSTOM COLOR
+	[90, 70, 0, 16], // Expressive Strat blue dark pattern @90%
+	[25, 0, 17, 0], // Expressive Inf Turquoise dark pattern @80%
+	[0, 0, 0, 40], // gray matter dark pattern @80%
 	[85, 100, 0, 23], // expressive purple banner bg 
 ];
 // Make sure you have the font below installed, ask for font from client
@@ -2485,6 +2486,8 @@ function createAndExportArtboard3() {
 	imagePlacedItemMastDocCMYK.file = svgFileMastDocCMYK;
 	imagePlacedItemMastDocCMYK.top = -1189;
 	imagePlacedItemMastDocCMYK.left = 62;
+	imagePlacedItemMastDocCMYK.embed();
+
 
 	// we need to make artboard clipping mask here for the artboard to crop expressive icons correctly.
 	let myCroppingLayerMastDocCMYK = mastDocCMYK.layers.add();

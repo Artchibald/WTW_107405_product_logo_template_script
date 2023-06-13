@@ -46,17 +46,12 @@ var RGBColorElements = [
     [255, 255, 255],
     [0, 0, 0],
     [128, 128, 128],
-    [51, 151, 129],
-    [29, 65, 142],
     [147, 0, 130],
+    [52, 84, 153],
+    [51, 151, 129],
     [153, 153, 153],
     [72, 8, 111], // expressive purple banner bg 
 ];
-// Explanation: The Stratosphere pattern uses an 90% tint of Stratosphere Dark. The Infinity and Gray Matter patterns use a 80% tint of Infinity Dark and Gray Matter Dark. Fireworks Dark has been adjusted to add increased contrast within the Fireworks patterns. The adjusted HEX value is #930082.
-// magenta dark pattern #930082 is RGB 147 0 130 or CMYK 48% 100% 0% 0% 
-// stratosphere dark pattern #345499 is 52, 84, 153 or 91% 68% 4% 0% 
-// infinity turquoise pattern #339781 is 51 151 129 or CMYK 85% 11% 59% 1%
-// gray matter dark pattern is ?
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
 // Intent is different colors in print for optimum pop of colors
 var CMYKColorElements = [
@@ -68,10 +63,10 @@ var CMYKColorElements = [
     [0, 0, 0, 0],
     [0, 0, 0, 100],
     [0, 0, 0, 50],
-    [76, 18, 56, 3],
-    [100, 78, 0, 18],
-    [53, 100, 0, 1],
-    [41, 32, 32, 11],
+    [51, 100, 11, 1],
+    [90, 70, 0, 16],
+    [25, 0, 17, 0],
+    [0, 0, 0, 40],
     [85, 100, 0, 23], // expressive purple banner bg 
 ];
 // Make sure you have the font below installed, ask for font from client
