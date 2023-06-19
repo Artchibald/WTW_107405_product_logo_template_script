@@ -827,7 +827,7 @@ All exports from artboard 0
 	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
 	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
 	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
 
 
 	// save an inverted eps in icon folder
@@ -985,7 +985,7 @@ All exports from artboard 0
 	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
 	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
 	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
 
 	// save Dark mode inverted svg in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -1267,7 +1267,7 @@ All exports from artboard 0
 	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
 	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
 	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
 
 	// save an inverted DARK MODE Png in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -1363,7 +1363,7 @@ All exports from artboard 0
 	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
 	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
 	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
 
 	// save inverted DARK MODE svg in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
@@ -1806,7 +1806,7 @@ All exports from artboard 0
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
 	CSTasks.convertColorRGB(mastDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-	CSTasks.convertColorRGB(mastDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
 
 
 	//save a text and lockup PNG

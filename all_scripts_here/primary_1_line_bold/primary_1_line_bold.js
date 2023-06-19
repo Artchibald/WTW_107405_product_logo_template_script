@@ -692,7 +692,7 @@ All exports from artboard 0
     CSTasks.convertColorRGB(rgbDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
     CSTasks.convertColorRGB(rgbDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
     CSTasks.convertColorRGB(rgbDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-    CSTasks.convertColorRGB(rgbDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+    CSTasks.convertColorRGB(rgbDoc.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
     // save an inverted eps in icon folder
     for (var i_16 = 0; i_16 < exportSizes.length; i_16++) {
         var inverseFilename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(fullColorName, "_").concat(darkModeName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".eps");
@@ -811,7 +811,7 @@ All exports from artboard 0
     CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
     CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
     CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-    CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+    CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
     // save Dark mode inverted svg in icon folder
     for (var i_28 = 0; i_28 < exportSizes.length; i_28++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(iconName, "_").concat(fullColorName, "_").concat(darkModeName, "_").concat(inverseColorName, "_").concat(rgbColorName, "_").concat(croppedToArtworkName, ".svg");
@@ -1028,7 +1028,7 @@ All exports from artboard 0
     CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
     CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
     CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-    CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+    CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
     // save an inverted DARK MODE Png in icon folder
     for (var i_44 = 0; i_44 < exportSizes.length; i_44++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(darkModeName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
@@ -1095,7 +1095,7 @@ All exports from artboard 0
     CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
     CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
     CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-    CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+    CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
     // save inverted DARK MODE svg in icon folder
     for (var i_49 = 0; i_49 < exportSizes.length; i_49++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(expressiveIconName, "_").concat(iconName, "_").concat(fullColorName, "_").concat(darkModeName, "_").concat(inverseColorName, "_").concat(rgbColorName, "_").concat(croppedToArtworkName, ".svg");
@@ -1376,7 +1376,7 @@ All exports from artboard 0
     CSTasks.convertColorRGB(mastDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
     CSTasks.convertColorRGB(mastDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
     CSTasks.convertColorRGB(mastDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
-    CSTasks.convertColorRGB(mastDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+    CSTasks.convertColorRGB(mastDoc.pathItems, colors[grayIndex][0], colors[matterDMindex][0]);
     //save a text and lockup PNG
     for (var i_59 = 0; i_59 < exportSizes.length; i_59++) {
         var filename = "/".concat(wtwName, "_").concat(iconFilename, "_").concat(primaryName, "_").concat(fullColorName, "_").concat(darkModeName, "_").concat(inverseColorName, "_").concat(rgbColorName, ".png");
