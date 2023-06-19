@@ -51,6 +51,11 @@ let RGBColorElements = [
 	[51, 151, 129], // Expressive Inf Turquoise dark pattern @80%
 	[153, 153, 153], // gray matter dark pattern @80%
 	[72, 8, 111], // expressive purple banner bg 
+	[235, 101, 215], // FIREWORKS dark mode #EB65D7 RGB 235 101 215 CMYK  26 66 0 0
+	[92, 156, 245], // STRAT DARK MODE #5C9CF5 RGB 92 156 245 CMYK  63 34 0 0
+	[98, 227, 213], // INFINITY dark mode #62E3D5 RGB 98 227 213 CMYK  55 0 27 0
+	[174, 122, 210], // UV DARK MODE #AE7AD2 RGB 174 122 210 CMYK 44 58 0 0 
+	[154, 156, 159], // MATTER dark mode #9A9C9F RGB 154 156 159  CMYK  42 31 30 9
 ];
 
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
@@ -68,7 +73,12 @@ let CMYKColorElements = [
 	[90, 70, 0, 16], // Expressive Strat blue dark pattern @90%
 	[25, 0, 17, 0], // Expressive Inf Turquoise dark pattern @80%
 	[0, 0, 0, 40], // gray matter dark pattern @80%
-	[85, 100, 0, 23], // expressive purple banner bg 
+	[85, 100, 0, 23], // expressive purple banner bg
+	[26, 66, 0, 0], // FIREWORKS dark mode #EB65D7 RGB 235 101 215 CMYK  26 66 0 0
+	[63, 34, 0, 0], // STRAT DARK MODE #5C9CF5 RGB 92 156 245 CMYK  63 34 0 0
+	[55, 0, 27, 0], // INFINITY dark mode #62E3D5 RGB 98 227 213 CMYK  55 0 27 0
+	[44, 58, 0, 0], // UV DARK MODE #AE7AD2 RGB 174 122 210 CMYK 44 58 0 0 
+	[42, 31, 30, 9], // MATTER dark mode #9A9C9F RGB 154 156 159  CMYK  42 31 30 9
 ];
 // Make sure you have the font below installed, ask for font from client
 let desiredFontReg = "Graphik-Regular";
@@ -76,10 +86,23 @@ let desiredFontBold = "Graphik-Medium";
 let exportSizes = [1024, 512, 256, 128, 64, 48, 32, 24, 16]; //sizes to export
 let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
+let fireworksIndex = 2;
+let stratIndex = 3;
+let infinityIndex = 4;
 let whiteIndex = 5;
 let blackIndex = 6;
 let darkGreyIndex = 7;
+let magentDarkIndex = 8;
+let startDarkIndex = 9;
+let infiDarkIndex = 10;
+let greyMatterDarkIndex = 11;
 let darkPurpleIndex = 12;
+let FireworksDMIndex = 13;
+let stratDMIndex = 14;
+let infiDMIndex = 15;
+let uvDMIndex = 16;
+let matterDMindex = 17;
+
 //loop default 
 let i;
 // folder and naming creations
@@ -100,6 +123,7 @@ let oneColorName = "1c";
 //  style names
 let standardName = "std";
 let inactiveName = "inact";
+let darkModeName = "dm";
 //  artwork color names
 let positiveColorName = "pos";
 let inverseColorName = "inv";
@@ -771,6 +795,7 @@ All exports from artboard 0
 	}
 
 	app.executeMenuCommand('Colors9');
+
 	//convert violet to white and save as EPS
 	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -792,6 +817,27 @@ All exports from artboard 0
 	// save inverted svg in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+
+
+	// save an inverted eps in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let inverseFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.eps`;
+		let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${rgbName}`) + inverseFilename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		rgbDoc.saveAs(inverseFile, rgbSaveOpts);
+	}
+
+	// save inverted svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
@@ -931,6 +977,19 @@ All exports from artboard 0
 		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
 		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+
+	// save Dark mode inverted svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+	}
+
 
 	//convert color to white
 	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[whiteIndex][0], 100);
@@ -1199,6 +1258,35 @@ All exports from artboard 0
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+
+	// save an inverted DARK MODE Png in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
+	}
+
+
+	// save an inverted DARK MODE eps in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let inverseFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.eps`;
+		let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + inverseFilename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		rgbExpDoc.saveAs(inverseFile, rgbSaveOpts);
+	}
+
+	// save inverted DARK MODE svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
+	}
+
 	//close and clean up
 	rgbExpDoc.close(SaveOptions.DONOTSAVECHANGES);
 	rgbExpDoc = null;
@@ -1266,12 +1354,22 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFileCroppedSvg, svgdExpMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
 
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+
+
+	// save inverted DARK MODE svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgCroppedName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFile, masterStartWidth, exportSizes[2]);
+	}
+
 	//close and clean up
-
 	rgbExpDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
-
 	rgbExpDocCroppedVersion = null;
-
 
 	//#endregion
 	//#region EXPRESSIVE CMYK
@@ -1626,6 +1724,20 @@ All exports from artboard 0
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDoc.saveAs(destFile, rgbSaveOpts);
 	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+
+
+	// save inverted DARK MODE svg in primary folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
+	}
+	return;
 
 	CSTasks.convertAll(mastDoc.pathItems, colors[blackIndex][0], 100);
 
@@ -2851,4 +2963,4 @@ createAndExportArtboard4Alternate();
 
 // this opens the folder where the assets are saved
 var scriptsFolder = Folder(sourceDoc.path + "/");
-scriptsFolder.execute();  
+scriptsFolder.execute(); 
