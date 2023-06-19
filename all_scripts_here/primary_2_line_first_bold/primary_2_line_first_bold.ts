@@ -31,10 +31,10 @@ Starting with an open AI file with a single icon on a single 256 x 256 artboard
 ************************************************/
 //
 //#endregion
-alert(" \n\nThis is the two line first bold font script   \n\nThis script only works locally not on a server, tutorial: , Tutorial: https://youtu.be/rrIYYenHrn0  \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\n Make sure that all colors are set to rgb colors in your template. Especially the stripes of the expressive artboard. If not, some exports won't be correct. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
+alert(" \n\nThis is the two line first bold font script   \n\nThis script only works locally not on a server, tutorial: , Tutorial: https://youtu.be/UAcoXn68HKk  \n\nDon't forget to change .txt to .js on the script. \n\nFULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script   \n\n Make sure that all colors are set to rgb colors in your template. Especially the stripes of the expressive artboard. If not, some exports won't be correct. \n\nOpen your own.ai template or the provided ones in folders called test. \n\nGo to file > Scripts > Other Scripts > Import our new script. \n\n Make sure you have the Graphik font installed on your CPU. \n\nYou must have the folder called images in the parent folder, this is where wtw_logo.ai is saved so it can be imported into the big purple banner and exported as assets. Otherwise you will get an error that says error = svgFile. If the svgFile is still not working, try opening it again in Illustrator and save as, this happens because your Illustrator has been updated to a newer version. \n\nIllustrator says(not responding) on PC but it will respond, give Bill Gates some time XD!). \n\nIf you run the script again, you should probably delete the previous assets created.They get intermixed and overwritten. \n\nBoth artboard sizes must be exactly 256px x 256px. \n\nGuides must be on a layer called exactly 'Guidelines'. \n\nIcons must be on a layer called exactly 'Art'. \n\nMake sure all layers are unlocked to avoid bugs. \n\nExported assets will be saved where the.ai file is saved. \n\nPlease use underscores instead of spaces to avoid bugs in filenames. \n\nMake sure you are using the correct swatches / colours. \n\nIllustrator check advanced colour mode is correct: Edit > Assign profile > Must match sRGB IEC61966 - 2.1. \n\nSelect each individual color shape and under Window > Colours make sure each shape colour is set to rgb in tiny top right burger menu if bugs encountered. \n\nIf it does not save exports as intended, check the file permissions of where the.ai file is saved(right click folder > Properties > Visibility > Read and write access ? Also you can try apply permissions to sub folders too if you find that option) \n\nAny issues: archie ATsymbol archibaldbutler.com.");
 //#region GLOBAL VARS
 /********************************* 
-VARIABLES YOU MIGHT NEED TO CHANGE 
+VARIABLES YOU MIGHT NEED TO CHANGE  
 **********************************/
 let sourceDoc = app.activeDocument;
 let RGBColorElements = [
@@ -50,7 +50,12 @@ let RGBColorElements = [
 	[52, 84, 153], // Expressive Strat blue dark pattern @90%
 	[51, 151, 129], // Expressive Inf Turquoise dark pattern @80%
 	[153, 153, 153], // gray matter dark pattern @80%
-	[72, 8, 111], // expressive purple banner bg 
+	[72, 8, 111], // expressive purple banner bg  
+	[235, 101, 215], // FIREWORKS dark mode #EB65D7 RGB 235 101 215 CMYK  26 66 0 0
+	[92, 156, 245], // STRAT DARK MODE #5C9CF5 RGB 92 156 245 CMYK  63 34 0 0
+	[98, 227, 213], // INFINITY dark mode #62E3D5 RGB 98 227 213 CMYK  55 0 27 0
+	[174, 122, 210], // UV DARK MODE #AE7AD2 RGB 174 122 210 CMYK 44 58 0 0 
+	[154, 156, 159], // MATTER dark mode #9A9C9F RGB 154 156 159  CMYK  42 31 30 9
 ];
 
 // New CMYK values dont math rgb exatcly in new branding 2022 so we stopped the exact comparison part of the script.
@@ -66,9 +71,14 @@ let CMYKColorElements = [
 	[0, 0, 0, 50], // grey matter dark
 	[51, 100, 11, 1], // Fireworks magenta dark pattern, CUSTOM COLOR
 	[90, 70, 0, 16], // Expressive Strat blue dark pattern @90%
-	[25, 0, 17, 0], // Expressive Inf Turquoise dark pattern @80%
+	[69, 21, 54, 10], // Expressive Inf Turquoise dark pattern @80%
 	[0, 0, 0, 40], // gray matter dark pattern @80%
-	[85, 100, 0, 23], // expressive purple banner bg 
+	[85, 100, 0, 23], // expressive purple banner bg
+	[26, 66, 0, 0], // FIREWORKS dark mode #EB65D7 RGB 235 101 215 CMYK  26 66 0 0
+	[63, 34, 0, 0], // STRAT DARK MODE #5C9CF5 RGB 92 156 245 CMYK  63 34 0 0
+	[55, 0, 27, 0], // INFINITY dark mode #62E3D5 RGB 98 227 213 CMYK  55 0 27 0
+	[44, 58, 0, 0], // UV DARK MODE #AE7AD2 RGB 174 122 210 CMYK 44 58 0 0 
+	[42, 31, 30, 9], // MATTER dark mode #9A9C9F RGB 154 156 159  CMYK  42 31 30 9
 ];
 // Make sure you have the font below installed, ask for font from client
 let desiredFontReg = "Graphik-Regular";
@@ -76,10 +86,23 @@ let desiredFontBold = "Graphik-Medium";
 let exportSizes = [1024, 512, 256, 128, 64, 48, 32, 24, 16]; //sizes to export
 let violetIndex = 0; //these are for converting to inverse and inactive versions
 let grayIndex = 1;
+let fireworksIndex = 2;
+let stratIndex = 3;
+let infinityIndex = 4;
 let whiteIndex = 5;
 let blackIndex = 6;
 let darkGreyIndex = 7;
+let magentDarkIndex = 8;
+let startDarkIndex = 9;
+let infiDarkIndex = 10;
+let greyMatterDarkIndex = 11;
 let darkPurpleIndex = 12;
+let FireworksDMIndex = 13;
+let stratDMIndex = 14;
+let infiDMIndex = 15;
+let uvDMIndex = 16;
+let matterDMindex = 17;
+
 //loop default 
 let i;
 // folder and naming creations
@@ -100,6 +123,7 @@ let oneColorName = "1c";
 //  style names
 let standardName = "std";
 let inactiveName = "inact";
+let darkModeName = "dm";
 //  artwork color names
 let positiveColorName = "pos";
 let inverseColorName = "inv";
@@ -773,6 +797,7 @@ All exports from artboard 0
 	}
 
 	app.executeMenuCommand('Colors9');
+
 	//convert violet to white and save as EPS
 	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[violetIndex][0], colors[whiteIndex][0]);
 
@@ -794,6 +819,28 @@ All exports from artboard 0
 	// save inverted svg in icon folder
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+
+
+	// save an inverted eps in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let inverseFilename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.eps`;
+		let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${epsName}/${rgbName}`) + inverseFilename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		rgbDoc.saveAs(inverseFile, rgbSaveOpts);
+	}
+
+	// save inverted svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.svg`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbDoc, destFile, svgMasterCoreStartWidth, exportSizes[2]);
 	}
@@ -933,6 +980,20 @@ All exports from artboard 0
 		let destFileCroppedSvg = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filenameCroppedSvg);
 		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFileCroppedSvg, svgMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+	CSTasks.convertColorRGB(rgbDocCroppedVersion.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+
+	// save Dark mode inverted svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${iconFolderName}/${svgCroppedName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbDocCroppedVersion, destFile, svgMasterCoreStartWidth, exportSizes[2]);
+	}
+
 
 	//convert color to white
 	CSTasks.convertAll(rgbDocCroppedVersion.pathItems, colors[whiteIndex][0], 100);
@@ -1201,6 +1262,36 @@ All exports from artboard 0
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgName}`) + filename);
 		CSTasks.scaleAndExportSVG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
 	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+
+	// save an inverted DARK MODE Png in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
+	}
+
+
+	// save an inverted DARK MODE eps in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let inverseFilename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.eps`;
+		let inverseFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${epsName}`) + inverseFilename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		rgbExpDoc.saveAs(inverseFile, rgbSaveOpts);
+	}
+
+	// save inverted DARK MODE svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbExpDoc, destFile, masterStartWidth, exportSizes[2]);
+	}
+
 	//close and clean up
 	rgbExpDoc.close(SaveOptions.DONOTSAVECHANGES);
 	rgbExpDoc = null;
@@ -1268,12 +1359,22 @@ All exports from artboard 0
 		CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFileCroppedSvg, svgdExpMasterCoreStartWidthCroppedSvg, exportSizes[0]);
 	}
 
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(rgbExpDocCroppedVersion.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+
+
+	// save inverted DARK MODE svg in icon folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${expressiveIconName}_${iconName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}_${croppedToArtworkName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${expressiveFolderName}/${iconFolderName}/${svgCroppedName}`) + filename);
+		CSTasks.scaleAndExportSVG(rgbExpDocCroppedVersion, destFile, masterStartWidth, exportSizes[2]);
+	}
+
 	//close and clean up
-
 	rgbExpDocCroppedVersion.close(SaveOptions.DONOTSAVECHANGES);
-
 	rgbExpDocCroppedVersion = null;
-
 
 	//#endregion
 	//#region EXPRESSIVE CMYK
@@ -1339,7 +1440,6 @@ All exports from artboard 0
 	//#endregion
 }
 iconExportExpressiveArtboard1();
-
 
 function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
@@ -1698,6 +1798,35 @@ All exports from artboard 0
 	//save a text and lockup EPS
 	for (let i = 0; i < exportSizes.length; i++) {
 		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${standardName}_${inverseColorName}_${rgbColorName}.eps`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + filename);
+		let rgbSaveOpts = new EPSSaveOptions();
+		mastDoc.saveAs(destFile, rgbSaveOpts);
+	}
+
+	// convert fireworks, stratosphere, infinity to dark mode
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[fireworksIndex][0], colors[FireworksDMIndex][0]);
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[stratIndex][0], colors[stratDMIndex][0]);
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[infinityIndex][0], colors[infiDMIndex][0]);
+	CSTasks.convertColorRGB(mastDoc.pathItems, colors[darkGreyIndex][0], colors[matterDMindex][0]);
+
+
+	//save a text and lockup PNG
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.png`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${pngName}`) + filename);
+		CSTasks.scaleAndExportPNG(mastDoc, destFile, masterStartWidth, masterStartHeight);
+	}
+
+	// save inverted DARK MODE svg in primary folder
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.svg`;
+		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${svgName}`) + filename);
+		CSTasks.scaleAndExportSVG(mastDoc, destFile, masterStartWidth, masterStartHeight);
+	}
+
+	//save a text and lockup EPS
+	for (let i = 0; i < exportSizes.length; i++) {
+		let filename = `/${wtwName}_${iconFilename}_${primaryName}_${fullColorName}_${darkModeName}_${inverseColorName}_${rgbColorName}.eps`;
 		let destFile = new File(Folder(`${sourceDoc.path}/${sourceDocName}/${primaryLockupFolderName}/${epsName}/${rgbName}`) + filename);
 		let rgbSaveOpts = new EPSSaveOptions();
 		mastDoc.saveAs(destFile, rgbSaveOpts);

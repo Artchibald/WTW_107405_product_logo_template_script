@@ -25,7 +25,7 @@
 
 # Video tutorial
 
-https://youtu.be/rrIYYenHrn0
+https://youtu.be/UAcoXn68HKk
 
 # This is v2 2023
 
@@ -36,7 +36,7 @@ The original script was https://github.com/Artchibald/2022_icon_rebrand_scripts
 - This script only works locally not on a server.
 - Don't forget to change .txt to .js on the script.
 - FULL README: https://github.com/Artchibald/WTW_107405_product_logo_template_script  
-- Video set up tutorial available here: https://youtu.be/rrIYYenHrn0.
+- Video set up tutorial available here: https://youtu.be/UAcoXn68HKk.
 - Open your own .ai template or the provided ones in folders called all_scripts_here.
 - In Illustrator, go to to file > Scripts > Other Scripts > Import our new script.
 -  Make sure you have the graphik-regular and graphik-bold font installed on your CPU. 
