@@ -684,7 +684,6 @@ let appNameAlternate = prompt("What text do you want to put in the alternate loc
 
 //#endregion
 
-
 function iconExportArtboard0() {
 	//#region INDEX ONLY FOR CMYK conversion
 	//select the contents on artboard 0
@@ -1440,6 +1439,8 @@ All exports from artboard 0
 }
 iconExportExpressiveArtboard1();
 
+
+
 function createAndExportArtboard2() {
 	//#region ARTBOARD2 CREATION
 	//select the contents on artboard 0
@@ -1474,7 +1475,7 @@ Create new artboard with text lockup
 		// create new artboard
 		let firstRect = sourceDoc.artboards[0].artboardRect;
 		sourceDoc.artboards.add(
-			CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2400, 256)
+			CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2560, 256)
 		);
 	}
 
@@ -2124,7 +2125,7 @@ function createAndExportArtboard3() {
 	let textRef = sourceDoc.textFrames.add();
 
 	//use the areaText method to create the text frame
-	let pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
+	let pathRef = sourceDoc.pathItems.rectangle(-850, -800, 900, 400);
 	/*@ts-ignore*/
 	textRef = sourceDoc.textFrames.areaText(pathRef);
 
@@ -2250,18 +2251,6 @@ function createAndExportArtboard3() {
 
 	CSTasks.ungroupOnce(mastGroup);
 
-	let mastText = textGroup.duplicate(
-		mastDoc.layers[0],
-		/*@ts-ignore*/
-		ElementPlacement.PLACEATEND
-	);
-	// text position
-	let mastTextLoc = [
-		mastDoc.artboards[0].artboardRect[0] + 63,
-		mastDoc.artboards[0].artboardRect[1] - 64,
-	];
-	CSTasks.translateObjectTo(mastText, mastTextLoc);
-
 	// add new style purple banner elements
 	let myMainArtworkLayerMastDoc = mastDoc.layers.getByName('Layer 1');
 	let myMainPurpleBgLayerMastDoc = mastDoc.layers.add();
@@ -2306,6 +2295,21 @@ function createAndExportArtboard3() {
 	mainClipRectMastDoc.filled = false;
 	mainClipRectMastDoc.fillColor = setClipBgColorMastDoc;
 
+
+
+	CSTasks.ungroupOnce(mastGroup);
+
+	let mastText = textGroup.duplicate(
+		mastDoc.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATEND
+	);
+	// text position
+	let mastTextLoc = [
+		mastDoc.artboards[0].artboardRect[0] + 63,
+		mastDoc.artboards[0].artboardRect[1] - 64,
+	];
+	CSTasks.translateObjectTo(mastText, mastTextLoc);
 
 	// select all for clipping here
 	sourceDoc.selectObjectsOnActiveArtboard();
@@ -2441,18 +2445,6 @@ function createAndExportArtboard3() {
 
 	CSTasks.ungroupOnce(mastGroupCMYK);
 
-	let mastTextCMYK = textGroup.duplicate(
-		mastDocCMYK.layers[0],
-		/*@ts-ignore*/
-		ElementPlacement.PLACEATEND
-	);
-	// text position
-	let mastTextCMYKLoc = [
-		mastDocCMYK.artboards[0].artboardRect[0] + 63,
-		mastDocCMYK.artboards[0].artboardRect[1] - 64,
-	];
-	CSTasks.translateObjectTo(mastTextCMYK, mastTextCMYKLoc);
-
 	// add new style purple banner elements
 	let myMainArtworkLayerMastDocCMYK = mastDocCMYK.layers.getByName('Layer 1');
 	let myMainPurpleBgLayerMastDocCMYK = mastDocCMYK.layers.add();
@@ -2499,6 +2491,21 @@ function createAndExportArtboard3() {
 	// setClipBgColorMastDocCMYK.black = 11;
 	mainClipRectMastDocCMYK.filled = false;
 	//mainClipRectMastDocCMYK.fillColor = setClipBgColorMastDocCMYK;
+
+	CSTasks.ungroupOnce(mastGroupCMYK);
+
+	let mastTextCMYK = textGroup.duplicate(
+		mastDocCMYK.layers[0],
+		/*@ts-ignore*/
+		ElementPlacement.PLACEATEND
+	);
+	// text position
+	let mastTextCMYKLoc = [
+		mastDocCMYK.artboards[0].artboardRect[0] + 63,
+		mastDocCMYK.artboards[0].artboardRect[1] - 64,
+	];
+	CSTasks.translateObjectTo(mastTextCMYK, mastTextCMYKLoc);
+
 	// select all for clipping here
 	sourceDoc.selectObjectsOnActiveArtboard();
 
@@ -2559,7 +2566,7 @@ Create new artboard with text lockup
 		// create new artboard
 		let firstRect = sourceDoc.artboards[0].artboardRect;
 		sourceDoc.artboards.add(
-			CSTasks.newRect(firstRect[1], firstRect[2] + 1168, 2400, 256)
+			CSTasks.newRect(firstRect[1], firstRect[2] + 1168, 2560, 256)
 		);
 	}
 

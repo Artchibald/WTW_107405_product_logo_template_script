@@ -1183,7 +1183,7 @@ Create new artboard with text lockup
             256) {
         // create new artboard
         var firstRect = sourceDoc.artboards[0].artboardRect;
-        sourceDoc.artboards.add(CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2400, 256));
+        sourceDoc.artboards.add(CSTasks.newRect(firstRect[1], firstRect[2] + 128, 2560, 256));
     }
     //if the lockup artboard is present, check if rebuilding or just exporting
     else if (sourceDoc.artboards.length == 3 &&
@@ -1750,7 +1750,7 @@ function createAndExportArtboard3() {
     imagePlacedItem.embed();
     var textRef = sourceDoc.textFrames.add();
     //use the areaText method to create the text frame
-    var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 480, 400);
+    var pathRef = sourceDoc.pathItems.rectangle(-850, -800, 900, 400);
     /*@ts-ignore*/
     textRef = sourceDoc.textFrames.areaText(pathRef);
     textRef.contents = appNamePrimary;
@@ -1767,7 +1767,7 @@ function createAndExportArtboard3() {
     textGroup.translate(-hOffset[0], 0);
     var textRef2 = sourceDoc.textFrames.add();
     //use the areaText method to create the text frame
-    var pathRef2 = sourceDoc.pathItems.rectangle(-910, -800, 480, 400);
+    var pathRef2 = sourceDoc.pathItems.rectangle(-910, -800, 900, 400);
     /*@ts-ignore*/
     textRef2 = sourceDoc.textFrames.areaText(pathRef2);
     textRef2.contents = appNamePrimary2;
@@ -1854,24 +1854,6 @@ function createAndExportArtboard3() {
     // delete the landing zone
     landingZoneSquare3.remove();
     CSTasks.ungroupOnce(mastGroup);
-    var mastText = textGroup.duplicate(mastDoc.layers[0], 
-    /*@ts-ignore*/
-    ElementPlacement.PLACEATEND);
-    // text position
-    var mastTextLoc = [
-        mastDoc.artboards[0].artboardRect[0] + 63,
-        mastDoc.artboards[0].artboardRect[1] - 64,
-    ];
-    CSTasks.translateObjectTo(mastText, mastTextLoc);
-    var mastText2 = textGroup2.duplicate(mastDoc.layers[0], 
-    /*@ts-ignore*/
-    ElementPlacement.PLACEATEND);
-    // text position
-    var mastTextLoc2 = [
-        mastDoc.artboards[0].artboardRect[0] + 63,
-        mastDoc.artboards[0].artboardRect[1] - 124,
-    ];
-    CSTasks.translateObjectTo(mastText2, mastTextLoc2);
     // add new style purple banner elements
     var myMainArtworkLayerMastDoc = mastDoc.layers.getByName('Layer 1');
     var myMainPurpleBgLayerMastDoc = mastDoc.layers.add();
@@ -1904,6 +1886,25 @@ function createAndExportArtboard3() {
     setClipBgColorMastDoc.blue = 255;
     mainClipRectMastDoc.filled = false;
     mainClipRectMastDoc.fillColor = setClipBgColorMastDoc;
+    CSTasks.ungroupOnce(mastGroup);
+    var mastText = textGroup.duplicate(mastDoc.layers[0], 
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATEND);
+    // text position
+    var mastTextLoc = [
+        mastDoc.artboards[0].artboardRect[0] + 63,
+        mastDoc.artboards[0].artboardRect[1] - 64,
+    ];
+    CSTasks.translateObjectTo(mastText, mastTextLoc);
+    var mastText2 = textGroup2.duplicate(mastDoc.layers[0], 
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATEND);
+    // text position
+    var mastTextLoc2 = [
+        mastDoc.artboards[0].artboardRect[0] + 63,
+        mastDoc.artboards[0].artboardRect[1] - 124,
+    ];
+    CSTasks.translateObjectTo(mastText2, mastTextLoc2);
     // select all for clipping here
     sourceDoc.selectObjectsOnActiveArtboard();
     // clip!
@@ -2009,24 +2010,6 @@ function createAndExportArtboard3() {
     // delete the landing zone
     landingZoneSquare4.remove();
     CSTasks.ungroupOnce(mastGroupCMYK);
-    var mastTextCMYK = textGroup.duplicate(mastDocCMYK.layers[0], 
-    /*@ts-ignore*/
-    ElementPlacement.PLACEATEND);
-    // text position
-    var mastTextCMYKLoc = [
-        mastDocCMYK.artboards[0].artboardRect[0] + 63,
-        mastDocCMYK.artboards[0].artboardRect[1] - 64,
-    ];
-    CSTasks.translateObjectTo(mastTextCMYK, mastTextCMYKLoc);
-    var mastTextCMYK2 = textGroup2.duplicate(mastDocCMYK.layers[0], 
-    /*@ts-ignore*/
-    ElementPlacement.PLACEATEND);
-    // text position
-    var mastTextCMYKLoc2 = [
-        mastDocCMYK.artboards[0].artboardRect[0] + 63,
-        mastDocCMYK.artboards[0].artboardRect[1] - 124,
-    ];
-    CSTasks.translateObjectTo(mastTextCMYK2, mastTextCMYKLoc2);
     // add new style purple banner elements
     var myMainArtworkLayerMastDocCMYK = mastDocCMYK.layers.getByName('Layer 1');
     var myMainPurpleBgLayerMastDocCMYK = mastDocCMYK.layers.add();
@@ -2060,6 +2043,25 @@ function createAndExportArtboard3() {
     // setClipBgColorMastDocCMYK.black = 11;
     mainClipRectMastDocCMYK.filled = false;
     //mainClipRectMastDocCMYK.fillColor = setClipBgColorMastDocCMYK;
+    CSTasks.ungroupOnce(mastGroupCMYK);
+    var mastTextCMYK = textGroup.duplicate(mastDocCMYK.layers[0], 
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATEND);
+    // text position
+    var mastTextCMYKLoc = [
+        mastDocCMYK.artboards[0].artboardRect[0] + 63,
+        mastDocCMYK.artboards[0].artboardRect[1] - 64,
+    ];
+    CSTasks.translateObjectTo(mastTextCMYK, mastTextCMYKLoc);
+    var mastTextCMYK2 = textGroup2.duplicate(mastDocCMYK.layers[0], 
+    /*@ts-ignore*/
+    ElementPlacement.PLACEATEND);
+    // text position
+    var mastTextCMYKLoc2 = [
+        mastDocCMYK.artboards[0].artboardRect[0] + 63,
+        mastDocCMYK.artboards[0].artboardRect[1] - 124,
+    ];
+    CSTasks.translateObjectTo(mastTextCMYK2, mastTextCMYKLoc2);
     // select all for clipping here
     sourceDoc.selectObjectsOnActiveArtboard();
     // clip!
@@ -2106,7 +2108,7 @@ Create new artboard with text lockup
             256) {
         // create new artboard
         var firstRect = sourceDoc.artboards[0].artboardRect;
-        sourceDoc.artboards.add(CSTasks.newRect(firstRect[1], firstRect[2] + 1168, 2400, 256));
+        sourceDoc.artboards.add(CSTasks.newRect(firstRect[1], firstRect[2] + 1168, 2560, 256));
     }
     //if the lockup artboard is present, check if rebuilding or just exporting
     else if (sourceDoc.artboards.length == 5 &&
