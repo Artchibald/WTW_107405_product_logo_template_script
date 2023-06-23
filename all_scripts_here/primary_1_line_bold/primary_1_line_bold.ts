@@ -684,6 +684,7 @@ let appNameAlternate = prompt("What text do you want to put in the alternate loc
 
 //#endregion
 
+
 function iconExportArtboard0() {
 	//#region INDEX ONLY FOR CMYK conversion
 	//select the contents on artboard 0
@@ -1438,7 +1439,6 @@ All exports from artboard 0
 	//#endregion
 }
 iconExportExpressiveArtboard1();
-
 
 
 function createAndExportArtboard2() {

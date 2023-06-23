@@ -5,7 +5,7 @@
     "noLib": true,
     "types": ["types-for-adobe/illustrator/2015.3"]
   },  
-  "include": ["all_scripts_here/primary_1_line_bold/primary_1_line_bold.ts"],
-  "exclude": ["node_modules"]
+  "include": ["all_scripts_here/primary_2_line_second_bold/primary_2_line_second_bold.ts"],
+  "exclude": ["node_modules"] 
 }  
     

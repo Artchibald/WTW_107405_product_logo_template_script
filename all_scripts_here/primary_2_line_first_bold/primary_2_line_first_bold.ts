@@ -1578,9 +1578,7 @@ Create new artboard with text lockup
 	let hOffset2 = CSTasks.getOffset(textGroup2.position, [rightEdge2, 0]);
 	textGroup2.translate(-hOffset2[0], 0);
 
-
-
-	if (textGroup.width.toString() > textGroup2.width.toString()) {
+	if (parseFloat(textGroup.width.toString()) > parseFloat(textGroup2.width.toString())) {
 		//alert("text 1 longer than text 2!");
 		//resize the artboard to be only a little wider than the text 1
 		let leftMargin = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
@@ -1596,7 +1594,7 @@ Create new artboard with text lockup
 			256
 		);
 		sourceDoc.artboards[2].artboardRect = resizedRect;
-	} else {
+	} else if (parseFloat(textGroup.width.toString()) < parseFloat(textGroup2.width.toString())) {
 		//alert("text 2 longer than text 1!");
 		//resize the artboard to be only a little wider than the text 2
 		let leftMargin2 = mast.position[0] - sourceDoc.artboards[2].artboardRect[0];
@@ -1612,6 +1610,8 @@ Create new artboard with text lockup
 			256
 		);
 		sourceDoc.artboards[2].artboardRect = resizedRect2;
+	} else {
+		alert("Neither were hit");
 	}
 	// make the text black
 	let rgbBlack = new RGBColor();
